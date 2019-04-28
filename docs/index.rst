@@ -1,72 +1,43 @@
-TRegExpr library implements regular expressions in pure Delphi.
+      **This is very old and outdated translation.**
+      *If you can read English or Russian please use* `up-to-date English <http://regexpr.masterandrey.com/en/latest/>`_ *or* `up-to-date Russian <http://regexpr.masterandrey.com/ru/latest/>`_.
 
-Github repo
+      *If you want to help me to update the translation please* `contact me <https://github.com/masterandrey>`_.
 
-Now it’s included into `Lazarus (Free
-Pascal) <http://wiki.freepascal.org/Regexpr>`__.
+------------
 
-TRegExpr is easy to use and powerfull tool for sophisticated search and
-substitutioning and for template-based text checking (especially usefull
-for user input validation in DBMS and web projects).
+TRegExpr est facile а utiliser et un outil très puissant pour vérifier
+les entrées de chaîne de caractères dans les champs (dans les DBMS et
+les applications web), recherche/substitution de texte, utilitaire comme
+egrep & etc...
 
-You can validate e-mail adresses, extract phone numbers or ZIP-codes
-from web-pages or documents, search for complex patterns in log files
-and all You can imagine! Rules (templates) can be changed without Your
-program recompilation!
+Vous pouvez aisément vérifier la syntaxe d'adresse e-mail, extraire un
+numéro de téléphone ou un code ZIP d'un texte non formaté ou n'importe
+quel autre information d'une page web et tout ce que vous pouvez
+imaginer! Les modèles peuvent être changées sans recompilation du
+programme !
 
-As a language for rules used subset of Perl’s `regular
-expressions </regexp_syntax>`__ (regexp).
+Cette librairie gratuite est une version étendue des routines de Henry
+Spencer V8-routins pour travailler avec un sous-ensemble de Perl ;
+`Expressions Réguličres <regexp_syntax.html>`__.
 
-Full source code included, pure Object Pascal. Thus, You need no DLL!
-The library source code is compatible with Delphi 2-7, Borland C++
-Builder 3-6, Kylix, FreePascal (if You see any incompatibility problems,
-please. drop the bug-report to `author </about>`__).
+TRegExpr est écris en objet pascal avec les fichiers source disponible
+gratuitement.
 
-Documentation in English, Russian, German, Bulgarian, French and Spanish
-available at TRegExpr home page
+Le fichier source original en C a été amélioré et encapsulé complètement
+dans la classe `TRegExpr <tregexpr_interface.html>`__ en un seul
+fichier: RegExpr.pas.
 
-Installation is very simple, the implementation encapsulated completely
-into class `TRegExpr </tregexpr_interface/>`__.
+Aussi, vous n'aurez pas besoin de fichier DLL!
 
-`Demos
-projects <https://github.com/masterandrey/TRegExpr/tree/master/examples>`__
-and `usage
-articles <http://masterandrey.com/posts/en/text_processing_from_birds_eye_view.html>`__
-illustrate simplicity and power of text processing with the library.
+Prenez un simple regard а une `illustration <demos.html>`__ et étudier
+la `syntaxe <regexp_syntax.html>`__ des expressions régulières. (Vous
+pouvez utiliser le `projet demo <#tregexpr_testrexp.html>`__ pour
+explorer et apprendre vos propres expressions régulières).
 
-If You need Unicode (so called ‘WideString’ in Delphi) - see `How to use
-unicode <tregexpr_interface#unicode>`__.
+Vous pouvez utiliser les (WideString Delphi) - voir "Comment utiliser
+les unicode".
 
-Gratitudes
-~~~~~~~~~~
 
-Many features suggested and a lot of bugs founded (and even fixed) by
-TRegExpr’s contributors.
-
-I cannot list here all of them (actually I kept listing only on very
-early stage of development), but I do appreciate all
-
-bug-reports, features suggestions and questions that I am receiving from
-You.
-
--  Guido Muehlwitz - found and fixed ugly bug in big string processing
--  Stephan Klimek - testing in CPPB and suggesting/implementing many
-   features
--  Steve Mudford - implemented Offset parameter
--  Martin Baur (`www.mindpower.com <http://www.mindpower.com>`__) -
-   German help, usefull suggetions
--  Yury Finkel - implemented UniCode support, found and fixed some bugs
--  Ralf Junker - Implemented some features, many optimization
-   suggestions
--  Simeon Lilov - Bulgarian help
--  Filip Jirsбk and Matthew Winter - help in Implementation non-greedy
-   mode
--  Kit Eason many examples for introduction help section
--  Juergen Schroth - bug hunting and usefull suggestions
--  Martin Ledoux - French help
--  Diego Calp, Argentina -Spanish help
-
-And many others - for big work in bug hunting!
 
 Documentation
 -------------
@@ -75,7 +46,8 @@ Documentation
    :glob:
    :maxdepth: 2
 
-   regexp_syntax.rst
-   tregexpr_interface.rst
+   regexp_syntax
+   tregexpr_interface
    faq
    demos
+   tregexpr_testrexp
