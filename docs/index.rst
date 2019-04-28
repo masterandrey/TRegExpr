@@ -1,3 +1,10 @@
+      **This is very old and outdated translation.**
+      *If you can read English or Russian please use* `up-to-date English <http://regexpr.masterandrey.com/en/latest/>`_ *or* `up-to-date Russian <http://regexpr.masterandrey.com/ru/latest/>`_.
+
+      *If you want to help me to update the translation please* `contact me <https://github.com/masterandrey>`_.
+
+------------
+
 TRegExpr е мощен и лесен за използване инструмент, който е предназначен
 за проверка, на базата на предварително дефинирани изрази (шаблони,
 regular expressions) на входни данни в текстови полета (в бази от данни,
