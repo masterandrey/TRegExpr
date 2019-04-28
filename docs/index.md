@@ -1,66 +1,61 @@
----
-layout: index
-lang: en
-ref: index
-title:
-permalink: /en/index.html
----
+TRegExpr е мощен и лесен за използване инструмент, който е предназначен
+за проверка, на базата на предварително дефинирани изрази (шаблони,
+regular expressions) на входни данни в текстови полета (в бази от данни,
+web-ориентирани приложения и др.), за търсене и замяна на текст, за
+създаване на инструменти, подобни на egrep от UNIX и т.н.
 
-TRegExpr library implements regular expressions in pure Delphi.
+С негова помощ лесно можете да проверявате например дали един e-mail
+адрес е синтактично правилен, да извличате необходимите Ви данни (като
+телефонни номера, пощенски кодове и др.) от произволен неформатиран
+текст, да намирате определена информация в web-страници – възможностите
+са ограничени единствено от  Вашето въображение! Обърнете внимание –
+правилата (изразите) за търсене и проверка може да бъдат изменяни без
+прекомпилиране на основната Ви програма!
 
-<a href="https://github.com/masterandrey/TRegExpr" class="btn btn-primary btn-lg" role="button">Github repo</a>
+Тази библиотека е freeware и представлява разширена Delphi-версия на
+библиотеката V8 на Henry Spencer за работа с подмножество на
+дефинираните в езика Perl нормални изрази ([Regular
+Expressions)](regexp_syntax.html).
 
-Now it's included into [Lazarus (Free Pascal)](http://wiki.freepascal.org/Regexpr).
+TRegExpr е написан на чист Object Pascal, като всички сорс-кодове са
+достъпни безплатно.
 
-TRegExpr is easy to use and powerfull tool for sophisticated search and substitutioning and for template-based text checking (especially usefull for user
-input validation in DBMS and web projects).
+Освен това към оригиналния С-код са добавени някои разширения и всичко е
+капсулирано в обектния клас [TRegExpr](tregexpr_interface.html), който
+е реализиран в един-единствен файл - RegExpr.pas.
 
-You can validate e-mail adresses, extract phone numbers or ZIP-codes from web-pages or documents, search for complex patterns in log files and all You can imagine!
-Rules (templates) can be changed without Your program recompilation!
+За неговото използване не са необходими никакви DLL !
 
-As a language for rules used subset of Perl's [regular expressions](/regexp_syntax) (regexp).
+За начало може да погледнете някои прости [примери на
+използване](demos.html) , а ако не сте запознати с изразите Regular
+Expressions, да разучите техният [синтаксис](regexp_syntax.html). (За
+обучение и експерименти може да използвате и [демонстрационната
+програма](tregexpr_testrexp.html)).
 
-Full source code included, pure Object Pascal.
-Thus, You need no DLL!
-The library source code is compatible with Delphi 2-7, Borland C++ Builder 3-6, Kylix, FreePascal
-(if You see any incompatibility problems, please. drop the bug-report to [author](/about)).
+TregExpr може да работи и с Unicode-стрингове - вижте [как се работи с
+Unicode](tregexpr_interface.html#unicode).
 
-Documentation in English, Russian, German, Bulgarian, French and Spanish available at TRegExpr
-<a href="http://regexpstudio.com/tregexpr/TRegExpr.html" target="_blank">home page</a>
+Историята на разработката и измененията на библиотеката, както и новите
+неща, са описани в [История](../posts/bg/tregexpr_history/).
 
-Installation is very simple, the implementation encapsulated completely into class
-[TRegExpr](/tregexpr_interface/).
+Ако при работа с библиотеката откриете някакви грешки, ако имате
+забележки или нови идеи, изпращайте ги без притеснение.
 
-[Demos projects](https://github.com/masterandrey/TRegExpr/tree/master/examples) and
-[usage articles](http://masterandrey.com/posts/en/text_processing_from_birds_eye_view.html) illustrate simplicity and power of text processing with the library.
+### Благодарности
 
+* Guido Muehlwitz – намерил и изчистил грозен бъг в обработката на големи стрингове
+* Stephan Klimek – тествал в CPPB и предложил/реализирал много възможности
+* Steve Mudford – реализирал параметъра Offset
+* Martin Baur ([www.mindpower.com](http://www.mindpower.com)) - помощ на
+немски, полезни съвети
+* Yury Finkel – реализирал поддръжката на UniCode, намерил и поправил грешки
+* Ralf Junker – някои нови възможности, много съвети по оптимизацията
+* Simeon Lilov – помощ на български
+* Filip Jirsбk и Matthew Winter (wintermi@yahoo.com) - помощ при реализацията на нежадния режим
+* Kit Eason – много примери, използвани в тази помощ
+* Juergen Schroth – изчистване на грешки и полезни предложения
+* Diego Calp (mail@diegocalp.com), Аржентина – помощ на испански
 
-If You need Unicode (so called 'WideString' in Delphi) - see
-[How to use unicode](tregexpr_interface#unicode).
+И на много други – за голямото чистене на грешки !
 
-### Gratitudes
-
-Many features suggested and a lot of bugs founded (and even fixed) by
-TRegExpr's contributors.
-
-I cannot list here all of them (actually I kept listing only on very
-early stage of development), but I do appreciate all
-
-bug-reports, features suggestions and questions that I am receiving from
-You.
-
-
-* Guido Muehlwitz - found and fixed ugly bug in big string processing
-* Stephan Klimek - testing in CPPB and suggesting/implementing many features
-* Steve Mudford - implemented Offset parameter
-* Martin Baur ([www.mindpower.com](http://www.mindpower.com)) - German help, usefull suggetions
-* Yury Finkel - implemented UniCode support, found and fixed some bugs
-* Ralf Junker - Implemented some features, many optimization suggestions
-* Simeon Lilov - Bulgarian help
-* Filip Jirsбk and Matthew Winter - help in Implementation non-greedy mode
-* Kit Eason many examples for introduction help section
-* Juergen Schroth - bug hunting and usefull suggestions
-* Martin Ledoux - French help
-* Diego Calp, Argentina -Spanish help
-
-And many others - for big work in bug hunting!
+ 

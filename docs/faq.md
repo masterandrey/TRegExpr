@@ -1,134 +1,113 @@
----
-layout: page
-lang: en
-ref: faq
-title: FAQ
-permalink: /en/faq.html
----
+Q
+: въпрос
 
-### Q. I found a terrible bug: TRegExpr raises Access Violation exception!
+A
+: отговор
 
-#### A.
-You must create the object before usage. So, after You declared something like:
+### Q. Как мога да използвам TRegExpr в Borland C++ Builder?
 
-    r : TRegExpr
-    
-do not forget to create the object instance: 
-
-    r := TRegExpr.Create. 
-    
-### Q. How can I use TRegExpr with Borland C++ Builder?
-
-I have a problem since no header file (.h or .hpp) is available.
+Имам проблем, понеже няма хедър-файлове (.h или .hpp).
 
 #### A.
-* Add RegExpr.pas to bcb project.
-* Compile project. This generates the header file RegExpr.hpp.
-* Now one can write code which uses the RegExpr unit.
-* Don`t forget to add  \#include "RegExpr.hpp" where needed.
-* Don`t forget to replace all `\\` in regular expressions with `\\\\` or
-redefined [EscChar](tregexpr_interface.html#escchar) const.
+* Добавете `RegExpr.pas` в проект bcb
+* Компилирайте проекта. Това ще генерира файла RegExpr.hpp
+* Вече може да се пише код, който използва unit-а RegExpr
+* Не забравяйте да добавите `\#include "RegExpr.hpp"` където е необходимо
 
-### Q. Why many r.e. (including r.e. from TRegExpr help and demo) work wrong in Borland C++ Builder?
+### Q. Защо TRegExpr връща повече от един ред?
 
-#### A.
-Please, reread answer to previous question ;) Symbol `\\` has special
-treting in C++, so You have to `escape` it (as described in
-prev.answer). But if You don`t like r.e. like
-`\\\\w+\\\\\\\\\\\\w+\\\\.\\\\w+` You can redefine constant EscChar
-(RegExpr.pas), for example EscChar=`/` - then r.e. will be
-`/w+\\/w+/./w+`, sligtly unusual but more readable..
-
-### Q. Why does TRegExpr return more then one line?
-
-For example, r.e. `<font .\*>` returns the first `<font`, then the
-rest of the file including last `</html>`.
+Например RE `<font .\*>` връща първия `<font`, и след това
+останалата част от файла, вкл. последния `</html>`...
 
 #### A.
-For backward compatibility, [modifier
-/s](regexp_syntax.html#modifier_s) is `On` by default.
+За съвместимост с по-стари версии модификаторът /s е включен по
+подразбиране.
 
-Switch it Off and `.` will match any but [Line
-separators](regexp_syntax.html#syntax_line_separators) - as you wish.
+Изключете го (например чрез `ModifierS := false` или за всички НОВИ обекти
+`RegExprModifierS := false`) и `.` ще съвпада с всичко освен \\n – така,
+както искате.
 
-BTW I suggest you `<font (\[^\\n>\]\*)>`, in Match\[1\] will be
-URL.
+BTW препоръчвам `<font (\[^\\n>\]\*)>`, тогава в `Match\[1\]` ще
+бъде URL.
 
-### Q. Why does TRegExpr return more then I expect?
+### Q. Защо TRegExpr връща повече, отколкото очаквам?
 
-For example r.e. `<p>(.+)</p>` applyed to string
-`<p>a</p><p>b</p>` returns
-`a</p><p>b` but not `a` as I expected.
-
-#### A.
-By default all operators works in `greedy` mode, so they match as more
-as it possible.
-
-If You want `non-greedy` mode You can use `non-greedy` operators like
-`+?` and so on (new in v. 0.940) or switch all operators into
-`non-greedy` mode with help of modifier `g` (use appropriate TRegExpr
-properties or constractions like `?(-g)` in r.e.).
-
-### Q. How to parse sources like HTML with help of TRegExpr
+Например, шаблонът `<p>(.+)</p>` , приложен към стринг
+`<p>a</p><p>b</p>` връща `a</p><p>b`
+, а не `a`, както очаквам.
 
 #### A.
-Sorry folks, but it`s nearly impossible!
+По подразбиране всички оператори работят в `жаден`  режим, т.е. дават
+колкото е възможно по-голямо съвпадение.
 
-Of course, You can easily use TRegExpr for extracting some information
-from HTML, as shown in my examples, but if You want accurate parsing You
-have to use real parser, not r.e.!
+Ако искате да работят в `нежаден` режим, можете или да използвате
+`нежадни` оператори като `+?` и др. (ново във версия v. 0.940), или да
+превключите всички оператори в `нежаден` режим с помощта на модофокатора
+`g` (използвайте съответните свойства на TRegExpr или конструкции от
+типа `?(-g)` направо в RE).
 
-You can read full explanation in Tom Christiansen and Nathan Torkington
-`Perl Cookbook`, for example. In short - there are many constractions
-that can be easy parsed by real parser but cannot at all by r.e., and
-real parser is MUCH faster do the parsing, because r.e. doesn`t simply
-scan input stream, it performes optimization search that can take a lot
-of time.
+### Q. Как да правя parse на сорсове като HTML с помощта на TregExpr?
 
-### Q. Is there a way to get multiple matchs of a pattern on TRegExpr?
+#### A. Съжалявам, това е почти невъзможно!
+
+Разбира се, може да използвате TRegExpr за лесно извличане на информация
+от HTML, както съм показал в примера си, но ако искате истински parsing
+ще трябва да използвате истинсли parser, не RE!
+
+Може да прочетете подробното обяснение в книгата на Tom Christiansen и
+Nathan Torkington `Perl Cookbook` например. Накратко – има много
+конструкции, на които може лесно да се прави parse от истински parser,
+но не и от RE, и истинският parser МНОГ ПО-БЪРЗО прави parsing-а, защото
+RE не сканират просто входния поток, той прави и оптимизиращи търсения,
+което отнема доста повече време.
+
+### Q. Има ли начин за получаване на многократни съвпадения на шаблон в TRegExpr?
 
 #### A.
-You can make loop and iterate match by match with ExecNext method.
+Може да направите цикъл и да правите постъпкови съвпадения с метода
+ExecNext.
 
-It cannot be done more easily becase of Dalphi isn`t interpretator as
-Perl (and it`s benefit - interpretators work very slow!).
+Това не може да стане лесно, понеже Delphi не е интерпретатор, какъвто е
+Perl (и в това е предимството му – интерпретаторите работят много
+бавно!).
 
-If You want some example, please take a look at TRegExpr.Replace method
-implementation. or at the examples in
+Ако имате нужда от пример, разгледайте реализаията на метода
+TRegExpr.Replace или погледнете примерите в
 [HyperLinksDecorator.pas](#hyperlinksdecorator.html)
 
-### Q. I am checking user input. Why does TRegExpr return `True` for wrong input strings?
+### Q. Аз проверявам потребителския вход. Защо TRegExpr връща `True` при грешно въведен текст от потребителя?
 
 #### A.
-In many cases TRegExpr users forget that regular expression is for
-SEARCH in input string. So, if You want to make user to enter only 4
-digits and using for it `\\d{4,4}` expression, You can skip wrong user
-input like `12345` or `any letters 1234 and anything else`. You have to
-add checking for line start and line end to ensure there are not
-anything else around: `^\\d{4,4}$`.
+В много от случаите потребителите на TRegExpr забравят, че RE е за
+ТЪРСЕНЕ във входния стринг. Така, че ако искате да накарате потребителя
+да въвежда само 4 цифри и за това използвате шаблона `\\d{4,4}`, може да
+пропуснете грешни въвеждания от типа `12345` или `букви 1234 и други
+букви`. Трябва да добавите  проверки за начало и край на реда, за да сте
+сигурни, че няма нищо наоколо: `^\\d{4,4}$`.
 
-### Q.
-Why does non-greedy iterators sometimes work as in greedy mode?
+### Q. Защо нежадните итератори понякога изглежда, че работят в жаден режим?
 
-For example, the r.e. `a+?,b+?` applied to string `aaa,bbb` matches
-`aaa,b`, but should it not match `a,b` because of non-greediness of
-first iterator?
+Например, RE `a+?,b+?` , приложена към стринга `aaa,bbb` , връща
+`aaa,b`, а не би ли трябвало да връща `a,b` заради нежадния първи
+итератор?
 
 #### A.
-This is the limitation of used by TRegExpr (and Perl`s and many Unix`s
-regular expressions) mathematics - r.e. performe only `simple` search
-optimization, and do not try to do the best optimization. In some cases
-it`s bad, but in common it`s rather advantage then limitation - because
-of perfomance and predictability reasons.
+Това е ограничение на използваната в TRegExpr (и в  Perl и в много RE
+под Unix) математика – RE прави само `проста` оптимизация при търсене, и
+не се опитва да прави най-добрата оптимизация. В някои случаи това е
+лошо, но като цяло е по-скоро предимство, отколкото ограничение – заради
+производителността и предвидимостта на резултатите.
 
-The main rule - r.e. first of all try to match from current place and
-only if it`s completely impossible move forward by one char and try
-again from that place. So, if You use `a,b+?` it match `a,b`, but in
-case of `a+?,b+?` it`s `not recommended` (due to non-greediness) but
-possible to match more then one `a`, so TRegExpr do it and at last
-obtaines correct (but non optimum) match. TRegExpr like Perl`s or Unix`s
-r.e. doesn`t attempt to move forward and check - would it be `better`
-match. Moreover, it cannot be compared in terms `more or less good
-match` at all..
+Основното правило е – RE най-напред се опитва да направи съвпадение от
+текущата позиция и само ако е напълно невъзможно, се премества напред с
+един символ и отново опитва от новата позиция. Така, че ако използвате
+`a,b+?` , се открива `a,b`, но в случай на `a+?,b+?` , не е задължително
+(заради нежадността), но е възможно да се даде съвпадение за повече от
+едно `a`, така, че TRegExpr го прави и накрая връща коректния (но не
+оптимален) резултат. TregExpr, както и RE на Perl или Unix не се опитват
+да се придвижват напред и да проверяват дали ще има `по-добро`
+съвпадение. Нещо повече, те  изобщо не могат да определят кое съвпадение
+е по-добро и кое – по-лошо.
 
-Please, read [Syntax](regexp_syntax.html) for more explanation.
+Мпля, прочетете
+`[Syntax](regexp_syntax.html#engine)`.

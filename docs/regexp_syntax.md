@@ -1,435 +1,408 @@
----
-layout: page
-lang: en
-ref: syntax
-title: Regular expressions syntax
-permalink: /en/regexp_syntax.html
----
+## Въведение
 
-## Important note
+Regular Expressions са широко използван метод за задаване на шаблони за
+търсене на текст. Специални метасимволи позволяват да се укаже например,
+дали текстът, който се търси, да е в началото или в края на реда, или
+пък съдържа n повторения на даден символ.
 
-Below is the description of regular expressions implemented in freeware
-library [TRegExpr](http://regexpstudio.com). 
-The library was widely used in many free and commertial software products. 
+Regular expressions изглеждат доста страшно на пръв поглед, но те
+наистина са много прости (т.е. обикновено са прости;) ), удобни и мощни
+средства.
 
-## Introduction
+Препоръчвам ви да си поиграете с regular expressions използвайки Windows 
+[REStudio](https://github.com/masterandrey/TRegExpr/releases/download/0.952b/REStudio.exe) – 
+той ще ви помогне да разберете
+главните концепции. Освен това в него са включени много предварително
+дефинирани и коментирани изрази
 
-Regular Expressions are a widely-used method of specifying patterns of
-text to search for. Special metacharacters allow You to specify, for
-instance, that a particular string You are looking for occurs at the
-beginning or end of a line, or contains n recurrences of a certain
-character.
+Нека да започнем нашето обучение!
 
-Regular expressions look ugly for novices, but really they are very
-simple (well, usually simple ;) ), handly and powerfull tool.
+## Прости съвпадения
 
-I recommend You to play with regular expressions using Windows 
-[REStudio](https://github.com/masterandrey/TRegExpr/releases/download/0.952b/REStudio.exe) - 
-it'll help You to uderstand main
-conceptions. Moreover, there are many predefined examples with comments
-included into repository of R.e. visual debugger.
+Всеки прост символ съвпада сам със себе си, освен ако не е метасимвол
+със специално предназначение, описано по-долу.
 
-Let's start our learning trip!
+Последователност от символи съвпада със същата последователност,
+например изразът `bluh` ще съвпадне с `bluh` в изследвания стринг.
+Засега е просто, а ?
 
-## Simple matches
+Можете да задавате символи, които нормално принадлежат към групата на
+метасимволите или escape последователностите, да бъдат интерпретирани
+като нормален (литерален) символ, като просто поставите символа  `\`
+пред тях. Например `^` е метасимвол, означаващ начало на реда, а `\^`
+определя самия символ `^`. `\\` определя `\` и т.н..
 
-Any single character matches itself, unless it is a metacharacter with a
-special meaning described below.
+#### Примери:
+      Foobar                открива 'foobar'
+      \^FooBarPtr         открива '^FooBarPtr'
 
-A series of characters matches that series of characters in the target
-string, so the pattern `bluh` would match `bluh` in the target string.
-Quite simple, eh ?
+## Escape последователности
 
-You can cause characters that normally function as metacharacters or
-escape sequences to be interpreted literally by 'escaping' them by
-preceding them with a backslash `\`, for instance: metacharacter `^`
-match beginning of string, but `\^` match character `^`, `\\` match
-`\` and so on.
+Всеки символ може да бъде задаван и със синтаксис за escape
+последователност – така, както е в C и Perl: `\n` определя символа 'нов
+ред'; `t` определя tab; `\r` - return; `\f` -  form feed, и т.н. В
+общия случай може да се използва \\xnn, където nn е поредица от
+шестнадесетични цифри, указващи ASCII-кода на желания символ. Ако искате
+да зададете символ от таблицата UniCode, може да използвате `\x{nnnn}`,
+където `nnnn` са една или повече шестнадесетични цифри.
 
-#### Examples:
+     \xnn                    символ с hex код nn
+     \x{nnnn}                символ с hex код nnnn (един байт за чист текст и два - за Unicode)
+     \t                       tab (HT/TAB), също и  \\x09
+     \n                       newline (NL), също и  \\x0a
+     \r                      car.return (CR), също и  \\x0d
+     \f                       form feed (FF), също и \\x0c
+     \a                       alarm (bell) (BEL), също и \\x07
+     \e                       escape (ESC), съшо и  \\x1b
 
-     foobar         matchs string 'foobar'
-     \^FooBarPtr     matchs '^FooBarPtr'
+#### Примери:
 
-### Note for C++ Builder users
+     foo\\x20bar                открива 'foo bar' (с интервал в средата)
+     \\tfoobar                открива 'foobar', предшестван от tab
 
-Please, read in FAQ answer on question [Why many r.e. work wrong in
-Borland C++ Builder?](faq.html#cppbescchar)
+## Клас от символи
 
-## Escape sequences
+Може да зададете клас от символи, като ги затворите в квадратни скоби `[]`. 
+В този случай се проверява за съвпадение на който и да е символ от
+класа.
 
-Characters may be specified using a escape sequences syntax much like
-that used in C and Perl: `\n` matches a newline, `\t` a tab, etc.
-More generally, `\xnn`, where nn is a string of hexadecimal digits,
-matches the character whose ASCII value is nn. If You need wide
-(Unicode) character code, You can use `\x{nnnn}`, where `nnnn` - one or
-more hexadecimal digits.
+Ако първият символ в класа веднага след `[` е `^`, се проверява за
+съвпадение на всички символи, които не са от този клас.
 
-     \xnn     char with hex code nn
-     \x{nnnn} char with hex code nnnn (one byte for plain text and two bytes for Unicode
-     \t       tab (HT/TAB), same as \x09
-     \n       newline (NL), same as \x0a
-     \r       car.return (CR), same as \x0d
-     \f       form feed (FF), same as \x0c
-     \a       alarm (bell) (BEL), same as \x07
-     \e       escape (ESC), same as \x1b
+#### Примери:
 
-#### Examples:
+     foob[aeiou]r   открива 'foobar', 'foober' и т.н., но не 'foobbr', 'foobcr' и т.н.
+     foob[^aeiou]r открива 'foobbr', 'foobcr' и т.н., но не 'foobar', 'foober' и т.н.
 
-     foo\x20bar   matchs 'foo bar' (note space in the middle)
-     \tfoobar     matchs 'foobar' predefined by tab
+Вътре в описанието на класа може да се използва символът `-` за задаване
+на обхват, например `a-z` представлява съкратен запис на всички букви от
+`a` до `z` включително.
 
-## Character classes
+Ако искате самият символ `-` да бъде член на класа, просто го поставете
+в началото или в края на класа, или пред него сложете `\`. Ако искате и
+`]` да бъде член на класа, поставете го в началото на списъка или пред
+него сложете `\`.
 
-You can specify a character class, by enclosing a list of characters in
-`[]`, which will match any one character from the list.
+Примери:
 
-If the first character after the `[` is `^`, the class matches any
-character not in the list.
+     [-az]     открива 'a', 'z' и '-'
+     [az-]     открива 'a', 'z' и '-'
+     [a\-z]     открива 'a', 'z' и '-'
+     [a-z]     открива всички 26 малки букви от 'a' до 'z'
+     [\n-\x0D] открива което и да е от #10,#11,#12,#13.
+     [\d-t]     открива всички цифри, '-' or 't'.
+     []-a]     открива произволен символ в обхвата ']'..'a'.
 
-#### Examples:
+## Метасимволи
 
-     foob[aeiou]r   finds strings 'foobar', 'foober' etc. but not 'foobbr', 'foobcr' etc.
-     foob[^aeiou]r find strings 'foobbr', 'foobcr' etc. but not 'foobar', 'foober' etc.
+Метасимволите са специални символи, които са същността на Regular
+Expressions. Има различни типове метасимволиописани по-долу.
 
-Within a list, the `-` character is used to specify a range, so that
-a-z represents all characters between `a` and `z`, inclusive.
+### Метасимволи - разделители
 
-If You want `-` itself to be a member of a class, put it at the start
-or end of the list, or escape it with a backslash. If You want `]` you
-may place it at the start of list or escape it with a backslash.
+     ^                начало на ред
+     $                край на ред
+     \A                начало на текст
+     \Z                край на текст
+     .                произволен символ
 
-#### Examples:
+#### Примери:
 
-     [-az]     matchs 'a', 'z' and '-'
-     [az-]     matchs 'a', 'z' and '-'
-     [a\-z]     matchs 'a', 'z' and '-'
-     [a-z]     matchs all twenty six small characters from 'a' to 'z'
-     [\n-\x0D] matchs any of #10,#11,#12,#13.
-     [\d-t]     matchs any digit, '-' or 't'.
-     []-a]     matchs any char from ']'..'a'.
+     ^foobar              открива 'foobar' само ако е в началото на реда
+     foobar$               открива 'foobar' само ако е в края на реда
+     ^foobar$             открива 'foobar' само ако е единствения стринг на реда
+     foob.r                открива стрингове като
+     'foobar', 'foobbr', 'foob1r' и т.н.
 
-## Metacharacters
+По подразбиране символът `^` съвпада само с началото на обработвания
+фрагмент от текста, а символът `$` - с неговия край (или пред `\n` в
+края), което позволява ускоряване на процеса по откриване на съвпадения.
+Всички символи `\n`, които се срещат вътре в текстовия блок, не се
+разпознават от `^` или `$`.
 
-Metacharacters are special characters which are the essence of Regular
-Expressions. There are different types of metacharacters, described
-below.
+Ако обаче искате да третирате входния стринг като буфер с много редове
+текст, при което `^` да съвпада с началото на всеки ред в този буфер
+(след `\n`), а `$` – с края на всеки ред (преди `\n`), това може да стане
+чрез активиране на модификатора `/m`.
 
-### Metacharacters - line separators
+Метасимволите `\A` и `\Z` съвпадат с `^` и `$`, с изключение на това, че
+при тях няма многократни съвпадения в случай че се използва
+модификаторът `/m`, докато в този случай `^` и `$` ще откриват всички
+вътрешни за текста знаци за край на ред.
 
-     ^     start of line
-     $     end of line
-     \A     start of text
-     \Z     end of text
-     .     any character in line
+Метасимволът `.` по подразбиране съвпада с всеки символ в текста, но
+ако изключите модификатора `/s`, то `.` няма да открива вътрешните за
+текста знаци за край на ред.
 
-#### Examples:
+TRegExpr работи със знаците за край на текст според препоръките на
+[www.unicode.org](http://www.unicode.org/unicode/reports/tr18/):
 
-     ^foobar     matchs string 'foobar' only if it's at the beginning of line
-     foobar$     matchs string 'foobar' only if it's at the end of line
-     ^foobar$   matchs string 'foobar' only if it's the only string in line
-     foob.r     matchs strings like 'foobar', 'foobbr', 'foob1r' and so on
+`^` съвпада с началото на входния стринг, и, ако модификаторът `/m` е
+включен, също така със символите, непосредствено следващи всяко срещане
+на комбинациите `\x0D\x0A` или `\x0A` или `\x0D` (Ако използвате
+Unicode-версията на TRegExpr, и след `\x2028` или  `\x2029` или `\x0B` или
+`\x0C` или `\x85`). Забележете, че няма празен ред в комбинацията
+`\x0D\x0A`.
 
-The `^` metacharacter by default is only guaranteed to match at the
-beginning of the input string/text, the `$` metacharacter only at the
-end. Embedded line separators will not be matched by `^` or `$`.
+`$` съвпада с края на входния стринг, и, ако модификаторът /m  е
+включен, също така със символите, непосредствено предшестващи всяко
+срещане на комбинациите `\x0D\x0A` или `\x0A` или `\x0D` (Ако използвате
+Unicode-версията на TRegExpr, и преди `\x2028` или  `\x2029` или `\x0B` или
+`\x0C` или `\x85`). Забележете, че няма празен ред в комбинацията
+`\x0D\x0A`.
 
-You may, however, wish to treat a string as a multi-line buffer, such
-that the `^` will match after any line separator within the string, and
-`$` will match before any line separator. You can do this by switching
-On the [modifier /m](regexp_syntax.html#modifier_m).
+`.` съвпада със всеки символ, но ако изключите модификатора /s тогава
+`.` не съвпада с `\x0D\x0A` и `\x0A` и `\x0D` (Ако използвате
+Unicode-версията на TRegExpr, и с `\x2028` или  `\x2029` или `\x0B` или
+`\x0C` или `\x85`).
 
-The `\A` and `\Z` are just like `^` and `$`, except that they won't
-match multiple times when the [modifier
-/m](regexp_syntax.html#modifier_m) is used, while `^` and `$` will
-match at every internal line separator.
+Забележете, че `^.\*$` (шаблон за празен ред) няма да даде съвпадение за
+празен ред в комбинацията `\x0D\x0A`, но ще даде такова за комбинацията
+`\x0A\x0D`.
 
-The `.` metacharacter by default matches any character, but if You
-switch Off the [modifier /s](regexp_syntax.html#modifier_s), then `.`
-won't match embedded line separators.
+Обработката на много редове може да бъде настройвана лесно за Вашите
+нужди чрез свойствата на TRegExpr LineSeparators и LinePairedSeparator,
+Може да ползвате само разделителите `/n` в стил Unix , или `\r\n` на
+DOS/Windows, или да ги смесвате (както е описано по-горе и е по
+подразбиране), или дори да дефинирате собствени разделители!
 
-TRegExpr works with line separators as recommended at [www.unicode.org](
-http://www.unicode.org/unicode/reports/tr18/):
+### Метасимволи – предварително дефинирани класове
 
-`^` is at the beginning of a input string, and, if [modifier
-/m](regexp_syntax.html#modifier_m) is On, also immediately following
-any occurrence of `\x0D\x0A` or `\x0A` or `\x0D` (if You are using
-[Unicode version](tregexpr_interface.html#unicode) of TRegExpr,
-then also `\x2028` or  `\x2029` or `\x0B` or `\x0C` or `\x85`). Note that
-there is no empty line within the sequence `\x0D\x0A`.
+     \w     буквено-цифров символ (включително `_`)
+     \W   небуквено-цифров символ
+     \d     цифров символ
+     \D     нецифров символ
+     \s     интервален символ (същото като [\t\n\r\f])
+     \S     неинтервален символ
 
-`$` is at the end of a input string, and, if [modifier
-/m](regexp_syntax.html#modifier_m) is On, also immediately preceding
-any occurrence of  `\x0D\x0A` or `\x0A` or `\x0D` (if You are using
-[Unicode version](tregexpr_interface.html#unicode) of TRegExpr,
-then also `\x2028` or  `\x2029` or `\x0B` or `\x0C` or `\x85`). Note that
-there is no empty line within the sequence `\x0D\x0A`.
+Може да използвате `\w`, `\d` и `\s` в произволни символни класове.
 
-`.` matchs any character, but if You switch Off [modifier
-/s](regexp_syntax.html#modifier_s) then `.` doesn't match `\x0D\x0A`
-and `\x0A` and `\x0D` (if You are using [Unicode
-version](tregexpr_interface.html#unicode) of TRegExpr, then
-also `\x2028` and  `\x2029` and `\x0B` and `\x0C` and `\x85`).
-
-Note that `^.*$` (an empty line pattern) doesnot match the empty string
-within the sequence `\x0D\x0A`, but matchs the empty string within the
-sequence `\x0A\x0D`.
-
-Multiline processing can be easely tuned for Your own purpose with help
-of TRegExpr properties
-[LineSeparators](tregexpr_interface.html#lineseparators) and
-[LinePairedSeparator](tregexpr_interface.html#linepairedseparator), You
-can use only Unix style separators `\n` or only DOS/Windows style `\r\n`
-or mix them together (as described above and used by default) or define
-Your own line separators!
-
-### Metacharacters - predefined classes
-
-     \w     an alphanumeric character (including "_")
-     \W     a nonalphanumeric
-     \d     a numeric character
-     \D     a non-numeric
-     \s     any space (same as [ \t\n\r\f])
-     \S     a non space
-
-You may use `\w`, `\d` and `\s` within custom character classes.
-
-#### Examples:
+#### Примери:
     
-     foob\dr     matchs strings like 'foob1r', ''foob6r' and so on but not 'foobar', 'foobbr' and so on
-     foob[\w\s]r matchs strings like 'foobar', 'foob r', 'foobbr' and so on but not 'foob1r', 'foob=r' and so on
+     foob\dr               съвпада със стрингове като 'foob1r', ''foob6r' и т.н., но не с  'foobar', 'foobbr' и т.н.
+     foob\[\w\s\]r      съвпада със стрингове като 'foobar', 'foob r', 'foobbr' и т.н., но не с 'foob1r', 'foob=r' и т.н.
 
-TRegExpr uses properties
-[SpaceChars](tregexpr_interface.html#tregexpr.spacechars) and
-[WordChars](tregexpr_interface.html#tregexpr.wordchars) to define
-character classes `\w`, `\W`, `\s`, `\S`, so You can easely redefine it.
+TRegExpr използва свойствата SpaceChars и WordChars за дефиниране на
+символните класове `\w`, `\W`, `\s`, `\S`, така, че Вие лесно можете да си
+ги предефинирате.
 
-### Metacharacters - word boundaries
+### Метасимволи - итератори
 
-     \b     Match a word boundary
-     \B     Match a non-(word boundary)
+Всяка част от един regular expression може да бъде последвана от дриг
+вид метасимволи - итератори. Чрез тях може да задавате броя на
+срещанията на предхождащите ги символ, , метасимвол или подизраз.
 
-A word boundary (`\b`) is a spot between two characters that has a `\w` on
-one side of it and a `\W` on the other side of it (in either order),
-counting the imaginary characters off the beginning and end of the
-string as matching a `\W`.
+     \*     нула или повече пъти ("жаден"), подобно на {0,}
+     +   един или повече пъти ("жаден"), подобно на {1,}
+     ?   нула или един път ("жаден"), подобно на {0,1}
+     {n}   точно n пъти ("жаден")
+     {n,}   най-малко n пъти ("жаден")
+     {n,m} най-малко n но не повече от m пъти ("жаден")
+     \*?     нула или повече пъти ("нежаден"), подобно на {0,}
+     +?     един или повече пъти ("нежаден"), подобно на {1,}
+     ??     нула или един път ("нежаден"), подобно на {0,1}
+     {n}?   точно n пъти ("нежаден")
+     {n,}? най-малко n пъти ("нежаден")
+     {n,m}? най-малко n но не повече от m пъти ("нежаден")
 
-### Metacharacters - iterators
+И така, цифрите във фигурните скоби от типа {n,m} указват минималният
+брой съвпадения n и максималния m. Формата {n} е еквивалент на {n,n} и
+осигурява съвпадение точно n пъти. Формата {n,} осигурява съвпадения n
+или повече пъти. Няма огранияенич за голенимата на n или m, но
+по-големите числа водят до заемане на повече памет и до забавяне на
+изчислението на RE.
 
-Any item of a regular expression may be followed by another type of
-metacharacters - iterators. Using this metacharacters You can specify
-number of occurences of previous character, metacharacter or
-subexpression.
+Ако фигурните скоби се срещнат на друго място, те се третират като
+обикновени символи.
 
-     *     zero or more ("greedy"), similar to {0,}
-     +   one or more ("greedy"), similar to {1,}
-     ?   zero or one ("greedy"), similar to {0,1}
-     {n}   exactly n times ("greedy")
-     {n,}   at least n times ("greedy")
-     {n,m} at least n but not more than m times ("greedy")
-     *?     zero or more ("non-greedy"), similar to {0,}?
-     +?     one or more ("non-greedy"), similar to {1,}?
-     ??     zero or one ("non-greedy"), similar to {0,1}?
-     {n}?   exactly n times ("non-greedy")
-     {n,}? at least n times ("non-greedy")
-     {n,m}? at least n but not more than m times ("non-greedy")
+#### Примери:
+    
+     foob.\*r                                съвпада със стрингове като 'foobar',  'foobalkjdflkj9r' и 'foobr'
+     foob.+r                съвпада със стрингове като 'foobar', 'foobalkjdflkj9r' но не 'foobr'
+     foob.?r                                съвпада със стрингове като 'foobar', 'foobbr' и 'foobr' но не 'foobalkj9r'
+     fooba{2}r                съвпада с 'foobaar'
+     fooba{2,}r                съвпада със стрингове като 'foobaar', 'foobaaar', 'foobaaaar' и т.н..
+     fooba{2,3}r                съвпада със стрингове като 'foobaar' или 'foobaaar' но не 'foobaaaar'
 
-So, digits in curly brackets of the form `{n,m}`, specify the minimum
-number of times to match the item n and the maximum `m`. The form `{n}` is
-equivalent to `{n,n}` and matches exactly `n` times. The form `{n,}` matches `n`
-or more times. There is no limit to the size of `n` or `m`, but large
-numbers will chew up more memory and slow down r.e. execution.
+Малко обяснение на "жаждата". "Жаден" дава колкото се може повече
+съвпадения, "нежаден" дава колкото се може по-малко съвпадения.
+Например, `b+` и `b\*` , приложени към `abbbbc` връщат `bbbb`, `b+?`
+връща `b`, `b\*?` връща празен стринг, `b{2,3}?` връща `bb`, `b{2,3}`
+връща `bbb`.
 
-If a curly bracket occurs in any other context, it is treated as a
-regular character.
+Всички итератори може да бъдат превключени в "нежаден" режим (виж
+модификатора `/g`).
 
-#### Examples:
+### Метасимволи - алтернативи
 
-     foob.*r     matchs strings like 'foobar',  'foobalkjdflkj9r' and 'foobr'
-     foob.+r     matchs strings like 'foobar', 'foobalkjdflkj9r' but not 'foobr'
-     foob.?r     matchs strings like 'foobar', 'foobbr' and 'foobr' but not 'foobalkj9r'
-     fooba{2}r   matchs the string 'foobaar'
-     fooba{2,}r matchs strings like 'foobaar', 'foobaaar', 'foobaaaar' etc.
-     fooba{2,3}r matchs strings like 'foobaar', or 'foobaaar'  but not 'foobaaaar'
+Може да задавате няколко алтернативи за даден израз, използвайки символа
+`|` като разделител между тях. Например `fee|fie|foe` ще съвпадне с
+която и да е от думите `fee`, `fie`, или `foe` във входния поток (същият
+резултат ще се получи и с `f(e|i|o)e`). Първата алтернатива включва
+всичко от последния разделител (`(`, `[`, или началото на RE) до първия
+`|`, а последната – всичко от последния `|` до следващия разделител.
+Затова е препоръчително да поставяте алтернативите в скоби, за да се
+избегнат недоразуменията за това къде започват или завършват.
 
-A little explanation about "greediness". "Greedy" takes as many as
-possible, "non-greedy" takes as few as possible. For example, `b+` and
-`b*` applied to string `abbbbc` return `bbbb`, `b+?` returns `b`,
-`b*?` returns empty string, `b{2,3}?` returns `bb`, `b{2,3}` returns
-`bbb`.
+Алтернативите се преглеждат от ляво на дясно, като при това се избира
+първият подходящ вариант. Това означава, че алтернатовите не е
+задължително да са "жадни". Например: ако търсим `foo|foot` в
+`barefoot`, ще имаме съвпадение на алтернативата `foo`, понеже тя е
+най-лявата алтернатива, и удовлетворява съвпадението. (Това може и да не
+изглежда важно, но е – когато искате да вземете текста, отговарящ на
+съвпадението, използвайки скоби.)
 
-You can switch all iterators into "non-greedy" mode (see the [modifier
-/g](regexp_syntax.html#modifier_g)).
+Освен това не забравяйте, че `|` се интерпретира като литерален символ в
+квадратните скоби, така, че ако напишете `[fee|fie|foe]` всъщност това
+ще отговаря на `[feio|]`.
 
-### Metacharacters - alternatives
+#### Примери:
 
-You can specify a series of alternatives for a pattern using `|` to
-separate them, so that fee|fie|foe will match any of `fee`, `fie`, or
-`foe` in the target string (as would `f(e|i|o)e`). The first alternative
-includes everything from the last pattern delimiter (`(`, `[`, or the
-beginning of the pattern) up to the first `|`, and the last alternative
-contains everything from the last `|` to the next pattern delimiter.
-For this reason, it's common practice to include alternatives in
-parentheses, to minimize confusion about where they start and end.
+    foo(bar|foo) съвпада с 'foobar' или 'foofoo'.
 
-Alternatives are tried from left to right, so the first alternative
-found for which the entire expression matches, is the one that is
-chosen. This means that alternatives are not necessarily greedy. For
-example: when matching foo|foot against `barefoot`, only the `foo`
-part will match, as that is the first alternative tried, and it
-successfully matches the target string. (This might not seem important,
-but it is important when you are capturing matched text using
-parentheses.)
+### Метасимволи - подизрази
 
-Also remember that `|` is interpreted as a literal within square
-brackets, so if You write `[fee|fie|foe]` You're really only matching
-`[feio|]`.
+Кръглите скоби `( ... )` може да бъдат използвани и за отделяне на
+подизрази (след изпълнение на RE имате информация за позицията,
+дължината и стойността на всеки подизраз, намираща се в променливите
+MatchPos, MatchLen и свойствата Match на TRegExpr, а също така можете и
+да ги замествате в шаблонни стрингове с помощта на TRegExpr.Substitute).
 
-#### Examples:
+Подизразите са номерирани, като номерацията се базира на подреждането
+отляво надясно на отварящите скоби.
 
-  foo(bar|foo) matchs strings 'foobar' or 'foofoo'.
+Първият подизраз има номер `1` (целия RE отговаря на номер `0` – по този
+начин може да го използвате за заместване в TRegExpr.Substitute като
+`$0` или `$&`).
 
-### Metacharacters - subexpressions
+#### Примери:
+    
+    (foobar){8,10}          открива текст, съдържащ 8, 9 или 10 срещания на 'foobar'
+    foob([0-9]|a+)r      съвпада с 'foob0r','foob1r' , 'foobar', 'foobaar', 'foobaar' etc.
 
-The bracketing construct `( ... )` may also be used for define r.e.
-subexpressions (after parsing You can find subexpression positions,
-lengths and actual values in MatchPos, MatchLen and
-[Match](tregexpr_interface.html#tregexpr.match) properties of TRegExpr,
-and substitute it in template strings by
-[TRegExpr.Substitute](tregexpr_interface.html#tregexpr.substitute)).
+### Метасимволи – обратни връзки (backreferences)
 
-Subexpressions are numbered based on the left to right order of their
-opening parenthesis.
+Метасимволите от `\1` до `\9` се интерпретират като обратни връзки. С
+метасимвола `\<n>` се задава съответствие с предварително
+намереният вече подизраз номер `<n>`.
 
-First subexpression has number `1` (whole r.e. match has number `0` -
-You can substitute it in
-[TRegExpr.Substitute](tregexpr_interface.html#tregexpr.substitute) as
-`$0` or `$&`).
+#### Примери:
+    
+     (.)\1+                          открива напр. 'aaaa' и 'cc'.
+     (.+)\1+                        открива напр. 'abab' и '123123'
+     (['"]?)(\d+)\1                открива '"13" (в двойни кавички), или '4' (в единични кавички) или 77 (без кавички) и т.н.
 
-#### Examples:
+### Метасимволи – граници на думи (word boundaries)
 
-     (foobar){8,10} matchs strings which contain 8, 9 or 10 instances of the 'foobar'
-     foob(\[0-9\]|a+)r matchs 'foob0r', 'foob1r' , 'foobar', 'foobaar', 'foobaar' etc.
+    \b                Match a word boundary
+    \B                Match a non-(word boundary)
 
-### Metacharacters - backreferences
+Граница на дума (`\b`) е мястото между два символа. То има `w` от едната
+си страна и `\W` от другата (независимо от реда им), и представлява
+въображаемите символи, които са между стринга, определен като `\W`.
 
-Metacharacters `\1` through `\9` are interpreted as backreferences.
-`\<n>` matches previously matched subexpression `#<n>`.
+## Модификатори
 
-#### Examples:
+Модификаторите служат за промяна на работата на TRegExpr.
 
-     (.)\1+         matchs 'aaaa' and 'cc'.
-     (.+)\1+       also match 'abab' and '123123'
+Има много начини за задаване на описаните по-долу модификатори.
 
-  `(['"]?)(\d+)\1` matchs `"13"` (in double quotes), or `'4'` (in single
-quotes) or `77` (without quotes) etc
+Всеки от тези модификатори може да бъде вграден в самия RE чрез
+конструкцията `(?...)`.
 
-## Modifiers
-
-Modifiers are for changing behaviour of TRegExpr.
-
-There are many ways to set up modifiers.
-
-Any of these modifiers may be embedded within the regular expression
-itself using the [(?...)](regexp_syntax.html#inline_modifiers)
-construct.
-
-Also, You can assign to appropriate TRegExpr properties
-([ModifierX](tregexpr_interface.html#tregexpr.modifier_x) for example
-to change /x, or ModifierStr to change all modifiers together). The
-default values for new instances of TRegExpr object defined in [global
-variables](#modifier_defs), for example global
-variable RegExprModifierX defines value of new TRegExpr instance
-ModifierX property.
+Също така може да присвоявате стойности на свойствата на TRegExpr (на
+ModifierX например за промяна на `/m`, или на ModifierStr за промяна на
+всички модификатори едновременно). Стойностите по подразбиране за всеки
+нов обект от тип TRegExpr са дефинирани в глобални променливи, например
+RegExprModifierX дефинира първоначалната стойност на свойството
+ModifierX на новия обект от тип TRegExpr.
 
  
 <a name="modifier_i"></a>
 ### i
 
-Do case-insensitive pattern matching (using installed in you system
-locale settings), see also
-[InvertCase](tregexpr_interface.html#invertcase).
+Проверката става без да се влияе от регистъра на символите (малки/главни
+букви) (сравнението се базира на инсталирания език на Вашата система).
+Виж също InvertCase.
 
 <a name="modifier_m"></a>
 ### m
 
-Treat string as multiple lines. That is, change `^` and `$` from
-matching at only the very start or end of the string to the start or end
-of any line anywhere within the string, see also [Line
-separators](tregexpr_interface.html#line_separators).
+Възприема входния стринг като съставен от много редове, т.е. `^` и `$`
+съвпадат с разделителите вътре в стринга (виж метасимволи-разделители)
 
 <a name="modifier_s"></a>
 ### s
 
-Treat string as single line. That is, change `.` to match any character
-whatsoever, even a line separators (see also [Line
-separators](tregexpr_interface.html#line_separators)), which it
-normally would not match.
+Възприема входния стринг като един текстов ред, като метасимволът `.`
+съвпада с всеки символ от стринга, включително и с разделителите (виж
+метасимволи-разделители), с които той нормално не съвпада.
 
 <a name="modifier_g"></a>
 ### g
 
-Non standard modifier. Switching it Off You'll switch all following
-operators into non-greedy mode (by default this modifier is On). So, if
-modifier `/g` is Off then `+` works as `+?`, `\*` as `\*?` and so on
+Нестандартен модификатор. Изключете го, ако искате всички следващи
+операции да са в нежаден режим  (по подражбиране е включен). Ако /g е
+изключен, то `+` работи като `+?`, `*` като `*?` и т.н.
 
 <a name="modifier_x"></a>
 ### x
 
-Extend your pattern's legibility by permitting whitespace and comments
-(see explanation below).
+Разширен синтаксис – допуска празни символи и коментарии за по-ясно
+оформяне на RE (виж обяснението по-долу).
 
 <a name="modifier_r"></a>
 ### r
 
-Non-standard modifier. If is set then range а-я additional include
-russian letter `ё`, `А-Я`  additional include `Ё`, and `а-Я` include all
-russian symbols.
+Нестандартен модификатор. Ако той е включен, в диапазона `[а-я]` ще се
+включи и символа `ё`, `[А-Я]` ще включва `Ё`, и `[а-Я]` ще включва
+всички символи от руската азбука (с българската азбука този проблем не
+съществува).
 
-Sorry for foreign users, but it's set by default. If you want switch if
-off by default - set false to global variable
-[RegExprModifierR](#modifier_defs).
+По подразбиране този модификатор е включен, а ако това не ви харесва,
+изключете го посредством глобалната променлива RegExprModifierR.
 
-The [modifier /x](regexp_syntax.html#modifier_x) itself needs a little
-more explanation. It tells the TRegExpr to ignore whitespace that is
-neither backslashed nor within a character class. You can use this to
-break up your regular expression into (slightly) more readable parts.
-The `#` character is also treated as a metacharacter introducing a
-comment, for example:
+Модификаторът `/x` се нуждае от малко повече обяснение. Той казва на
+TRegExpr да игнорира интервалите, които не са нито предшествани от '\',
+нито са в символен клас. Може да го използвате, за да разделите RE на
+(малко) по-разбираеми части. Символът `#` се третира като метасимвол,
+след който следва коментар, например:
 
     (
-    (abc) \# comment 1
-      |   \# You can use spaces to format r.e. - TRegExpr ignores it
-    (efg) \# comment 2
+    (abc) # Коментар 1
+      |    # Можете да използвате интервали за разделители в RE - TRegExpr ги игнорира
+    (efg) # Коментар 2
     )
 
-This also means that if you want real whitespace or `#` characters in the
-pattern (outside a character class, where they are unaffected by `/x`),
-that you'll either have to escape them or encode them using octal or hex
-escapes. Taken together, these features go a long way towards making
-regular expressions text more readable.
+Това също означава, че ако желаете да имате истински интервали или
+символи `#` във Вашия шаблон (извън символен клас, където те не се влияят
+от `/x`), ще трябва или да ги въвеждате с escape-последователности, или да
+ги кодирате с осмични или шестнадесетични последователности. Като цяло
+обаче тези елементи правят RE доста по-удобни за четене.
 
-## Perl extensions
+## Perl-разширения
 
 ### (?imsxr-imsxr)
 
-You may use it into r.e. for modifying modifiers by the fly. If this
-construction inlined into subexpression, then it effects only into this
-subexpression
+Може да го използвате вътре в RE за временно включване или изключване на
+модификаторите. Ако тази конструкция се срещне в подизраз, ря влияе само
+на него.
 
-#### Examples:
+#### Примери:
 
-     (?i)Saint-Petersburg       matchs 'Saint-petersburg' and 'Saint-Petersburg'
-     (?i)Saint-(?-i)Petersburg matchs 'Saint-Petersburg' but not 'Saint-petersburg'
-     (?i)(Saint-)?Petersburg   matchs 'Saint-petersburg' and 'saint-petersburg'
-     ((?i)Saint-)?Petersburg   matchs 'saint-Petersburg', but not 'saint-petersburg'
+     (?i)Saint-Petersburg                      открива 'Saint-petersburg' и 'Saint-Petersburg'
+     (?i)Saint-(?-i)Petersburg                открива 'Saint-Petersburg' но не 'Saint-petersburg'
+     (?i)(Saint-)?Petersburg                  открива 'Saint-petersburg' и 'saint-petersburg'
+     ((?i)Saint-)?Petersburg                  открива 'saint-Petersburg', но не 'saint-petersburg'
 
 ### (?\#text)
 
-A comment, the text is ignored. Note that TRegExpr closes the comment as
-soon as it sees a `)`, so there is no way to put a literal `)` in the
-comment.
+Коментар, текстът 'text' се игнорира. Обърнете внимание, че TRegExpr
+счита за край на коментара първият срещнат символ `)`, затова няма
+възможност да използвате този символ като част от коментара.
 
-Just now don't forget to read the [FAQ](faq.html) (expecially
-'non-greediness' optimization
-[question](faq.html#nongreedyoptimization)).
+Засега не забравяйте да прочетете [FAQ](faq.html) (по-специално
+въпросът за нежадната оптимизация).
+
+ 
+

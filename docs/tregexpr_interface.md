@@ -1,361 +1,288 @@
----
-layout: page
-lang: en
-ref: interface
-title: TRegExr interface
-permalink: /en/tregexpr_interface.html
----
+## Публични методи и свойства на TRegExpr:
 
-### Public methods and properties of TRegExpr class
+    property Expression : string 
 
-#### VersionMajor, VersionMinor
+Представлява самият RE.
 
-Return major and minor version, for example, for v. 0.944 VersionMajor =
-0 and VersionMinor = 944
+С цел оптимизация, присвоявате RE на това свойство, TRegExpr автоматично
+го компилира в 'Р-код' (Може да го видите с помощта на метода Dump) и го
+записва във  вътрешните си структури. Истинско \[ре\]компилиране се
+прави само когато възникне нужда от това – при извикване на
+Exec\[Next\], Substitute, Dump и т.н. и само ако самият израз или друго
+свойство, влияещи върху Р-кода бъдат променени след последната
+\[ре\]компилация.
 
-#### Expression
+В случай на грешка при \[ре\]компилиране, се извиква методът Error (по
+подразбиране методът Error предизвиква изключение – виж по-долу)
 
-Regular expression.
+    property ModifierStr : string
 
-For optimization, TRegExpr will automatically compiles it into 'P-code'
-(You can see it with help of Dump method) and stores in internal
-structures. Real \[re\]compilation occures only when it really needed -
-while calling Exec\[Next\], Substitute, Dump, etc and only if Expression
-or other P-code affected properties was changed after last
-\[re\]compilation.
+За проверка/установяване на стойностите на модификаторите на RE.
+Форматът на стринга е подобен на този при модификаторите (?ismx-ismx).
+Например, ModifierStr := 'i-x' ще включи модификатора /i, ще изключи /x
+и няма да промени останалите.
 
-If any errors while \[re\]compilation occures, Error method is called
-(by default Error raises exception - see below)
+Ако се опитате да зададете непознат модификатор, ще се извика методът
+Error (по подразбиране методът Error предизвиква изключение ERegExpr).
 
-#### ModifierStr
+    property ModifierI : boolean
 
-Set/get default values of
-[r.e.modifiers](regexp_syntax.html#about_modifiers). Format of the
-string is similar as in
-[(?ismx-ismx)](regexp_syntax.html#inline_modifiers). For example
-ModifierStr := 'i-x' will switch on modifier /i, switch off /x and leave
-unchanged others.
+Модификатор /i – проверка без отчитане главни/малки букви. Приема
+начална стойност от RegExprModifierI.
 
-If you try to set unsupported modifier, Error will be called (by defaul
-Error raises exception ERegExpr).
+    property ModifierR : boolean
 
- 
-#### ModifierI 
+Модификатор /r – използване на диапазони за руски език. Приема начална
+стойност от RegExprModifierR.
 
-Modifier /i <a name="modifier_i"></a> - ("caseinsensitive"),
-initialized with
-[RegExprModifierI](#modifier_defs) value.
+    property ModifierS : boolean
 
- 
-#### ModifierR
+Модификатор /s - '.' съвпада с всеки символ (иначе не съвпада с
+LineSeparators и LinePairedSeparator). Приема начална стойност от
+RegExprModifierS.
 
-Modifier /r <a name="#modifier_r"></a> - ("Russian.syntax
-extensions), initialized with
-[RegExprModifierR](#modifier_defs) value.
+    property ModifierG : boolean;
 
- 
-#### ModifierS
+Модификатор /g - изключването на /g превключва всички операции в
+"нежаден" стил така, че ако ModifierG = False, то всички '\*' работят
+като '\*?', всички '+' като '+?' и т.н. Приема начална стойност от
+RegExprModifierG.
 
-[Modifier /s](regexp_syntax.html#modifier_s) - '.' works as any char
-(else doesn't match
-[LineSeparators](tregexpr_interface.html#lineseparators) and
-[LinePairedSeparator](tregexpr_interface.html#linepairedseparator)),
-initialized with
-[RegExprModifierS](#modifier_defs) value.
+    property ModifierM : boolean;
 
- 
-#### ModifierG
+Модификатор /m - третира стринга като съставен от много редове. Т.е.
+задава за \`^' и \`$' вместо да съвпадат със самото начало или край на
+стринга, да съвпадат с началото и края на всяки ред вътре в самия
+стринг. Приема начална стойност от RegExprModifierM.
 
-[Modifier /g](regexp_syntax.html#modifier_g) Switching off modifier /g
-switchs all operators in non-greedy style, so if ModifierG = False, then
-all '\*' works as '\*?', all '+' as '+?' and so on, initialized with
-[RegExprModifierG](#modifier_defs) value.
+    property ModifierX : boolean;
 
+Модификатор /x – eXtended синтаксис. Приема начална стойност от
+RegExprModifierX.
 
-#### ModifierM
+    function Exec (const AInputString : string) : boolean;
 
-[Modifier /m](regexp_syntax.html#modifier_m) Treat string as multiple
-lines. That is, change \`^' and \`$' from matching at only the very
-start or end of the string to the start or end of any line anywhere
-within the string, initialized with
-[RegExprModifierM](#modifier_defs) value.
+Проверка за съвпадение на RE  с входния стринг AInputString
 
- 
-#### ModifierX
+!!! Exec запазва AInputString в свойството InputString
 
-[Modifier /x](regexp_syntax.html#modifier_x) - ("eXtended syntax"),
-initialized with
-[RegExprModifierX](#modifier_defs) value.
+    function ExecNext : boolean;
 
-#### Exec
+търси за следващо съвпадение:
 
-match a programm against a string AInputString
+    Exec (AString); ExecNext;
 
-!!! Exec store AInputString into InputString property
+работи по същия начин, както
 
-For Delphi 5 and higher available overloaded versions:
+    Exec (AString);
+    if MatchLen \[0\] = 0
+     then ExecPos (MatchPos \[0\] + 1)
+     else ExecPos (MatchPos \[0\] + MatchLen \[0\]);
 
-without parameter already assigned to InputString property value
+ но е доста по-просто за разбиране !
 
-#### ExecNext
+    function ExecPos (AOffset: integer = 1) : boolean;
 
-Find next match:
+Търси за съвпадение на RE с входния стринг, започвайки от позиция
+AOffset
 
-Without parameter works the same as
+(AOffset=1 – първият символ на InputString)
 
-    if MatchLen \[0\] = 0 then ExecPos (MatchPos \[0\] + 1)
-      else ExecPos (MatchPos \[0\] + MatchLen \[0\]);
+    property InputString : string;
 
-but it's more simpler !
+текущият входен стринг (присвоен явно или от последния Exec).
 
-Raises exception if used without preceeding successful call to
-Exec\* (Exec, ExecPos, ExecNext). 
+сяко присвояване на стринг на това свойство изтрива стойностите на
+свойствата Match\* !
 
-So You always must use something like
+    function Substitute (const ATemplate : string) : string;
 
-    if Exec (InputString) then repeat { proceed results} until not ExecNext;
+Връща стринга Atemplate, в който '$&' или '$0' е заменено с целия RE, а
+'$n' се заменя с подизраза с номер n.
 
-.
+След версия v.0.929 се използва '$' вместо '\\' (за бъдещи разширения и
+за по-голяма Perl-съвместимост) и приема повече от една цифра.
 
-#### ExecPos
+Ако искате да запишете просто символите '$' или '\', запишете пред тях
+'\'
 
-finds match for InputString starting from AOffset position
+Пример: '1\$ is $2\rub\' -> '1$ is <Match\[2\]>\rub\'
 
-    AOffset=1 - first char of InputString
+Ако искате да запишете обикновена цифра след '$n', ще трябва да
+заградите n с фигурни скоби '{}'.
 
-#### InputString
+Пример: 'a$12bc' -> 'a<Match\[12\]>bc', a${1}2bc' ->
+'a<Match\[1\]>2bc'.
 
-returns current input string (from last Exec call or last assign to this
-property).
+    procedure Split (AInputStr : string; APieces : TStrings);
 
-Any assignment to this property clear `Match*` properties !
+Разделя AInputStr на парчета в APieces според срещането на RE. Използва
+Exec \[Next\].
 
-#### Substitute
+    function Replace (AInputStr : RegExprString;  const AReplaceStr :
+RegExprString;  AUseSubstitution : boolean = False) : RegExprString;
 
-Returns ATemplate with `$&` or `$0` replaced by whole r.e. occurence and
-`$n` replaced by occurence of subexpression  number `n`.
+Връща AinputStr, в който срещанията на RE са заменени с AreplaceStr. Ако
+AUseSubstitution е true, тогава AReplaceStr ще се използва като шаблон
+за методите Substitution.
 
-If you want place into template raw `$` or `\\`, use prefix `\\`.
-
-Special symbols:
-
-| symbol | replaced with |
-|-----|-----|
-| \\\\ | just \ |
-| \n | #$d#$a (\r\n as end of line in Windows) |
-| \l | lowcase one next char |
-| \L | lowercase all chars after that |
-| \u | uppcase one next char |
-| \U | uppercase all chars after that |
-
-Example:
- 
-     '1\$ is $2\\rub\\' -> '1$ is <Match[2]>\rub\'
-     '\U$1\\r' transforms into '<Match[1] in uppercase>\r'
-
-If you want to place raw digit after '$n' you must delimit n with curly
-braces `{}`.
-
-Example: 
-     
-     'a$12bc' -> 'a<Match[12]>bc'
-     'a${1}2bc' -> 'a<Match[1]>2bc'.
-
-
-#### Split
-
-Split AInputStr into APieces by r.e. occurencies
-
-Internally calls `Exec[Next]`
-
-
-    function Replace (AInputStr : RegExprString; const AReplaceStr : RegExprString;
-      AUseSubstitution : boolean = False) : RegExprString;
-
-    function Replace (AInputStr : RegExprString;
-      AReplaceFunc : TRegExprReplaceFunction) : RegExprString;
-
-    function ReplaceEx (AInputStr : RegExprString;
-      AReplaceFunc : TRegExprReplaceFunction)  : RegExprString;
-
-Returns AInputStr with r.e. occurencies replaced by AReplaceStr
-
-If AUseSubstitution is true, then AReplaceStr will be used
-
-as template for Substitution methods.
-
-For example:
+#### Пример:
 
     Expression := '({-i}block|var)\\s\*\\(\\s\*(\[^ \]\*)\\s\*\\)\\s\*';
     Replace ('BLOCK( test1)', 'def "$1" value "$2"', True);
 
-  will return:  def 'BLOCK' value 'test1'
+   ще върне:  `def 'BLOCK' value 'test1'`
 
     Replace ('BLOCK( test1)', 'def "$1" value "$2"', False)
 
-  will return:  def "$1" value "$2"
+   ще върне:  `def "$1" value "$2"`
 
-Internally calls Exec\[Next\]
+Използва Exec\[Next\]
 
-Overloaded version and ReplaceEx operate with call-back function,
+    function ReplaceRegExpr (const ARegExpr, AInputStr, AReplaceStr :
+string; AUseSubstitution : boolean = False) : string;
 
-so You can implement really complex functionality.
+Връща AinputStr, в който срещанията на RE са заменени с AreplaceStr. Ако
+AUseSubstitution е true, тогава AReplaceStr ще се използва като шаблон
+за методите Substitution.
 
+#### Пример:
 
-#### SubExprMatchCount
+    ReplaceRegExpr ('({-i}block|var)\\s\*\\(\\s\*(\[^ \]\*)\\s\*\\)\\s\*', 'BLOCK( test1)', 'def "$1" value "$2"', True)
 
-Number of subexpressions has been found in last Exec\* call.
+    ще върне:  `def 'BLOCK' value 'test1'`
 
-If there are no subexpr. but whole expr was found (Exec\* returned
-True), then SubExprMatchCount=0, if no subexpressions nor whole r.e.
-found (Exec\* returned false) then SubExprMatchCount=-1.
+    ReplaceRegExpr ('({-i}block|var)\\s\*\\(\\s\*(\[^ \]\*)\\s\*\\)\\s\*', 'BLOCK( test1)', 'def "$1" value "$2"')
 
-Note, that some subexpr. may be not found and for such subexpr.
-MathPos=MatchLen=-1 and Match=''.
+    ще върне:  `def "$1" value "$2"`
 
-For example: 
+    property SubExprMatchCount : integer; // ReadOnly
 
-    Expression := '(1)?2(3)?';
-    Exec ('123'): SubExprMatchCount=2, Match[0]='123', [1]='1', [2]='3'
+Връща броя на подизразите, намерени при последното извикване на Exec\*.
 
-    Exec ('12'): SubExprMatchCount=1, Match[0]='12', [1]='1'
+Ако няма подизрази, а е намерен само целият израз (Exec\* е върнала
+True), то SubExprMatchCount=0, а ако не са намерени нито подизрази, нито
+целия  RE (Exec\* е върнала false), то `SubExprMatchCount=-1`.
 
-    Exec ('23'): SubExprMatchCount=2, Match[0]='23', [1]='', [2]='3'
+Забележете, че някои подизрази може и да не бъдат намерени и за тях
+`MathPos=MatchLen= -1` и `Match=''`.
 
-    Exec ('2'): SubExprMatchCount=0, Match[0]='2'
+#### Пример: 
 
-    Exec ('7') - return False: SubExprMatchCount=-1
+    Израз := '(1)?2(3)?';
+    Exec ('123'): SubExprMatchCount=2, Match\[0\]='123', \[1\]='1', \[2\]='3'
+    Exec ('12'): SubExprMatchCount=1, Match\[0\]='12', \[1\]='1'
+    Exec ('23'): SubExprMatchCount=2, Match\[0\]='23', \[1\]=", \[2\]='3'
+    Exec ('2'): SubExprMatchCount=0, Match\[0\]='2'
+    Exec ('7') - връща False: SubExprMatchCount=-1
 
-. 
+.
+    property MatchPos \[Idx : integer\] : integer; // ReadOnly
 
-#### MatchPos
+позиция на намерения подизраз. \#Idx е номера на подизраза в последния
+стринг на Exec\*. Първият подизраз има Idx=1, последния - MatchCount,
+целия израз има Idx=0.
 
-pos of entrance subexpr. `#Idx` into tested in last `Exec*` string. First
-subexpr. have `Idx=1`, last - `MatchCount`, whole r.e. have `Idx=0`.
+Връща -1 ако в израза няма такъв подизраз или ако той не е намерен.
 
-Returns `-1` if in r.e. no such subexpr. or this subexpr. not found in
-input string.
+    property MatchLen \[Idx : integer\] : integer; // ReadOnly
 
+дължина на намерения подизраз. \#Idx е номера на подизраза в последния
+стринг на Exec\*. Първият подизраз има Idx=1, последния - MatchCount,
+целия израз има Idx=0.
 
-#### MatchLen
+Връща -1 ако в израза няма такъв подизраз или ако той не е намерен.
 
-len of entrance subexpr. `#Idx` r.e. into tested in last `Exec*` string.
-First subexpr. have `Idx=1`, last - MatchCount, whole r.e. have `Idx=0`.
+    property Match \[Idx : integer\] : string; // ReadOnly
 
-Returns -1 if in r.e. no such subexpr. or this subexpr. not found in
-input string.
+== copy (InputString, MatchPos \[Idx\], MatchLen \[Idx\])
 
+Връща '' ако в израза няма такъв подизраз или ако той не е намерен.
 
-#### Match
+    function LastError : integer;
 
-    == copy (InputString, MatchPos [Idx], MatchLen [Idx])
+Връща номера на последната грешка или 0 ако няма грешки (неизползваем
+ако методът Error генерира изключение) и установява вътрешния статус в 0
+(няма грешки).
 
-Returns '' if in r.e. no such subexpr. or this subexpr. not found in
-input string.
+    function ErrorMsg (AErrorID : integer) : string; virtual;
 
-
-#### LastError
-
-Returns ID of last error, 0 if no errors (unusable if Error method
-raises exception) and clear internal status into 0 (no errors).
-
-
-#### ErrorMsg
-
-Returns Error message for error with ID = AErrorID.
-
+Връща съобщение за грешка с номер = AErrorID.
 
     property CompilerErrorPos : integer; // ReadOnly
 
-Returns pos in r.e. there compiler stopped.
+Връща позицията в израза, където компилаторът е спрял.
 
-Usefull for error diagnostics
+Полезно при диагностика на грешки
 
+    property SpaceChars : RegExprString
 
-#### SpaceChars
+Съдържа символите, третирани като \\s (инициализира се с глобалната
+константа RegExprSpaceChars.
 
-Contains chars, treated as \\s (initially filled with RegExprSpaceChars
-global constant)
+    property WordChars : RegExprString;
 
+Съдържа символите, третирани като \\w (инициализира се с глобалната
+константа   RegExprWordChars.
 
-#### WordChars
+<a name="line_separators"></a> 
 
-Contains chars, treated as \\w (initially filled with RegExprWordChars
-global constant)
+    property LineSeparators : RegExprString
 
- 
-<a name="line_separators"></a>
+разделителите на редове (като \n в Unix), (инициализира се с глобалната
+константа RegExprLineSeparators.
 
-#### LineSeparators
+Виж също за разделителите
 
-line separators (like `\n` in Unix), initially filled with
-RegExprLineSeparators global constant)
+    property LinePairedSeparator : RegExprString
 
-see also [about line
-separators](regexp_syntax.html#syntax_line_separators)
+сдвоени разделители на редове (като \r\n в DOS и Windows).
 
+Трябва да съдържа точно два символа или да не съдържа нищо (инициализира
+се с глобалната константа RegExprLinePairedSeparator).
 
-#### LinePairedSeparator
+Виж също за разделителите
 
-paired line separator (like `\r\n` in DOS and Windows).
+Например, ако имате нужда от Unix-стил, задайте `LineSeparators := \#$a`
+(символ за нов ред) и `LinePairedSeparator := ''` (празен стринг), а ако
+искате да обработвате разделителя `\x0D\x0A`, но не `\x0D` или `\x0A`,
+задайте `LineSeparators := ''` (празен стринг) и `LinePairedSeparator :=
+\#$d\#$a`.
 
-must contain exactly two chars or no chars at all, initially filled with
-RegExprLinePairedSeparator global constant)
+По подразбиране се използва 'смесен' режим (дефиниран в глобалните
+константи `RegExprLine\[Paired\]Separator\[s\]): LineSeparators :=
+\#$d\#$a; LinePairedSeparator := $\#d\#$a`. Действието на този режим е
+подробно обяснено в раздела, касаещ синтаксиса.
 
-see also [about line
-separators](regexp_syntax.html#syntax_line_separators)
+    class function InvertCaseFunction  (const Ch : REChar) : REChar;
 
+Конвертира Ch в горен регистър (ако е бил в долен) или в долен регистър
+(ако е бил в горен), като използва системните настройки.
 
-For example, if You need Unix-style behaviour, assign LineSeparators :=
-\#$a (newline character) and LinePairedSeparator := '' (empty string),
-if You want to accept as line separators only `\x0D\x0A` but not `\x0D`
-or `\x0A` alone, then assign `LineSeparators := ''` (empty string) and
-`LinePairedSeparator := #$d#$a`.
+    property InvertCase : TRegExprInvertCaseFunction;
 
-By default 'mixed' mode is used (defined in
-RegExprLine\[Paired\]Separator\[s\] global constants): 
+Ако искате да работите със зависимост от регистъра на символите,
+установете това свойство да сочи RegExprInvertCaseFunction (по
+подразбиране сочи InvertCaseFunction)
 
-    LineSeparators := #$d#$a; 
-    LinePairedSeparator := #$d#$a
-    
-Behaviour of this mode is detailed described in the [syntax
-section](regexp_syntax.html#syntax_line_separators).
+    procedure Compile;
 
+\[Ре\]компилира RE. Полезна за редактори, използващи RE в GUI (за
+проверка на валидността на всички свойства).
 
-#### InvertCase
+    function Dump : string;
 
-Set this property if you want to override case-insensitive
-functionality.
+показва компилираният израз в по-подробен вид.
 
-Create set it to RegExprInvertCaseFunction (InvertCaseFunction by
-default)
+    class function VersionMajor: integer;
+    class function VersionMinor: integer;
 
+Връщат главната и второстепенната версия, например за v. 0.944
+VersionMajor = 0 и VersionMinor = 944
 
-#### Compile
-
-\[Re\]compile r.e. Usefull for example for GUI r.e. editors (to check
-all properties validity).
-
-#### Dump
-
-dump a compiled regexp in vaguely comprehensible form
-
-
-### Global constants
-
-
- EscChar = '\\';  // 'Escape'-char ('\\' in common r.e.) used for
-escaping metachars (\\w, \\d etc).
-
- // it's may be usefull to redefine it if You are using C++ Builder - to
-avoide ugly constructions
-
- // like '\\\\w+\\\\\\\\\\\\w+\\\\.\\\\w+' - just define EscChar='/' and
-use '/w+\\/w+/./w+'
-
- 
+## Глобални константи 
 <a name="modifier_defs"></a>
-Modifiers default values:
+Стойности по подразбиране на модификаторите:
 
     RegExprModifierI : boolean = False;                // TRegExpr.ModifierI
     RegExprModifierR : boolean = True;                // TRegExpr.ModifierR
@@ -364,158 +291,96 @@ Modifiers default values:
     RegExprModifierM : boolean = False;                //TRegExpr.ModifierM
     RegExprModifierX : boolean = False;                //TRegExpr.ModifierX
 
- 
-
-RegExprSpaceChars : RegExprString = ' '\#$9\#$A\#$D\#$C;
-
- // default for SpaceChars property
+    RegExprSpaceChars : RegExprString = ' '\#$9\#$A\#$D\#$C; // стойност по подразбиране за свойството SpaceChars
 
  
 
-RegExprWordChars : RegExprString =
+    RegExprWordChars : RegExprString =  '0123456789'
+     + 'abcdefghijklmnopqrstuvwxyz'
+     + 'ABCDEFGHIJKLMNOPQRSTUVWXYZ\_';
+    // стойност по подразбиране за свойството WordChars
 
-   '0123456789'
+    RegExprLineSeparators : RegExprString =
+       \#$d\#$a{$IFDEF UniCode}\#$b\#$c\#$2028\#$2029\#$85{$ENDIF};
+    // стойност по подразбиране за свойството LineSeparators
+    
+    RegExprLinePairedSeparator : RegExprString = \#$d\#$a;
+    // стойност по подразбиране за свойството LinePairedSeparator
+    
+    RegExprInvertCaseFunction : TRegExprInvertCaseFunction = TRegExpr.InvertCaseFunction;
+    // стойност по подразбиране за свойството InvertCase
 
- + 'abcdefghijklmnopqrstuvwxyz'
-
- + 'ABCDEFGHIJKLMNOPQRSTUVWXYZ\_';
-
- // default value for WordChars property
-
- 
-
-RegExprLineSeparators : RegExprString =
-
-  \#$d\#$a{$IFDEF UniCode}\#$b\#$c\#$2028\#$2029\#$85{$ENDIF};
-
- // default value for LineSeparators property
-
-RegExprLinePairedSeparator : RegExprString =
-
-  \#$d\#$a;
-
- // default value for LinePairedSeparator property
-
- 
-
-RegExprInvertCaseFunction : TRegExprInvertCaseFunction =
-TRegExpr.InvertCaseFunction;
-
-// default for InvertCase property
-
-
-### Usefull global functions
-
+## Полезни глобални функции
 
     function ExecRegExpr (const ARegExpr, AInputStr : string) : boolean;
 
-true if string AInputString match regular expression ARegExpr
+връща истина ако в стринга AInputString се открие съвпадение на израза
+ARegExpr
 
-! will raise exeption if syntax errors in ARegExpr
-
+! ако в AregExpr има синтактични грешки, генерира изключение
 
     procedure SplitRegExpr (const ARegExpr, AInputStr : string; APieces : TStrings);
 
-Split AInputStr into APieces by r.e. ARegExpr occurencies
+разделя AInputStr на парчета в APieces според срещанията на ARegExpr
 
+    function ReplaceRegExpr (const ARegExpr, AInputStr, AReplaceStr : string) : string;
 
-    function ReplaceRegExpr (const ARegExpr, AInputStr, AReplaceStr : string;
-      AUseSubstitution : boolean = False) : string;
-
-Returns AInputStr with r.e. occurencies replaced by AReplaceStr.
-
-If AUseSubstitution is true, then AReplaceStr will be used as template
-for Substitution methods.
-
-For example:
-
-    ReplaceRegExpr ('({-i}block|var)\\s\*\\(\\s\*(\[^ \]\*)\\s\*\\)\\s\*',
-      'BLOCK( test1)', 'def "$1" value "$2"', True)
-
-will return:  def 'BLOCK' value 'test1'
-
-    ReplaceRegExpr ('({-i}block|var)\\s\*\\(\\s\*(\[^ \]\*)\\s\*\\)\\s\*',
-      'BLOCK( test1)', 'def "$1" value "$2"')
-
- will return:  def "$1" value "$2"
-
+Връща AinputStr, като срещанията на израза ARegExpr са заменени с
+AReplaceStr
 
     function QuoteRegExprMetaChars (const AStr : string) : string;
 
-Replace all metachars with its safe representation, for example
-'abc$cd.(' converts into 'abc\\$cd\\.\\('
+Заменя всички метасимволи с тяхната безопасна форма, например 'abc$cd.('
+се конвертира в 'abc\\$cd\\.\\('
 
-This function usefull for r.e. autogeneration from user input
-
+Тази функция е полезна при автоматично генериране на изрази от
+потребителски вход
 
     function RegExprSubExpressions (const ARegExpr : string;
-      ASubExprs : TStrings; AExtendedSyntax : boolean = False) : integer;
+        ASubExprs : TStrings; AExtendedSyntax : boolean = False) : integer;
 
-Makes list of subexpressions found in ARegExpr r.e.
+Прави списък на подизразите, намерени в RE ARegExpr
 
-In ASubExps every item represent subexpression, from first to last, in
-format:
+В ASubExps всяка стойност представлява подизраз, от първия до последния,
+във формат:
 
- String - subexpression text (without '()')
+     String – текст на подизраза (без '()')
+     low word на Object – стартова позиция в  ARegExpr, вкл. '(' ако съществува! (първата позиция е 1)
+     high word на Object - дължината, вкл. '(' и ')' ако съществуват!  
+     AExtendedSyntax – трябва да е True ако модификаторът /x е включен при използването на RE.
 
- low word of Object - starting position in ARegExpr, including '(' if
-exists! (first position is 1)
+Полезна за редактори на RE в GUI и т.н. (Пример за използване има в
+проекта [TestRExp.dpr](tregexpr_testrexp.html))
 
- high word of Object - length, including starting '(' and ending ')' if
-exist!
+Резултат                Значение
 
-AExtendedSyntax - must be True if modifier /x will be On while using the
-r.e.
+    0           Успех. Няма намерени небалансирани скоби.
+    -1          няма достатъчно затварящи скоби ')'
+    -(n+1)     на позиция n е намерена отваряща '\[' без съответстваща й затваряща '\]'
+    n           на позиция n е намерена затваряща ')' без съответстваща й отваряща '('
 
-Usefull for GUI editors of r.e. etc (You can find example of using in
-[TestRExp.dpr](#regexpstudio.html) project)
+ако резултатът е <> 0, то ASubExpr съдържа празни или некоректни
+стрингове.
 
+### Клас 'изключение'
 
-Result code        Meaning
-
-------------------------------------------------------------------------
-
-0                Success. No unbalanced brackets was found;
-
--1                there are not enough closing brackets ')';
-
--(n+1)                at position n was found opening '\[' without
-corresponding closing '\]';
-
-n                at position n was found closing bracket ')' without
-corresponding opening '('.
-
- 
-
-If Result <> 0, then ASubExprs can contain empty items or illegal
-ones
-
-
-
-### Exception type
-
-
-Default error handler of TRegExpr raise exception:
-
- 
+Той обработва грешките на TRegExpr:
 
     ERegExpr = class (Exception)
-      public
-       ErrorCode : integer; // error code. Compilation error codes are before 1000
-       CompilerErrorPos : integer; // Position in r.e. where compilation error occured
-     end;
-
-
-<a name="unicode"></a>
-### How to use Unicode
-
-TRegExpr now supports UniCode, but it works very slow :(
-
-Who want to optimize it ? ;)
-
-Use it only if you really need Unicode support !
-
-Remove `.` in `{.$DEFINE UniCode}` in regexpr.pas. After that all strings
-will be treated as WideString.
+       public
+          ErrorCode : integer; // код за грешка. Кодовете за грешка при компилиране са < 1000.
+          CompilerErrorPos : integer; // Позиция в израза, където е възникнала грешката
+    end;
 
  
+<a name="unicode"></a>
+## Как да използваме Unicode
+
+TRegExpr поддържа UniCode, но работи с него много бавно :(
+
+Някой иска ли да го оптимизира ? ;)
+
+Използвайте го само ако наистина ви трябва поддръжка на Unicode !
+
+Премахнете `'.'` от `{.$DEFINE UniCode}` в `regexpr.pas`. След това всички
+стрингове ще бъдат третирани като `WideString`.
