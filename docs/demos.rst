@@ -1,173 +1,86 @@
-First of all I recommend You to read `article with usage
-illustrations <http://masterandrey.com/posts/en/text_processing_from_birds_eye_view.html>`__.
+Einfache Beispiele
+~~~~~~~~~~~~~~~~~~
 
-Ready to run Windows application
-`REStudio <https://github.com/masterandrey/TRegExpr/releases/download/0.952b/REStudio.exe>`__
-to learn and debug regular expressions.
+Falls Du nicht mit Regulären Ausdrücken bekannt bist, dann könntest Du
+etwas unter dem Abschnitt `Syntax <regexp_syntax.html>`__ dazulernen
+oder schaue in ein gutes Perl oder Unix Buch.  
 
-Please, note that there are localized demos available (with comments in
-source code on national languages).
+Globale Routinen verwenden
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This localized versions distributed in localized full TRegExpr packages,
-and in separate localized documentation packages (when You unpack this
-documentation package in TRegExpr directory the localized demos
-overwrite English ones).
+Das ist zwar einfach, aber nicht besonders flexibel oder effektiv.
 
-Demos\TRegExprRoutines
+::
 
-very simple examples, see comments inside the unit
+    ExecRegExpr ('\\d{3}-(\\d{2}-\\d{2}|\\d{4})', 'Phone: 555-1234');
 
-Demos\TRegExprClass
+Rückgabewert: True
 
-slightly more complex examples, see comments inside the unit
+::
 
-Demos\Text2HTML
+    ExecRegExpr ('^\\d{3}-(\\d{2}-\\d{2}|\\d{4})', 'Phone: 555-1234');
 
-see `description <#text2html.html>`__
+Rückgabewert: False, weil es einige Zeichen vor der Telefonnummer hat
+und weil wir das Metazeichen '^' benutzen (Bedeutung von '^':
+BeginningOfLine)
 
-If You don't familiar with regular expression, please, take a look at
-the `r.e.syntax <regexp_syntax.html>`__ topic.
+::
 
-TRegExpr interface described in `TRegExpr
-interface <tregexpr_interface.html>`__.
+    ReplaceRegExpr ('product', 'Take a look at product. product is the best!', 'TRegExpr');
 
-Note
+Rückgabewert: 'Take a look at TRegExpr. TRegExpr is the best !'; ;)
 
-Some of demo-projects use extended VCL properties which exists only in
-Delphi 4 or higher. While compiling in Delphi 3 or Delphi 2 you'll
-receive some error messages about unknown properties. You may ignore it
-- this properties is needed only for resizing and justification of
-components then form change it's size.
+Die TRegExpr-Klasse verwenden
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Text2HTML
-=========
+Damit hast Du alle Möglichkeiten der Bibliothek zur Verfügung.
 
-Very simple utility, that helps publish plain text as HTML
+{% highlight pascal linenos %} // Diese einfache Funktion extrahiert
+alle E-Mail-Adressen aus dem InputString // und legt eine Liste dieser
+Adressen in den Rückgabewert function ExtractEmails (const AInputString
+: string) : string; const EmailRE =
+'[_a-zA-Z\d\-\.]+@[_a-zA-Z\d\-]+(\.[_a-zA-Z\d\-]+)+' var   r : TRegExpr;
+begin Result := ''; r := TRegExpr.Create; // Erzeuge Objekt try //
+garantiere Speicherfreigabe        r.Expression := EmailRE;        //
+der R.A. wird automatisch in die interne Struktur übersetzt        //
+innerhalb der Zuweisung an diese Eigenschaft        if r.Exec
+(AInputString) then                REPEAT                        Result
+:= Result + r.Match [0] + ', ';                UNTIL not r.ExecNext;    
+   finally r.Free; end; end begin  ExctractEmails ('My e-mails is
+anso@mail.ru and anso@usa.net');  // gibt zurück: 'anso@mail.ru,
+anso@usa.net, ' end. {% endhighlight %}
 
-Uses unit `HyperLinksDecorator <#hyperlinksdecorator.html>`__ that is
-based on TRegExpr.
+Beachte: Die Übersetzung eines Regulären Ausdruckes beansprucht etwas
+Zeit während der Zuweisung. Wenn Du also diese Funktion öfters
+ausführst, dann erzeugst Du damit unnötigen Aufwand. Wenn der Reguläre
+Ausdruck also konstant bleibt, dann kannst Du dies beträchtlich
+optimieren, indem Du diese Zuweisung nur während der
+Initialisierungsphase Deines Projektes ausführst.
 
- 
+{% highlight pascal linenos %} // Dieses einfache Beispie extrahiert
+Telefonnummern und // zerlegt sie in Teile (Stadt- und Landesvorwahl,
+interne Nummer). // Danach ersetzt es diese Teile im Template. function
+ParsePhone (const AInputString, ATemplate : string) : string; const
+IntPhoneRE = '(\+\d \*)?(\(\d+\) \*)?\d+(-\d*)*'; var r : TRegExpr;
+begin r := TRegExpr.Create; try        r.Expression := IntPhoneRE;      
+ if r.Exec (AInputString)                then Result := r.Substitute
+(ATemplate)                else Result := '';        finally r.Free;
+end; end; begin  ParsePhone ('Phone of AlkorSoft (project PayCash) is
++7(812)329-44-69',  'Zone code $1, city code $2. Whole phone number is
+$&.');  // Rückgabe: 'Zone code +7, city code (812) . Whole phone number
+is +7(812) 329-44-69.' end. {% endhighlight %}
 
-Specially written as a demonstration of TRegExpr usage.
+Etwas komplexere Beispiele 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
- 
+Du findest komplexere Beispiele für den Gebrauch von TRegExpr in den
+Projekten `TestRExp.dpr <tregexpr_testrexp.html>`__ und
+`HyperLinkDecorator.pas <hyperlinksdecorator.html>`__.
 
-Unit HyperLinksDecorator
-========================
+Beachte bitte auch meine kleinen
+`Artikel <http://masterandrey.com/posts/en/text_processing_from_birds_eye_view.html>`__.
 
-`DecorateURLs <#hyperlinksdecorator.html#decorateurls>`__   `DecorateEMails <#hyperlinksdecorator.html#decorateemails>`__
-=========================================================================================================================
+Ausführliche Erklärung
 
-This unit contains functions to decorate hyper-links (see
-`Text2Html <#text2html.html>`__ demo-project for usage example).
-
- 
-
-For example, replaces 'www.RegExpStudio.com' with 'www.RegExpStudio.com'
-or 'anso@mail.ru' with 'anso@mail.ru'.
-
- 
-
-function DecorateURLs
-
- 
-
-Finds and replaces hyper links like 'http://...' or 'ftp://..' as well
-as links without protocol, but start with 'www.' If You want to decorate
-emails as well, You have to use function
-`DecorateEMails <#hyperlinksdecorator.html#decorateemails>`__ instead.
-
- 
-
-function DecorateURLs (const AText : string; AFlags :
-TDecorateURLsFlagSet = [durlAddr, durlPath]) : string;
-
- 
-
-Description
-
- 
-
-Returns input text AText with decorated hyper links.
-
- 
-
-AFlags describes, which parts of hyper-link must be included into
-VISIBLE part of the link:
-
-For example, if [durlAddr] then hyper link
-'www.RegExpStudio.com/contacts.htm' will be decorated as
-'www.RegExpStudio.com'
-
- 
-
-type
-
-TDecorateURLsFlags = (durlProto, durlAddr, durlPort, durlPath,
-durlBMark, durlParam);
-
-TDecorateURLsFlagSet = set of TDecorateURLsFlags;
-
- 
-
-Description
-
- 
-
-These are the possible values:
-
- 
-
-Value                Meaning
-
---------------
-
-durlProto        Protocol (like 'ftp://' or 'http://')
-
-durlAddr        TCP address or domain name (like 'RegExpStudio.com')
-
-durlPort                Port number if specified (like ':8080')
-
-durlPath        Path to document (like 'index.html')
-
-durlBMark        Book mark (like '#mark')
-
-durlParam        URL params (like '?ID=2&User=13')
-
- 
-
- 
-
- 
-
- 
-
-function DecorateEMails
-
- 
-
-Replaces all syntax correct e-mails with 'ADDR'. For example, replaces
-'anso@mail.ru' with 'anso@mail.ru'.
-
- 
-
-function DecorateEMails (const AText : string) : string;
-
- 
-
-Description
-
- 
-
-Returns input text AText with decorated e-mails
-
- 
-
-Usage illustrations
-===================
-
-•\ `Text processing from bird's eye
-view <#article_bird_eye_view.html>`__
-
-•\ `MrDecorator <#article_mrdecorator.html>`__
+Bitte beachte dazu die
+TRegExpr-Interface-\ `Beschreibung <tregexpr_interface.html>`__.

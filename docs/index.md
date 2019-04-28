@@ -1,66 +1,73 @@
----
-layout: index
-lang: en
-ref: index
-title:
-permalink: /en/index.html
----
+TRegExpr ist eine Sammlung von einfach zu benutzenden Routinen, um
+mächtige, vorlagenbasierte Zeichenkettenvergleiche durchzuführen,
+beispielsweise zur Prüfung von strukturierten Dateneingaben in
+Datenbanken wie beispielsweise Telefonnummern mit Vorwahlen,
+Sozialversicherungsnummern, Web-Applikationen, komplexere Suchen &
+Ersetzen-Vorgänge, Werkzeuge zur Durchforstung von Dateibeständen nach
+regelbasierenden Ausdrücken und so weiter.
 
-TRegExpr library implements regular expressions in pure Delphi.
+Du kannst mit TRegExpr leicht und schnell die korrekte Syntax einer
+E-Mail-Adresse prüfen, Telefonnummern in einem Text erkennen, URLs aus
+Qelltexten von Web-Seiten extrahieren, unterschiedliche Schreibweisen
+eines Ausdruckes finden und durch eine einzige ersetzen. Es bleibt
+Deiner Fantasie überlassen, wozu Du TRegExpr noch benutzen kannst. Die
+Suchvorlagen (im folgenden Templates genannt), können zur Laufzeit
+geändert werden, ohne dass eine Neuübersetzung des Programmes notwendig
+würde!
 
-<a href="https://github.com/masterandrey/TRegExpr" class="btn btn-primary btn-lg" role="button">Github repo</a>
+Diese Bibliothek, die ich hiermit in die Freeware lege, ist eine
+Delphi-Portierung der Routinen, die Henry Spencer als V8-Routinen
+herausbrachte, um damit eine Untermenge der [Regulären Ausdrücke von
+Perl](regexp_syntax.html) handhaben zu können.
 
-Now it's included into [Lazarus (Free Pascal)](http://wiki.freepascal.org/Regexpr).
+Demgegenüber ist TRegExpr vollständig in einfachem Object-Pascal
+geschrieben und wird mit dem ganzen Quelltext kostenlos zur Verfügung
+gestellt.
 
-TRegExpr is easy to use and powerfull tool for sophisticated search and substitutioning and for template-based text checking (especially usefull for user
-input validation in DBMS and web projects).
+Der originale C-Quelltext wurde verbessert, in eine Klasse
+[TRegExpr](tregexpr_interface.html) gekapselt und in einer einzigen
+Datei gespeichert: RegExpr.pas.
 
-You can validate e-mail adresses, extract phone numbers or ZIP-codes from web-pages or documents, search for complex patterns in log files and all You can imagine!
-Rules (templates) can be changed without Your program recompilation!
+Du brauchst also keine DLL mehr für Reguläre Ausdrücke!
 
-As a language for rules used subset of Perl's [regular expressions](/regexp_syntax) (regexp).
+Um die Bibliothek zu installieren, kopiere einfach RegExpr.pas in ein
+Verzeichnis Deiner Wahl und/oder füge den Pfad zu diesem Verzeichnis in
+Delphis Projekt-Manager hinzu.
 
-Full source code included, pure Object Pascal.
-Thus, You need no DLL!
-The library source code is compatible with Delphi 2-7, Borland C++ Builder 3-6, Kylix, FreePascal
-(if You see any incompatibility problems, please. drop the bug-report to [author](/about)).
+Das ist schon alles!
 
-Documentation in English, Russian, German, Bulgarian, French and Spanish available at TRegExpr
-<a href="http://regexpstudio.com/tregexpr/TRegExpr.html" target="_blank">home page</a>
+Danach benutze einfach das TregExpr-Objekt oder die globalen Routinen in
+Deinem Projekt (beachte die [Beispiele](demos.html)).
 
-Installation is very simple, the implementation encapsulated completely into class
-[TRegExpr](/tregexpr_interface/).
+Schaue Dir mal die einfachen [Beispiele](demos.html) an und studiere
+die [Syntax](regexp_syntax.html) der Regulären Ausdrücke (Du kannst
+natürlich auch das [Demo-Projekt](tregexpr_testrexp.html) für
+Studienzwecke heranziehen und damit auch Deine eigenen Regulären
+Ausdrücken ausarbeiten oder debuggen).
 
-[Demos projects](https://github.com/masterandrey/TRegExpr/tree/master/examples) and
-[usage articles](http://masterandrey.com/posts/en/text_processing_from_birds_eye_view.html) illustrate simplicity and power of text processing with the library.
+Du kannst sogar Unicode (d.h. Delphis WideString) benutzen – weiteres
+unter "[Wie wird Unicode
+benutzt?](tregexpr_interface.html#unicode)".
 
+Wirf auch einen Blick auf die [Was gibt's
+Neues](http://regexpstudio.com) web-Sektion für die neuesten Änderungen.
 
-If You need Unicode (so called 'WideString' in Delphi) - see
-[How to use unicode](tregexpr_interface#unicode).
+Und natürlich sind Kommentare, Ideen, Vorschläge und sogar Bug Reports
+[willkommen](#author.html).
 
-### Gratitudes
+### Danksagung
 
-Many features suggested and a lot of bugs founded (and even fixed) by
-TRegExpr's contributors.
-
-I cannot list here all of them (actually I kept listing only on very
-early stage of development), but I do appreciate all
-
-bug-reports, features suggestions and questions that I am receiving from
-You.
-
-
-* Guido Muehlwitz - found and fixed ugly bug in big string processing
-* Stephan Klimek - testing in CPPB and suggesting/implementing many features
-* Steve Mudford - implemented Offset parameter
-* Martin Baur ([www.mindpower.com](http://www.mindpower.com)) - German help, usefull suggetions
-* Yury Finkel - implemented UniCode support, found and fixed some bugs
-* Ralf Junker - Implemented some features, many optimization suggestions
-* Simeon Lilov - Bulgarian help
-* Filip Jirsбk and Matthew Winter - help in Implementation non-greedy mode
-* Kit Eason many examples for introduction help section
+* Guido Muehlwitz - er fand und behob einen ärgerlichen Fehler bei der Bearbeitung von grossen Strings
+* Stephan Klimek - er testete in CPPB und schlug einige Features vorund implementierte sie auch gleich
+* Steve Mudford - er implementierte den Offset-Parameter
+* Martin Baur ([www.mindpower.com](http://www.mindpower.com)) - Deutsche Hilfe,nützliche Vorschläge
+* Yury Finkel - er implementierte die UniCode-Unterstützung, fand und behob einige Fehler
+* Ralf Junker - er implementierte einige Features, zahlreiche Optimierungsvorschläge
+* Simeon Lilov - Bulgarische Hilfe
+* Filip Jirsák und Matthew Winter (wintermi@yahoo.com) – Hilfe bei der Implementation des "genügsamen" Moduls
+* Kit Eason - Viele Beispiele un die Einführung im Hilfe-Abschnitt
 * Juergen Schroth - bug hunting and usefull suggestions
 * Martin Ledoux - French help
-* Diego Calp, Argentina -Spanish help
+* Diego Calp (mail@diegocalp.com), Argentinien – Spanische Hilfe
 
-And many others - for big work in bug hunting!
+Und viele andere – für die grosse Arbeit des Fehlerfindens!
