@@ -6,11 +6,20 @@
 Pure Object Pascal!
 
 
-#### Documentation in English, Russian, German, Bulgarian, French and Spanish
+#### OUTDATED DOCUMENTATION
 
-[regexpstudio.com](http://regexpstudio.com)
+There is a very old translation of TRegExpr documentation in this git branch.
+Literally from previous century.
 
+This translation is just inside rst docs/files in this git branch.
 
-#### Source code fork
-[Free Pascal fork](https://github.com/graemeg/freepascal/blob/master/packages/regexpr/src/regexpr.pas)
+New translation should be done with GetText, for example with 
+[Transiflex](https://www.transifex.com/masterAndrey/tregexpr/dashboard/).
+
+After that we would `pull_docs.sh` in `master`.
+
+And change Admin / Advanced setting of appropriate TRegExpr 
+[readthedocs subproject](https://readthedocs.org/dashboard/)
+default branch to `master`.
+
 
