@@ -1,361 +1,336 @@
----
-layout: page
-lang: en
-ref: interface
-title: TRegExr interface
-permalink: /en/tregexpr_interface.html
----
+### Métodos públicos y propiedades de TRegExpr:
 
-### Public methods and properties of TRegExpr class
+    función VersionMajor  : integer;
+    función VersionMinor : integer;
 
-#### VersionMajor, VersionMinor
+Devuelve versiones mayor y menor, por ejemplo, para v. 0.944
+VersionMajor = 0 y VersionMinor = 944
 
-Return major and minor version, for example, for v. 0.944 VersionMajor =
-0 and VersionMinor = 944
+    propiedad Expression : string
 
-#### Expression
+Expresión regular.
 
-Regular expression.
+Para optimización, TRegExpr la compilará automáticamente en 'P-code' (se
+puede ver con el método Dump) y la almacena en estructuras internas. La
+\[re\]compilación real ocurre sólo cuando es necesario - al llamar a
+Exec\[Next\], Substitute, Dump, etc y sólo si Expression u otra
+propiedad P-code fue modificada después de la última \[re\]compilación.
 
-For optimization, TRegExpr will automatically compiles it into 'P-code'
-(You can see it with help of Dump method) and stores in internal
-structures. Real \[re\]compilation occures only when it really needed -
-while calling Exec\[Next\], Substitute, Dump, etc and only if Expression
-or other P-code affected properties was changed after last
-\[re\]compilation.
+Si se produce cualquier error durante la \[re\]compilación de llama al
+método Error (por defecto Error genera una excepción - ver abajo)
 
-If any errors while \[re\]compilation occures, Error method is called
-(by default Error raises exception - see below)
+    propiedad ModifierStr : string
 
-#### ModifierStr
+valores por defecto para los modificadores de e.r. El formato de la
+cadena es similar a (?ismx-ismx). Por ejemplo ModifierStr := 'i-x'
+activa el modificador /i, desactiva /x y deja sin cambios el resto.
 
-Set/get default values of
-[r.e.modifiers](regexp_syntax.html#about_modifiers). Format of the
-string is similar as in
-[(?ismx-ismx)](regexp_syntax.html#inline_modifiers). For example
-ModifierStr := 'i-x' will switch on modifier /i, switch off /x and leave
-unchanged others.
+Si se intenta cambiar un modificador inexistente, se llamará al
+procedimiento Error (por defecto Error genera una excepción ERegExpr).
 
-If you try to set unsupported modifier, Error will be called (by defaul
-Error raises exception ERegExpr).
+    propiedad ModifierI : boolean
 
- 
-#### ModifierI 
+Modificador /i <a name="modifier_i"></a> - ("insensible a mayúsculas"), inicializado por el valor
+de RegExprModifierI.
 
-Modifier /i <a name="modifier_i"></a> - ("caseinsensitive"),
-initialized with
-[RegExprModifierI](#modifier_defs) value.
+    propiedad ModifierR : boolean
+
+Modificador /r - <a name="#modifier_r"></a> ("Extensiones para Ruso"), inicializado con el valor de
+RegExprModifierR.
 
  
-#### ModifierR
 
-Modifier /r <a name="#modifier_r"></a> - ("Russian.syntax
-extensions), initialized with
-[RegExprModifierR](#modifier_defs) value.
+propiedad ModifierS : boolean
 
- 
-#### ModifierS
-
-[Modifier /s](regexp_syntax.html#modifier_s) - '.' works as any char
-(else doesn't match
-[LineSeparators](tregexpr_interface.html#lineseparators) and
-[LinePairedSeparator](tregexpr_interface.html#linepairedseparator)),
-initialized with
-[RegExprModifierS](#modifier_defs) value.
+Modificador /s - '.' funciona como cualquier char (no encuentra
+Separadores de línea y LinePairedSeparator), inicializado con el valor
+de RegExprModifierS.
 
  
-#### ModifierG
 
-[Modifier /g](regexp_syntax.html#modifier_g) Switching off modifier /g
-switchs all operators in non-greedy style, so if ModifierG = False, then
-all '\*' works as '\*?', all '+' as '+?' and so on, initialized with
-[RegExprModifierG](#modifier_defs) value.
+propiedad ModifierG : boolean;
 
-
-#### ModifierM
-
-[Modifier /m](regexp_syntax.html#modifier_m) Treat string as multiple
-lines. That is, change \`^' and \`$' from matching at only the very
-start or end of the string to the start or end of any line anywhere
-within the string, initialized with
-[RegExprModifierM](#modifier_defs) value.
+Modificador /g Desactiva el modificador /g cambiando todos los
+operadores a estilo no voraz, entonces si ModifierG = False todos los
+'\*' trabajan como '\*?', todos los '+' como '+?', etc, inicializado con
+el valor de RegExprModifierG.
 
  
-#### ModifierX
 
-[Modifier /x](regexp_syntax.html#modifier_x) - ("eXtended syntax"),
-initialized with
-[RegExprModifierX](#modifier_defs) value.
+propiedad ModifierM : boolean;
 
-#### Exec
-
-match a programm against a string AInputString
-
-!!! Exec store AInputString into InputString property
-
-For Delphi 5 and higher available overloaded versions:
-
-without parameter already assigned to InputString property value
-
-#### ExecNext
-
-Find next match:
-
-Without parameter works the same as
-
-    if MatchLen \[0\] = 0 then ExecPos (MatchPos \[0\] + 1)
-      else ExecPos (MatchPos \[0\] + MatchLen \[0\]);
-
-but it's more simpler !
-
-Raises exception if used without preceeding successful call to
-Exec\* (Exec, ExecPos, ExecNext). 
-
-So You always must use something like
-
-    if Exec (InputString) then repeat { proceed results} until not ExecNext;
-
-.
-
-#### ExecPos
-
-finds match for InputString starting from AOffset position
-
-    AOffset=1 - first char of InputString
-
-#### InputString
-
-returns current input string (from last Exec call or last assign to this
-property).
-
-Any assignment to this property clear `Match*` properties !
-
-#### Substitute
-
-Returns ATemplate with `$&` or `$0` replaced by whole r.e. occurence and
-`$n` replaced by occurence of subexpression  number `n`.
-
-If you want place into template raw `$` or `\\`, use prefix `\\`.
-
-Special symbols:
-
-| symbol | replaced with |
-|-----|-----|
-| \\\\ | just \ |
-| \n | #$d#$a (\r\n as end of line in Windows) |
-| \l | lowcase one next char |
-| \L | lowercase all chars after that |
-| \u | uppcase one next char |
-| \U | uppercase all chars after that |
-
-Example:
- 
-     '1\$ is $2\\rub\\' -> '1$ is <Match[2]>\rub\'
-     '\U$1\\r' transforms into '<Match[1] in uppercase>\r'
-
-If you want to place raw digit after '$n' you must delimit n with curly
-braces `{}`.
-
-Example: 
-     
-     'a$12bc' -> 'a<Match[12]>bc'
-     'a${1}2bc' -> 'a<Match[1]>2bc'.
-
-
-#### Split
-
-Split AInputStr into APieces by r.e. occurencies
-
-Internally calls `Exec[Next]`
-
-
-    function Replace (AInputStr : RegExprString; const AReplaceStr : RegExprString;
-      AUseSubstitution : boolean = False) : RegExprString;
-
-    function Replace (AInputStr : RegExprString;
-      AReplaceFunc : TRegExprReplaceFunction) : RegExprString;
-
-    function ReplaceEx (AInputStr : RegExprString;
-      AReplaceFunc : TRegExprReplaceFunction)  : RegExprString;
-
-Returns AInputStr with r.e. occurencies replaced by AReplaceStr
-
-If AUseSubstitution is true, then AReplaceStr will be used
-
-as template for Substitution methods.
-
-For example:
-
-    Expression := '({-i}block|var)\\s\*\\(\\s\*(\[^ \]\*)\\s\*\\)\\s\*';
-    Replace ('BLOCK( test1)', 'def "$1" value "$2"', True);
-
-  will return:  def 'BLOCK' value 'test1'
-
-    Replace ('BLOCK( test1)', 'def "$1" value "$2"', False)
-
-  will return:  def "$1" value "$2"
-
-Internally calls Exec\[Next\]
-
-Overloaded version and ReplaceEx operate with call-back function,
-
-so You can implement really complex functionality.
-
-
-#### SubExprMatchCount
-
-Number of subexpressions has been found in last Exec\* call.
-
-If there are no subexpr. but whole expr was found (Exec\* returned
-True), then SubExprMatchCount=0, if no subexpressions nor whole r.e.
-found (Exec\* returned false) then SubExprMatchCount=-1.
-
-Note, that some subexpr. may be not found and for such subexpr.
-MathPos=MatchLen=-1 and Match=''.
-
-For example: 
-
-    Expression := '(1)?2(3)?';
-    Exec ('123'): SubExprMatchCount=2, Match[0]='123', [1]='1', [2]='3'
-
-    Exec ('12'): SubExprMatchCount=1, Match[0]='12', [1]='1'
-
-    Exec ('23'): SubExprMatchCount=2, Match[0]='23', [1]='', [2]='3'
-
-    Exec ('2'): SubExprMatchCount=0, Match[0]='2'
-
-    Exec ('7') - return False: SubExprMatchCount=-1
-
-. 
-
-#### MatchPos
-
-pos of entrance subexpr. `#Idx` into tested in last `Exec*` string. First
-subexpr. have `Idx=1`, last - `MatchCount`, whole r.e. have `Idx=0`.
-
-Returns `-1` if in r.e. no such subexpr. or this subexpr. not found in
-input string.
-
-
-#### MatchLen
-
-len of entrance subexpr. `#Idx` r.e. into tested in last `Exec*` string.
-First subexpr. have `Idx=1`, last - MatchCount, whole r.e. have `Idx=0`.
-
-Returns -1 if in r.e. no such subexpr. or this subexpr. not found in
-input string.
-
-
-#### Match
-
-    == copy (InputString, MatchPos [Idx], MatchLen [Idx])
-
-Returns '' if in r.e. no such subexpr. or this subexpr. not found in
-input string.
-
-
-#### LastError
-
-Returns ID of last error, 0 if no errors (unusable if Error method
-raises exception) and clear internal status into 0 (no errors).
-
-
-#### ErrorMsg
-
-Returns Error message for error with ID = AErrorID.
-
-
-    property CompilerErrorPos : integer; // ReadOnly
-
-Returns pos in r.e. there compiler stopped.
-
-Usefull for error diagnostics
-
-
-#### SpaceChars
-
-Contains chars, treated as \\s (initially filled with RegExprSpaceChars
-global constant)
-
-
-#### WordChars
-
-Contains chars, treated as \\w (initially filled with RegExprWordChars
-global constant)
+Modificador /m Tratamiento de cadenas como líneas múltiples. Esto es,
+cambia \`^' y \`$' de encontrar sólo al inicio o final de la cadena al
+inicio o final de cualquier salto de línea DENTRO de la cadena,
+inicializado con el valor de RegExprModifierM.
 
  
-<a name="line_separators"></a>
 
-#### LineSeparators
+propiedad ModifierX : boolean;
 
-line separators (like `\n` in Unix), initially filled with
-RegExprLineSeparators global constant)
-
-see also [about line
-separators](regexp_syntax.html#syntax_line_separators)
-
-
-#### LinePairedSeparator
-
-paired line separator (like `\r\n` in DOS and Windows).
-
-must contain exactly two chars or no chars at all, initially filled with
-RegExprLinePairedSeparator global constant)
-
-see also [about line
-separators](regexp_syntax.html#syntax_line_separators)
-
-
-For example, if You need Unix-style behaviour, assign LineSeparators :=
-\#$a (newline character) and LinePairedSeparator := '' (empty string),
-if You want to accept as line separators only `\x0D\x0A` but not `\x0D`
-or `\x0A` alone, then assign `LineSeparators := ''` (empty string) and
-`LinePairedSeparator := #$d#$a`.
-
-By default 'mixed' mode is used (defined in
-RegExprLine\[Paired\]Separator\[s\] global constants): 
-
-    LineSeparators := #$d#$a; 
-    LinePairedSeparator := #$d#$a
-    
-Behaviour of this mode is detailed described in the [syntax
-section](regexp_syntax.html#syntax_line_separators).
-
-
-#### InvertCase
-
-Set this property if you want to override case-insensitive
-functionality.
-
-Create set it to RegExprInvertCaseFunction (InvertCaseFunction by
-default)
-
-
-#### Compile
-
-\[Re\]compile r.e. Usefull for example for GUI r.e. editors (to check
-all properties validity).
-
-#### Dump
-
-dump a compiled regexp in vaguely comprehensible form
-
-
-### Global constants
-
-
- EscChar = '\\';  // 'Escape'-char ('\\' in common r.e.) used for
-escaping metachars (\\w, \\d etc).
-
- // it's may be usefull to redefine it if You are using C++ Builder - to
-avoide ugly constructions
-
- // like '\\\\w+\\\\\\\\\\\\w+\\\\.\\\\w+' - just define EscChar='/' and
-use '/w+\\/w+/./w+'
+Modificador /x - ("sintaxis eXtendida"), inicializado con
+RegExprModifierX.
 
  
-<a name="modifier_defs"></a>
-Modifiers default values:
+
+función Exec (const AInputString : string) : boolean;
+
+ejecuta el programa sobre la cadena AInputString. Exec guarda
+AInputString en la propiedad InputString.
+
+ 
+
+función ExecNext : boolean;
+
+busca la siguiente coincidencia:
+
+   Exec (AString); ExecNext;
+
+funciona igual que
+
+   Exec (AString);
+
+   if MatchLen \[0\] = 0 then ExecPos (MatchPos \[0\] + 1)
+
+    else ExecPos (MatchPos \[0\] + MatchLen \[0\]);
+
+pero es más simple !
+
+ 
+
+función ExecPos (AOffset: integer = 1) : boolean;
+
+busca coincidencias en InputString comenzando el la posición AOffset
+
+(AOffset=1 - primer caracter de InputString)
+
+ 
+
+propiedad InputString : string;
+
+devuelve la cadena corriente (desde la última llamada a Exec o la última
+asignación a esta propiedad).
+
+Cualquier asignación de esta propiedad limpia las propiedades Match\* !
+
+ 
+
+función Substitute (const ATemplate : string) : string;
+
+Devuelve ATemplate con '$&' o '$0' reemplazados por la ocurrencia
+completa de la e.r. y '$n' reemplazado por la ocurrencia de la
+subexpresión \#n.
+
+Desde la v.0.929 '$' se usa en vez de '\\' (para ampliaciones futuras y
+por mayor compatibilidad con Perl) y acepta más de un dígito.
+
+Si es necesario incluir en la plantilla los símbolos '$' o '\\', usar el
+prefijo '\\'
+
+Ejemplo: '1\\$ es $2\\\\rub\\\\' -> '1$ es <Match\[2\]>\\rub\\'
+
+Si hay que incluir un dígito después de '$n' se debe delimitar n con
+llaves '{}'.
+
+Ejemplo: 'a$12bc' -> 'a<Match\[12\]>bc', 'a${1}2bc' ->
+'a<Match\[1\]>2bc'.
+
+ 
+
+procedimiento Split (AInputStr : string; APieces : TStrings);
+
+Parte AInputStr en APieces por las ocurrencias de la e.r.
+
+Internamente llama a Exec\[Next\]
+
+ 
+
+function Replace (AInputStr : RegExprString;
+
+ const AReplaceStr : RegExprString;
+
+ AUseSubstitution : boolean = False) : RegExprString;
+
+Devuelve AInputStr con las ocurrencias de la e.r. reemplazadas por
+AReplaceStr
+
+Si AUseSubstitution es verdadero se usa AReplaceStr como plantilla para
+métodos de sustitución.
+
+Por ejemplo:
+
+ Expression := '({-i}block|var)\\s\*\\(\\s\*(\[^ \]\*)\\s\*\\)\\s\*';
+
+ Replace ('BLOCK( test1)', 'def "$1" value "$2"', True);
+
+  devolverá:  def 'BLOCK' value 'test1'
+
+ Replace ('BLOCK( test1)', 'def "$1" value "$2"', False)
+
+  devolverá:  def "$1" value "$2"
+
+Internamente llama a Exec\[Next\]
+
+ 
+
+propiedad SubExprMatchCount : integer; // ReadOnly
+
+Número de subexpresiones que han sido encontradas en la última llamada a
+Exec\*.
+
+Si no hay subexpresiones pero se encontró la expresión entera (Exec\*
+devolvió True), entonces SubExprMatchCount=0, si no hay subexpresiones
+ni expresión completa de la e.r. encontradas (Exec\* devolvió False)
+entonces SubExprMatchCount=-1.
+
+Por ejemplo: Expression := '(1)?2(3)?';
+
+Exec ('123'): SubExprMatchCount=2, Match\[0\]='123', \[1\]='1',
+\[2\]='3'
+
+Exec ('12'): SubExprMatchCount=1, Match\[0\]='12', \[1\]='1'
+
+Exec ('23'): SubExprMatchCount=2, Match\[0\]='23', \[1\]='', \[2\]='3'
+
+Exec ('2'): SubExprMatchCount=0, Match\[0\]='2'
+
+Exec ('7') - devuelve False: SubExprMatchCount=-1
+
+ 
+
+propiedad MatchPos \[Idx : integer\] : integer; // ReadOnly
+
+Ubicación de inicio de la subexpresión número \#Idx en la ejecución de
+la última llamada a Exec\*. La primera subexpresión tiene Idx=1, la
+última es igual a MatchCount, la e.r. completa tiene Idx=0.
+
+Devuelve -1 si en la e.r. no hay subexpresiones o no se encontraron en
+la cadena ingresada.
+
+ 
+
+propiedad MatchLen \[Idx : integer\] : integer; // ReadOnly
+
+Longitud de la cadena de la subexpresion número Idx en la ejecución de
+la última llamada a Exec\*. La primera subexpresión tiene Idx=1, la
+última es igual a MatchCount, la e.r. completa tiene Idx=0.
+
+Devuelve -1 si en la e.r. no hay subexpresiones o no se encontraron en
+la cadena ingresada.
+
+ 
+
+propiedad Match \[Idx : integer\] : string; // ReadOnly
+
+== Copy(InputString, MatchPos \[Idx\], MatchLen \[Idx\])
+
+Devuelve -1 si en la e.r. no hay subexpresiones o no se encontraron en
+la cadena ingresada.
+
+ 
+
+función LastError : integer;
+
+Devuelve el código de identificación del último error, 0 si no hay
+errores (No se puede usar si el método Error genera una excepción) y
+limpia el status interno a 0 (sin errores).
+
+ 
+
+función ErrorMsg (AErrorID : integer) : string; virtual;
+
+Devuelve el mensaje de error de código AErrorID.
+
+ 
+
+propiedad CompilerErrorPos : integer; // ReadOnly
+
+Devuelve la posición en la e.r. donde se detuvo el compilador.
+
+Util para diagnosticar errores.
+
+ 
+
+propiedad SpaceChars : RegExprString
+
+Contiene los caracteres que son tratados como \\s (inicializada con la
+constante global RegExprSpaceChars)
+
+ 
+
+propiedad WordChars : RegExprString;
+
+Contiene los caracteres que son tratados como \\w (inicializada con la
+constante global RegExprWordChars)
+
+<a name="line_separators"></a> 
+
+    propiedad LineSeparators : RegExprString
+
+Caracteres que son separadores de línea (como \\n en Unix), inicializada
+con la constante global RegExprLineSeparators)
+
+Ver separadores de línea
+
+ 
+
+propiedad LinePairedSeparator : RegExprString
+
+Pares de separadores de línea (como \\r\\n en DOS y Windows).
+
+Debe contener exactamente dos caracteres o ninguno, inicializada con la
+constante global RegExprLinePairedSeparator)
+
+Ver separadores de línea
+
+ 
+
+Por ejemplo, si se necesita comportamiento tipo Unix asignar a
+LineSeparators := \#$a (caracter de línea nueva) y a LinePairedSeparator
+:= '' (cadena vacía), si se quiere aceptar como separadores de línea
+\\x0D\\x0A pero no \\x0D o \\x0A solos, entonces asignar LineSeparators
+:= '' (cadena vacía) y a LinePairedSeparator := \#$d\#$a.
+
+ 
+
+Por defecto se usa el modo 'mixto' (definido en las constantes globales
+RegExprLine\[Paired\]Separator\[s\]): LineSeparators := \#$d\#$a;
+LinePairedSeparator := \#$d\#$a. El comportamiento de este modo es
+descripto con más detalle en la sección sintaxis.
+
+ 
+
+función de clase InvertCaseFunction  (const Ch : REChar) : REChar;
+
+Convierte Ch en mayúsculas si está en minúsculas o en minúsculas si está
+en mayúsculas (usa la configuración local corriente)
+
+ 
+
+propiedad InvertCase : TRegExprInvertCaseFunction;
+
+Activar esta propiedad si se desea anular la funcionalidad de
+insensibilidad a mayúsculas.
+
+Create la inicializa a RegExprInvertCaseFunction (InvertCaseFunction por
+defecto)
+
+ 
+
+procedimiento Compile;
+
+\[Re\]compila la e.r. Util para editores GUI de e.r. (para controlar la
+validez de todas las propiedades).
+
+ 
+
+función Dump : string;
+
+Descarga una e.r. compilada en una forma vagamente comprensible.
+
+### Constantes globales
+
+Valores por defecto de los modificadores:
 
     RegExprModifierI : boolean = False;                // TRegExpr.ModifierI
     RegExprModifierR : boolean = True;                // TRegExpr.ModifierR
@@ -364,11 +339,9 @@ Modifiers default values:
     RegExprModifierM : boolean = False;                //TRegExpr.ModifierM
     RegExprModifierX : boolean = False;                //TRegExpr.ModifierX
 
- 
-
 RegExprSpaceChars : RegExprString = ' '\#$9\#$A\#$D\#$C;
 
- // default for SpaceChars property
+ // valor por defecto de la propiedad SpaceChars
 
  
 
@@ -380,142 +353,183 @@ RegExprWordChars : RegExprString =
 
  + 'ABCDEFGHIJKLMNOPQRSTUVWXYZ\_';
 
- // default value for WordChars property
+ // valor por defecto de la propiedad WordChars
+
+ //NOTA AYUDA EN ESPAСOL
+
+ // agregar áéíóúсС
 
  
 
 RegExprLineSeparators : RegExprString =
 
-  \#$d\#$a{$IFDEF UniCode}\#$b\#$c\#$2028\#$2029\#$85{$ENDIF};
+  \#$d\#$a{$IFDEF UniCode}\#$b\#$c\#$2028\#$2029\#$85{DIF};
 
- // default value for LineSeparators property
+ // valor por defecto de la propiedad LineSeparators
+
+ 
 
 RegExprLinePairedSeparator : RegExprString =
 
   \#$d\#$a;
 
- // default value for LinePairedSeparator property
+ // valor por defecto de la propiedad LinePairedSeparator
 
  
 
-RegExprInvertCaseFunction : TRegExprInvertCaseFunction =
+RegExprInvertCaseFunction: TRegExprInvertCaseFunction =
 TRegExpr.InvertCaseFunction;
 
-// default for InvertCase property
-
-
-### Usefull global functions
-
-
-    function ExecRegExpr (const ARegExpr, AInputStr : string) : boolean;
-
-true if string AInputString match regular expression ARegExpr
-
-! will raise exeption if syntax errors in ARegExpr
-
-
-    procedure SplitRegExpr (const ARegExpr, AInputStr : string; APieces : TStrings);
-
-Split AInputStr into APieces by r.e. ARegExpr occurencies
-
-
-    function ReplaceRegExpr (const ARegExpr, AInputStr, AReplaceStr : string;
-      AUseSubstitution : boolean = False) : string;
-
-Returns AInputStr with r.e. occurencies replaced by AReplaceStr.
-
-If AUseSubstitution is true, then AReplaceStr will be used as template
-for Substitution methods.
-
-For example:
-
-    ReplaceRegExpr ('({-i}block|var)\\s\*\\(\\s\*(\[^ \]\*)\\s\*\\)\\s\*',
-      'BLOCK( test1)', 'def "$1" value "$2"', True)
-
-will return:  def 'BLOCK' value 'test1'
-
-    ReplaceRegExpr ('({-i}block|var)\\s\*\\(\\s\*(\[^ \]\*)\\s\*\\)\\s\*',
-      'BLOCK( test1)', 'def "$1" value "$2"')
-
- will return:  def "$1" value "$2"
-
-
-    function QuoteRegExprMetaChars (const AStr : string) : string;
-
-Replace all metachars with its safe representation, for example
-'abc$cd.(' converts into 'abc\\$cd\\.\\('
-
-This function usefull for r.e. autogeneration from user input
-
-
-    function RegExprSubExpressions (const ARegExpr : string;
-      ASubExprs : TStrings; AExtendedSyntax : boolean = False) : integer;
-
-Makes list of subexpressions found in ARegExpr r.e.
-
-In ASubExps every item represent subexpression, from first to last, in
-format:
-
- String - subexpression text (without '()')
-
- low word of Object - starting position in ARegExpr, including '(' if
-exists! (first position is 1)
-
- high word of Object - length, including starting '(' and ending ')' if
-exist!
-
-AExtendedSyntax - must be True if modifier /x will be On while using the
-r.e.
-
-Usefull for GUI editors of r.e. etc (You can find example of using in
-[TestRExp.dpr](#regexpstudio.html) project)
-
-
-Result code        Meaning
-
-------------------------------------------------------------------------
-
-0                Success. No unbalanced brackets was found;
-
--1                there are not enough closing brackets ')';
-
--(n+1)                at position n was found opening '\[' without
-corresponding closing '\]';
-
-n                at position n was found closing bracket ')' without
-corresponding opening '('.
+ // valor por defecto de la propiedad
 
  
 
-If Result <> 0, then ASubExprs can contain empty items or illegal
-ones
+ 
 
-
-
-### Exception type
-
-
-Default error handler of TRegExpr raise exception:
+Funciones globales prácticas
 
  
 
-    ERegExpr = class (Exception)
-      public
-       ErrorCode : integer; // error code. Compilation error codes are before 1000
-       CompilerErrorPos : integer; // Position in r.e. where compilation error occured
-     end;
+función ExecRegExpr (const ARegExpr, AInputStr : string) : boolean;
 
+True si la cadena AInputString es encontrada en la e.r. ARegExpr
 
+Se genera una excepción si hay errores de sintaxis en ARegExpr
+
+ 
+
+procedure SplitRegExpr (const ARegExpr, AInputSttStr : string; APieces :
+TStrings);
+
+Parte la cadena AInputStr en subcadenas APieces por las ocurrencia de la
+e.r. ARegExpr
+
+ 
+
+función ReplaceRegExpr (const ARegExpr, AInputStr, AReplaceStr : string;
+
+AUseSubstitution : boolean = False) : string;
+
+Devuelve AInputStr con las ocurrencias de la e.r. reemplazadas por
+AReplaceStr
+
+Si AUseSubstitution es verdadero AReplaceStr será usado como plantilla
+para los métodos de sustitución.
+
+Por ejemplo:
+
+ReplaceRegExpr ('({-i}block|var)\\s\*\\(\\s\*(\[^ \]\*)\\s\*\\)\\s\*',
+
+'BLOCK( test1)', 'def "$1" value "$2"', True)
+
+devolverá:  def 'BLOCK' value 'test1'
+
+ReplaceRegExpr ('({-i}block|var)\\s\*\\(\\s\*(\[^ \]\*)\\s\*\\)\\s\*',
+
+'BLOCK( test1)', 'def "$1" value "$2"')
+
+devolverá:  def "$1" value "$2"
+
+ 
+
+ 
+
+función QuoteRegExprMetaChars (const AStr : string) : string;
+
+Reemplaza todos los metacaracteres por su representación segura , por
+ejemplo 'abc$cd.(' es convertida  en 'abc\\$cd\\.\\('
+
+Esta función es práctica para autogeneración de e.r. a partir de datos
+del usuario.
+
+ 
+
+función RegExprSubExpressions (const ARegExpr : string;
+
+ASubExprs : TStrings; AExtendedSyntax : boolean = False) : integer;
+
+Genera una lista de subexpresiones encontradas en la e.r. ARegExpr
+
+En ASubExps cada item representa una subexpresión, en el formato:
+
+ String - texto de la subexpresión (sin '()')
+
+ low word of Object - posición inicial en ARegExpr, incluyendo '(' si
+existe! (la primera posición es 1)
+
+ high word of Object - longitud, incluyendo el '(' inicial y el ')'
+final si existen!
+
+AExtendedSyntax - debe ser True si el modificador /x estará activado
+mientras se usa la e.r.
+
+Práctico para editores GUI de e.r., etc (se puede ver un ejemplo de uso
+en el proyecto [TestRExp.dpr](#tregexpr_testrexp.html))
+
+ 
+
+Resultado                Significado
+
+ 
+
+ 
+
+0                                Exito. No se encontraron paréntesis
+desbalanceados;
+
+-1                                No hay suficientes paréntesis de
+cierre ')';
+
+-(n+1)                En la posición n se encontró un '\[' abriendo sin
+el correspondiente '\]' de cierre;
+
+n                                En la posición n se encontró un ')'
+cerrando sin el correspondiente '(' de apertura.
+
+ 
+
+Si el resultado es <> 0, entonces ASubExprs puede contener items
+vacíos o ilegales
+
+ 
+
+ 
+
+Exception type
+
+ 
+
+El administrador de errores por defecto de TRegExpr genera una
+excepción:
+
+ 
+
+ERegExpr = class (Exception)
+
+  public
+
+   ErrorCode : integer; // código de error. Los errores de compilación
+son menores a 1000.
+
+   CompilerErrorPos : integer; // Posición en la e.r. donde se ocurrió
+el error de compilación
+
+ end;
+
+ 
+
+ 
 <a name="unicode"></a>
-### How to use Unicode
-
-TRegExpr now supports UniCode, but it works very slow :(
-
-Who want to optimize it ? ;)
-
-Use it only if you really need Unicode support !
-
-Remove `.` in `{.$DEFINE UniCode}` in regexpr.pas. After that all strings
-will be treated as WideString.
+### Cómo usar Unicode
 
  
+
+TRegExpr ahora soporta UniCode, pero funciona muy lentamente :(
+
+Quién quiere optimizarlo ? ;)
+
+Usarlo exclusivamente si realmente se necesita soporte de Unicode !
+
+Sacar el '.' en {.$DEFINE UniCode} en regexpr.pas. Después de ésto todas
+las cadenas serán tratadas como WideString.
+

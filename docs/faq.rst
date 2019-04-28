@@ -1,173 +1,125 @@
-Q. I found a terrible bug: TRegExpr raises Access Violation exception!
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+P. Cómo puedo usar TRegExpr con Borland C++ Builder?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A.
+Tengo un problema porque no hay un archivo de cabecera (.h or .hpp)
+disponible.
+
+R.
 ^^
 
-You must create the object before usage. So, after You declared
-something like:
+-  Agregar RegExpr.pas al proyecto bcb.
+-  Compilar el proyecto. Esto genera el archivo RegExpr.hpp.
+-  Ahora se puede escribir código que use la unidad RegExpr.
+-  No olvidar agregar #include "RegExpr.hpp" donde haga falta.
 
-::
+P. Porqué TRegExpr devuelve más de una línea?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    r : TRegExpr
+Por ejemplo, e.r. ``<font .\*>`` devuelve la primera línea ``<font``, y
+entonces el resto del archivo incluso el último ``</html>``.
 
-do not forget to create the object instance:
-
-::
-
-    r := TRegExpr.Create. 
-
-Q. How can I use TRegExpr with Borland C++ Builder?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-I have a problem since no header file (.h or .hpp) is available.
-
-.. _a.-1:
-
-A.
+R.
 ^^
 
--  Add RegExpr.pas to bcb project.
--  Compile project. This generates the header file RegExpr.hpp.
--  Now one can write code which uses the RegExpr unit.
--  Don`t forget to add  #include “RegExpr.hpp” where needed.
--  Don\ ``t forget to replace all``\\\ ``in regular expressions with``\\\\`
-   or redefined `EscChar <tregexpr_interface.html#escchar>`__ const.
+Por compatibilidad con versiones anteriores el modificador /s está
+activado por defecto.
 
-Q. Why many r.e. (including r.e. from TRegExpr help and demo) work wrong in Borland C++ Builder?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Desactivarlo y ``.`` encotrará todo menos separadores de línea.
 
-.. _a.-2:
+A propósito, le sugiero ``<font (\[^\\n>\]\*)>``, será la URL en
+Match[1].
 
-A.
-^^
-
-Please, reread answer to previous question ;) Symbol ``\\`` has special
-treting in C++, so You have to ``escape`` it (as described in
-prev.answer). But if You
-don\ ``t like r.e. like``\\\w+\\\\\\w+\\.\\w+\ ``You can redefine constant EscChar (RegExpr.pas), for example EscChar=``/``- then r.e. will be``/w+\/w+/./w+`,
-sligtly unusual but more readable..
-
-Q. Why does TRegExpr return more then one line?
+P. Porqué TRegExpr devuelve más de lo esperado?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-For example, r.e. ``<font .\*>`` returns the first ``<font``, then the
-rest of the file including last ``</html>``.
+Por ejemplo, la e.r. ``<p>(.+)</p>`` aplicada a la cadena
+``<p>a</p><p>b</p>`` devuelve ``a</p><p>b`` pero no ``a`` como esperaba.
 
-.. _a.-3:
-
-A.
+R.
 ^^
 
-For backward compatibility, `modifier
-/s <regexp_syntax.html#modifier_s>`__ is ``On`` by default.
+Por defecto, todos los operadores funcionan en modo ``voraz``, entonces
+devuelven lo máximo posible.
 
-Switch it Off and ``.`` will match any but `Line
-separators <regexp_syntax.html#syntax_line_separators>`__ - as you wish.
+Para operación ``no voraz`` se pueden usar operadores no voraces como
+``+?`` (nuevo en v. 0.940) o cambiar todos los operadores a modo
+``no voraz`` con la ayuda del modificador ``g`` (usando las propiedades
+de TRegExpr o construcciones como ``?(-g)`` en la e.r.).
 
-BTW I suggest you ``<font (\[^\\n>\]\*)>``, in Match[1] will be URL.
+P. Cómo se pueden descomponer textos como HTML con la ayuda de TRegExpr
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Q. Why does TRegExpr return more then I expect?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-For example r.e. ``<p>(.+)</p>`` applyed to string ``<p>a</p><p>b</p>``
-returns ``a</p><p>b`` but not ``a`` as I expected.
-
-.. _a.-4:
-
-A.
+R.
 ^^
 
-By default all operators works in ``greedy`` mode, so they match as more
-as it possible.
+Lo siento amigos, pero es prácticamente imposible!
 
-If You want ``non-greedy`` mode You can use ``non-greedy`` operators
-like ``+?`` and so on (new in v. 0.940) or switch all operators into
-``non-greedy`` mode with help of modifier ``g`` (use appropriate
-TRegExpr properties or constractions like ``?(-g)`` in r.e.).
+Por supuesto, se puede usar fácilmente TRegExpr para extraer alguna
+información del HTML, como se muestra en mis ejemplos, pero para
+desomponer en forma precisa hay que usar un código real de
+descomposición, no e.r.!
 
-Q. How to parse sources like HTML with help of TRegExpr
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Pueden obtener la explicación completa en el libro ``Perl Cookbook`` de
+Tom Christiansen y Nathan Torkington. Brevemente, hay muchas
+construcciones que són fácilmente descompuestas por el programa
+apropiado, pero en absoluto por una e.r., y un descomponedor real es
+MUCHO más rápido porque la e.r. no hace simplemente una búsqueda,
+incluye una optimización que puede llevar una gran cantidad de tiempo.
 
-.. _a.-5:
+P. Hay forma de obtener múltiples coincidencias de una plantilla en TRegExpr?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A.
+R.
 ^^
 
-Sorry folks, but it`s nearly impossible!
+Se puede hacer un bucle e iterar una por una con el método ExecNext.
 
-Of course, You can easily use TRegExpr for extracting some information
-from HTML, as shown in my examples, but if You want accurate parsing You
-have to use real parser, not r.e.!
+No se puede hacer más fácil porque Delphi no es un intérprete como Perl
+(y es un beneficio, los intérpretes son muy lentos).
 
-You can read full explanation in Tom Christiansen and Nathan Torkington
-``Perl Cookbook``, for example. In short - there are many constractions
-that can be easy parsed by real parser but cannot at all by r.e., and
-real parser is MUCH faster do the parsing, because r.e. doesn`t simply
-scan input stream, it performes optimization search that can take a lot
-of time.
-
-Q. Is there a way to get multiple matchs of a pattern on TRegExpr?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. _a.-6:
-
-A.
-^^
-
-You can make loop and iterate match by match with ExecNext method.
-
-It cannot be done more easily becase of Dalphi
-isn\ ``t interpretator as Perl (and it``\ s benefit - interpretators
-work very slow!).
-
-If You want some example, please take a look at TRegExpr.Replace method
-implementation. or at the examples in
+Para ver algún ejemplo ver la implementación del método
+TRegExpr.Replace, o los ejemplos en
 `HyperLinksDecorator.pas <#hyperlinksdecorator.html>`__
 
-Q. I am checking user input. Why does TRegExpr return ``True`` for wrong input strings?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+P. Estoy controlando entradas de usuarios. Porqué TRegExpr devuelve ``True`` para cadenas incorrectas?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. _a.-7:
-
-A.
+R.
 ^^
 
-In many cases TRegExpr users forget that regular expression is for
-SEARCH in input string. So, if You want to make user to enter only 4
-digits and using for it ``\\d{4,4}`` expression, You can skip wrong user
-input like ``12345`` or ``any letters 1234 and anything else``. You have
-to add checking for line start and line end to ensure there are not
-anything else around: ``^\\d{4,4}$``.
+En muchos casos los usuarios de TRegExpr olvidan que las expresiones
+regulares son para BUSCAR en una cadena. Entonces, si se pretende que un
+usuario ingrese sólo 4 dígitos y se usa para ello la expresión
+``\\d{4,4}``, se puede errar la detección de parámetros incorrectos como
+``12345`` o ``cualquier letra 1234 y cualquier otra cosa``. Hay que
+agregar control para inicio y fin de línea para asegurarse de que no hay
+nada alrededor: ``^\\d{4,4}$``.
 
-Q.
-~~
+P. Porqué los iteradores no voraces a veces funcionan como en modo voraz?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Why does non-greedy iterators sometimes work as in greedy mode?
+Por ejemplo, la e.r. ``a+?,b+?`` aplicada a la cadena ``aaa,bbb``
+encuentra ``aaa,b``, pero debería No encontrar ``a,b`` a causa de la no
+voracidad del primer iterador?
 
-For example, the r.e. ``a+?,b+?`` applied to string ``aaa,bbb`` matches
-``aaa,b``, but should it not match ``a,b`` because of non-greediness of
-first iterator?
-
-.. _a.-8:
-
-A.
+R.
 ^^
 
-This is the limitation of used by TRegExpr (and
-Perl\ ``s and many Unix``\ s regular expressions) mathematics - r.e.
-performe only ``simple`` search optimization, and do not try to do the
-best optimization. In some cases it\ ``s bad, but in common it``\ s
-rather advantage then limitation - because of perfomance and
-predictability reasons.
+Esta es la limitación de las matemáticas usadas por TRegExpr (y de las
+e.r. de Perl y muchos Unix) - e.r. realiza sólo una optimización de
+búsqueda ``simple``, y no trata de hacer la mejor optimización. En
+algunos casos esto es malo, pero en los comunes es mayor la ventaja que
+la limitación - por motivos de rapidez y predecibilidad.
 
-The main rule - r.e. first of all try to match from current place and
-only if
-it\ ``s completely impossible move forward by one char and try again from that place. So, if You use``\ a,b+?\ ``it match``\ a,b\ ``, but in case of``\ a+?,b+?\ ``it``\ s
-``not recommended`` (due to non-greediness) but possible to match more
-then one ``a``, so TRegExpr do it and at last obtaines correct (but non
-optimum) match. TRegExpr like Perl\ ``s or Unix``\ s r.e.
-doesn\ ``t attempt to move forward and check - would it be``\ better\ ``match. Moreover, it cannot be compared in terms``\ more
-or less good match\` at all..
+La regla principal - la e.r. antes que nada intenta encontrar
+coincidencia desde la posición actual y sólo si es completamente
+imposible avanzar un caracter e intentar nuevamente desde ese lugar.
+Entonces, si se usa ``a,b+?`` se encuentra ``a,b``, pero en el caso de
+``a+?,b+?`` es ``no recomendado`` (a causa de la no voracidad) pero
+posible encontrar más de una ``a``, entonces TRegExpr lo hace y
+finalmente obtiene una correcta (pero no óptima) coincidencia. TRegExpr
+como las e.r. de Perl o Unix no intenta avanzar y volver a chequear - lo
+que sería una ``mejor`` coincidencia. Más aún, esto no puede ser
+comparado en absoluto en términos de ``mejor o pero coincidencia``.
 
-Please, read `Syntax <regexp_syntax.html>`__ for more explanation.
+Por favor, leer ``[Sintaxis](regexp_syntax.html)``.
