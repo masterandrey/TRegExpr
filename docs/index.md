@@ -10,7 +10,7 @@ información de una página web, y todo lo que pueda imaginar!. Las reglas
 
 Esta librería freeware es una versión extendida para Delphi de las
 rutinas V8 de Henry Spencer,. Trabajan con un subconjunto de las
-[Expresiones Regulares](regexp_syntax.html) de Perl.
+[Expresiones Regulares](regular_expressions.html) de Perl.
 
 TRegExpr está programado en Pascal puro, con el código fuente completo
 gratis.
@@ -22,7 +22,7 @@ archivo: RegExpr.pas.
 Por lo tanto, no se necesita ninguna DLL!
 
 Ver los [ejemplos simples](demos.html) y estudiar la
-[sintaxis](regexp_syntax.html) de las expresiones regulares (Se puede
+[sintaxis](regular_expressions.html) de las expresiones regulares (Se puede
 usar el [proyecto demo](tregexpr_testrexp.html) para probar y depurar
 las expresiones regulares propias).
 

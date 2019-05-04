@@ -122,4 +122,4 @@ como las e.r. de Perl o Unix no intenta avanzar y volver a chequear - lo
 que sería una ``mejor`` coincidencia. Más aún, esto no puede ser
 comparado en absoluto en términos de ``mejor o pero coincidencia``.
 
-Por favor, leer ``[Sintaxis](regexp_syntax.html)``.
+Por favor, leer ``[Sintaxis](regular_expressions.html)``.
