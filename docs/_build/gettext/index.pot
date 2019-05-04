@@ -43,7 +43,7 @@ msgstr ""
 
 #: ../../index.rst:17
 # 99f28c3c5af44dd8a94a620a6ccd66dc
-msgid "As a language for rules used subset of Perl’s `regular expressions </regexp_syntax>`__ (regexp)."
+msgid "As a language for rules used subset of Perl’s `regular expressions </regular_expressions>`__ (regexp)."
 msgstr ""
 
 #: ../../index.rst:20

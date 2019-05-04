@@ -110,4 +110,4 @@ TRegExpr.Replace или погледнете примерите в
 е по-добро и кое – по-лошо.
 
 Мпля, прочетете
-`[Syntax](regexp_syntax.html#engine)`.
+`[Syntax](regular_expressions.html#engine)`.
