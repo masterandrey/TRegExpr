@@ -157,16 +157,16 @@ Du kannst allerdings den Zielstring als mehrzeiligen Puffer behandeln,
 so dass ``^`` die Stelle unmittelbar nach, und ``$`` die Stelle
 unmittelbar vor irgendeinem Zeilenseparator findet. Du kannst diese Art
 der Suche einstellen mit dem `Modifikator
-/m <regexp_syntax.html#modifier_m>`__.
+/m <regular_expressions.html#modifier_m>`__.
 
 The ``\A`` and ``\Z`` are just like ``^`` and ``$``, except that they
 won't match multiple times when the `modifier
-/m <regexp_syntax.html#modifier_m>`__ is used, while ``^`` and ``$``
+/m <regular_expressions.html#modifier_m>`__ is used, while ``^`` and ``$``
 will match at every internal line separator.
 
 Das ``.`` Metazeichen findet standardmässig irgendein beliebiges
 Zeichen, also auch Zeilenseparatoren. Wenn Du den `Modifikator
-/s <regexp_syntax.html#modifier_s>`__
+/s <regular_expressions.html#modifier_s>`__
 
 ausschaltest, dann findet ``.`` keine Zeilenseparatoren mehr.
 
@@ -175,7 +175,7 @@ TRegExpr geht mit Zeilenseparatoren so um, wie es auf
 empfohlen ist:
 
 ``^`` ist am Anfang des Eingabestrings, und, falls der `Modifikator
-/m <regexp_syntax.html#modifier_m>`__ gesetzt ist, auch unmitelbar
+/m <regular_expressions.html#modifier_m>`__ gesetzt ist, auch unmitelbar
 folgend einem Vorkommen von ``\x0D\x0A`` oder ``\x0A`` or ``\x0D``
 (falls Du die `Unicode-Version <tregexpr_interface.html#unicode>`__ von
 TregExpr benutzst, dann auch nach ``\x2028`` oder  ``\x2029`` oder
@@ -184,7 +184,7 @@ Zeile gibt in den Sequence ``\x0D\x0A``. Diese beiden Zeichen werden
 atomar behandelt.
 
 ``$`` ist am Anfang des Eingabestrings, und, falls der `Modifikator
-/m <regexp_syntax.html#modifier_m>`__ gesetzt ist, auch unmitelbar vor
+/m <regular_expressions.html#modifier_m>`__ gesetzt ist, auch unmitelbar vor
 einem Vorkommen von ``\x0D\x0A`` oder ``\x0A`` or ``\x0D`` (falls Du die
 `Unicode-Version <tregexpr_interface.html#unicode>`__ von TregExpr
 benutzst, dann auch vor ``\x2028`` oder  ``\x2029`` oder ``\x0B`` oder
@@ -192,7 +192,7 @@ benutzst, dann auch vor ``\x2028`` oder  ``\x2029`` oder ``\x0B`` oder
 Sequence ``\x0D\x0A``. Diese beiden Zeichen werden atomar behandelt.
 
 ``.`` findet ein beliebiges Zeichen. Wenn Du aber den `Modifikator
-/s <regexp_syntax.html#modifier_s>`__ ausstellst, dann findet ``.``
+/s <regular_expressions.html#modifier_s>`__ ausstellst, dann findet ``.``
 keine Zeilensearaptoren ``\x0D\x0A`` und ``\x0A`` und ``\x0D`` mehr
 (falls Du die `Unicode-Version <tregexpr_interface.html#unicode>`__ von
 TregExpr benutzst, dann auch ``\x2028`` und  ``\x2029`` und ``\x0B`` und
@@ -310,7 +310,7 @@ angewandut auf den Zielstring ``abbbbc`` findet ``bbbb``, ``b+?`` findet
 ``b{2,3}`` findet ``bbb``.
 
 Du kannst alle Iteratoren auf den genugsamen Modus umschalten mit dem
-`Modifier /g <regexp_syntax.html#modifier_g>`__.
+`Modifier /g <regular_expressions.html#modifier_g>`__.
 
 Metazeichen - Alternativen
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -399,7 +399,7 @@ Modifikatoren sind dazu da, das Verhalten von TRegExpr zu verändern.
 Es gibt viele Wege, die weiter unten beschriebenen Modifikatoren zu
 nutzen. Jeder der Modifikatoren lann eingebettet werden im Suchmuster
 des regulären Ausdruckes mittels des Konstruktes
-`(?...) <regexp_syntax.html#inline_modifiers>`__.
+`(?...) <regular_expressions.html#inline_modifiers>`__.
 
 Du kannst allerdings auch die meisten Modifikatoren beeinflussen, indem
 Du den entsprechenden TRegExpr-Eigenschaften die passenden Werte zuweist
@@ -462,7 +462,7 @@ Sorry für fremdsprachliche Benutzer, er ist gesetzt standardmässig.
 Falls Du ihn ausgeschaltet haben willst standardässig, dann setze die
 globale Variable `RegExprModifierR <#modifier_defs>`__ auf false.
 
-Der `Modifikator /x <regexp_syntax.html#modifier_x>`__ selbst braucht
+Der `Modifikator /x <regular_expressions.html#modifier_x>`__ selbst braucht
 etwas mehr Erklärung. Er sagt TRegExpr, dass er allen Whitespace
 ignorieren soll, der nicht escaped oder innerhalb einer Zeichenklasse
 ist. Du kannst ihn benutzen, um den regulären Ausdruck in kleinere,

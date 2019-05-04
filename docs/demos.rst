@@ -2,7 +2,7 @@ Einfache Beispiele
 ~~~~~~~~~~~~~~~~~~
 
 Falls Du nicht mit Regulären Ausdrücken bekannt bist, dann könntest Du
-etwas unter dem Abschnitt `Syntax <regexp_syntax.html>`__ dazulernen
+etwas unter dem Abschnitt `Syntax <regular_expressions.html>`__ dazulernen
 oder schaue in ein gutes Perl oder Unix Buch.  
 
 Globale Routinen verwenden

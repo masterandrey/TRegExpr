@@ -18,7 +18,7 @@ würde!
 Diese Bibliothek, die ich hiermit in die Freeware lege, ist eine
 Delphi-Portierung der Routinen, die Henry Spencer als V8-Routinen
 herausbrachte, um damit eine Untermenge der [Regulären Ausdrücke von
-Perl](regexp_syntax.html) handhaben zu können.
+Perl](regular_expressions.html) handhaben zu können.
 
 Demgegenüber ist TRegExpr vollständig in einfachem Object-Pascal
 geschrieben und wird mit dem ganzen Quelltext kostenlos zur Verfügung
@@ -40,7 +40,7 @@ Danach benutze einfach das TregExpr-Objekt oder die globalen Routinen in
 Deinem Projekt (beachte die [Beispiele](demos.html)).
 
 Schaue Dir mal die einfachen [Beispiele](demos.html) an und studiere
-die [Syntax](regexp_syntax.html) der Regulären Ausdrücke (Du kannst
+die [Syntax](regular_expressions.html) der Regulären Ausdrücke (Du kannst
 natürlich auch das [Demo-Projekt](tregexpr_testrexp.html) für
 Studienzwecke heranziehen und damit auch Deine eigenen Regulären
 Ausdrücken ausarbeiten oder debuggen).

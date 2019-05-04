@@ -130,16 +130,16 @@ Zeilenseparatoren vor, so werden diese von `^` oder `$` nicht gefunden.
 Du kannst allerdings den Zielstring als mehrzeiligen Puffer behandeln,
 so dass `^` die Stelle unmittelbar nach, und `$` die Stelle unmittelbar
 vor irgendeinem Zeilenseparator findet. Du kannst diese Art der Suche
-einstellen mit dem [Modifikator /m](regexp_syntax.html#modifier_m).
+einstellen mit dem [Modifikator /m](regular_expressions.html#modifier_m).
 
 The `\A` and `\Z` are just like `^` and `$`, except that they won't
 match multiple times when the [modifier
-/m](regexp_syntax.html#modifier_m) is used, while `^` and `$` will
+/m](regular_expressions.html#modifier_m) is used, while `^` and `$` will
 match at every internal line separator.
 
 Das `.` Metazeichen findet standardmässig irgendein beliebiges Zeichen,
 also auch Zeilenseparatoren. Wenn Du den [Modifikator
-/s](regexp_syntax.html#modifier_s)
+/s](regular_expressions.html#modifier_s)
 
 ausschaltest, dann findet `.` keine Zeilenseparatoren mehr.
 
@@ -147,7 +147,7 @@ TRegExpr geht mit Zeilenseparatoren so um, wie es auf
 [www.unicode.org](http://www.unicode.org/unicode/reports/tr18/) empfohlen ist:
 
 `^` ist am Anfang des Eingabestrings, und, falls der [Modifikator
-/m](regexp_syntax.html#modifier_m) gesetzt ist, auch unmitelbar folgend
+/m](regular_expressions.html#modifier_m) gesetzt ist, auch unmitelbar folgend
 einem Vorkommen von `\x0D\x0A` oder `\x0A` or `\x0D` (falls Du die
 [Unicode-Version](tregexpr_interface.html#unicode) von TregExpr
 benutzst, dann auch nach `\x2028` oder  `\x2029` oder `\x0B` oder `\x0C`
@@ -155,7 +155,7 @@ oder `\x85`). Beachte, dass es keine leere Zeile gibt in den Sequence
 `\x0D\x0A`. Diese beiden Zeichen werden atomar behandelt.
 
 `$` ist am Anfang des Eingabestrings, und, falls der [Modifikator
-/m](regexp_syntax.html#modifier_m) gesetzt ist, auch unmitelbar vor
+/m](regular_expressions.html#modifier_m) gesetzt ist, auch unmitelbar vor
 einem Vorkommen von `\x0D\x0A` oder `\x0A` or `\x0D` (falls Du die
 [Unicode-Version](tregexpr_interface.html#unicode) von TregExpr
 benutzst, dann auch vor `\x2028` oder  `\x2029` oder `\x0B` oder `\x0C` oder
@@ -163,7 +163,7 @@ benutzst, dann auch vor `\x2028` oder  `\x2029` oder `\x0B` oder `\x0C` oder
 `\x0D\x0A`. Diese beiden Zeichen werden atomar behandelt.
 
 `.` findet ein beliebiges Zeichen. Wenn Du aber den [Modifikator
-/s](regexp_syntax.html#modifier_s) ausstellst, dann findet `.` keine
+/s](regular_expressions.html#modifier_s) ausstellst, dann findet `.` keine
 Zeilensearaptoren `\x0D\x0A` und `\x0A` und `\x0D` mehr (falls Du die
 [Unicode-Version](tregexpr_interface.html#unicode) von TregExpr
 benutzst, dann auch `\x2028` und  `\x2029` und `\x0B` und `\x0C` and `\x85`).
@@ -265,7 +265,7 @@ angewandut auf den Zielstring `abbbbc` findet `bbbb`, `b+?` findet `b`,
 `bbb`.
 
 Du kannst alle Iteratoren auf den genugsamen Modus umschalten mit dem
-[Modifier /g](regexp_syntax.html#modifier_g).
+[Modifier /g](regular_expressions.html#modifier_g).
 
 ### Metazeichen - Alternativen
 
@@ -340,7 +340,7 @@ Modifikatoren sind dazu da, das Verhalten von TRegExpr zu verändern.
 Es gibt viele Wege, die weiter unten beschriebenen Modifikatoren zu
 nutzen. Jeder der Modifikatoren lann eingebettet werden im Suchmuster
 des regulären Ausdruckes mittels des Konstruktes
-[(?...)](regexp_syntax.html#inline_modifiers).
+[(?...)](regular_expressions.html#inline_modifiers).
 
 Du kannst allerdings auch die meisten Modifikatoren beeinflussen, indem
 Du den entsprechenden TRegExpr-Eigenschaften die passenden Werte zuweist
@@ -404,7 +404,7 @@ Falls Du ihn ausgeschaltet haben willst standardässig, dann setze die
 globale Variable
 [RegExprModifierR](#modifier_defs) auf false.
 
-Der [Modifikator /x](regexp_syntax.html#modifier_x) selbst braucht
+Der [Modifikator /x](regular_expressions.html#modifier_x) selbst braucht
 etwas mehr Erklärung. Er sagt TRegExpr, dass er allen Whitespace
 ignorieren soll, der nicht escaped oder innerhalb einer Zeichenklasse
 ist. Du kannst ihn benutzen, um den regulären Ausdruck in kleinere,

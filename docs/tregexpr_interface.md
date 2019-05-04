@@ -26,9 +26,9 @@ aufgerufen. Diese erzeugt standardmässig eine Ausnahme vom Typ ERegExpr
     property ModifierStr : string
 
 Setze / hole die Standardwerte für die
-[Modifikatoren](regexp_syntax.html#about_modifiers). Modifikatoren in
+[Modifikatoren](regular_expressions.html#about_modifiers). Modifikatoren in
 Regulären Ausdrücken
-[(?ismx-ismx)](regexp_syntax.html#inline_modifiers) ersetzen diese
+[(?ismx-ismx)](regular_expressions.html#inline_modifiers) ersetzen diese
 Standardwerte. Falls Du nicht unterstützte Modifikatoren setzst, wird
 die Methode Error aufgerufen, die standardmässig eine Ausnahme vom Typ
 EregExpr erzeugt.
@@ -46,26 +46,26 @@ ExtSyntaxEnabled in früheren Versionen)
 
 property ModifierS : boolean
 
-[Modifikator /s](regexp_syntax.html#modifier_s) - '.' findet jedes
+[Modifikator /s](regular_expressions.html#modifier_s) - '.' findet jedes
 beliebige Zeichen (sonst wie \[^\\n\]). Standardmässig True.
 
 property ModifierG : boolean
 
-[Modifikator /g](regexp_syntax.html#modifier_g) – schaltet alle
+[Modifikator /g](regular_expressions.html#modifier_g) – schaltet alle
 Operatoren in den genügsamen Modus. Falls ModifierG False ist, dann
 arbeitet '\*' als '\*?', und '+' als '+?' und so weiter. Standardmässig
 True.
 
 property ModifierM : boolean
 
-[Modifikator /m](regexp_syntax.html#modifier_m) – Behandelt den
+[Modifikator /m](regular_expressions.html#modifier_m) – Behandelt den
 Zielstring als mehrzeiligen String. So finden "^" und "$" nicht mehr nur
 den Anfang und das Ende des Zielstringes, sondern auch Zeilenseparatoren
 innerhalb des Zielstrings. Standardmässig False.
 
 property ModifierX : boolean
 
-[Modifikator /x](regexp_syntax.html#modifier_x) – Erweiterte Syntax,
+[Modifikator /x](regular_expressions.html#modifier_x) – Erweiterte Syntax,
 erlaubt das Formatieren des regulärenm Ausdruckes zur besseren
 Lesbarkeit. Standardmässig False.
 
@@ -253,7 +253,7 @@ Anfänglich gefüllt mit der globalen Konstanten RegExprWordChars.
 Beinhaltet die Zeichen, die für Zeilenseparatoren wie \\n in UNIX
 verwendet werden. Anfänglich gefüllt mit der globalen Konstanten
 RegExprLineSeparators. Beachte auch
-[Zeilenseparatoren](regexp_syntax.html#syntax_line_separators)
+[Zeilenseparatoren](regular_expressions.html#syntax_line_separators)
 
 property LinePairedSeparators : RegExprString
 
@@ -261,7 +261,7 @@ Beinhaltet die Zeichen, die paarweise für Zeilenseparatoren wie \\r\\n
 in DOS/Windows verwendet werden. Es müssen genau zwei oder gar keine
 Zeichen sein. Anfänglich gefüllt mit der globalen Konstanten
 RegExprLinePairedSeparators. Beachte auch
-[Zeilenseparatoren](regexp_syntax.html#syntax_line_separators)
+[Zeilenseparatoren](regular_expressions.html#syntax_line_separators)
 
 Beispiel: Wenn Du den UNIX-Stil als Zeilenseparatoren haben möchtest,
 dann weise LineSeparators := \#$a (Newline Zeichen) und
@@ -274,7 +274,7 @@ Standardmässig ist der gemsichte Modus aktiv wie er definiert ist in den
 globalen Konstanten RegExprLine\[Paired\]Separator\[s\]: LineSeparators
 := \#$d\#$a; LinePairedSeparator := \#$d\#$a. Das Verhalten dieses Modus
 wird ausführlich im Abschnitt [Syntax
-besprochen](regexp_syntax.html#syntax_line_separators).
+besprochen](regular_expressions.html#syntax_line_separators).
 
 class function InvertCaseFunction  (const Ch : REChar) : REChar;
 

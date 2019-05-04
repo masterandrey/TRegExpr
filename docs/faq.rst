@@ -37,10 +37,10 @@ A.
 ''
 
 Aus Grunden der Abwarstkompatibilitat ist der `Modifikator
-/s <regexp_syntax.html#modifier_s>`__ standardmassig eingeschaltet.
+/s <regular_expressions.html#modifier_s>`__ standardmassig eingeschaltet.
 
 Schalte ihn aus und ``.`` findet alles ausser
-`Zeilenseparatoren <regexp_syntax.html#syntax_line_separators>`__ – Wie
+`Zeilenseparatoren <regular_expressions.html#syntax_line_separators>`__ – Wie
 Du es wunschst.
 
 BTW Ich schlage vor, Du nimmst ``<font (\[^\\n>\]\*)>``, dann hast Du in
@@ -148,4 +148,4 @@ UNIX geht TRegExpr nicht so weit, dass es nach einem Zeichen weitergeht
 im Zielstring und erneut prüft, ob es einen "noch besseren Treffer"
 gäbe. Zudem kann man hierbei überhaupt nicht von "schlechteren oder
 besseren Treffern" sprechen. Bitte lies den Abschnitt  für
-`Syntax <regexp_syntax.html>`__ weitere Erläuterungen.
+`Syntax <regular_expressions.html>`__ weitere Erläuterungen.

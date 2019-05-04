@@ -1,7 +1,7 @@
 ### Einfache Beispiele
 
 Falls Du nicht mit Regulären Ausdrücken bekannt bist, dann könntest Du
-etwas unter dem Abschnitt [Syntax](regexp_syntax.html) dazulernen oder
+etwas unter dem Abschnitt [Syntax](regular_expressions.html) dazulernen oder
 schaue in ein gutes Perl oder Unix Buch.
  
 ### Globale Routinen verwenden
