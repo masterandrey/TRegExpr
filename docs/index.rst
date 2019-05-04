@@ -1,5 +1,5 @@
       **This is very old and outdated translation.**
-      *If you can read English or Russian please use up-to-date* `English version <http://regexpr.masterandrey.com/en/latest/>`_ *or* `Russian version <http://regexpr.masterandrey.com/ru/latest/>`_.
+      *If you can read English or Russian please use up-to-date* `English version <http://regexpr.masterandrey.com>`_ *or* `Russian version <http://regexpr.masterandrey.com/ru/latest/>`_.
 
       *If you want to help to update the translation please* `contact me <https://github.com/masterandrey>`_.
       New translation is based on `GetText <https://en.wikipedia.org/wiki/Gettext>`_ and can be edited with `transifex.com <https://www.transifex.com/masterAndrey/tregexpr/dashboard/>`_.
@@ -26,7 +26,7 @@ TRegExpr est écris en objet pascal avec les fichiers source disponible
 gratuitement.
 
 Le fichier source original en C a été amélioré et encapsulé complètement
-dans la classe `TRegExpr <tregexpr_interface.html>`__ en un seul
+dans la classe `TRegExpr <tregexpr.html>`__ en un seul
 fichier: RegExpr.pas.
 
 Aussi, vous n'aurez pas besoin de fichier DLL!
@@ -49,7 +49,7 @@ Documentation
    :maxdepth: 2
 
    regular_expressions
-   tregexpr_interface
+   tregexpr
    faq
    demos
    tregexpr_testrexp

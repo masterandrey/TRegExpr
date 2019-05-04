@@ -17,7 +17,7 @@ TRegExpr est écris en objet pascal avec les fichiers source disponible
 gratuitement.
 
 Le fichier source original en C a été amélioré et encapsulé complètement
-dans la classe [TRegExpr](tregexpr_interface.html) en un seul fichier:
+dans la classe [TRegExpr](tregexpr.html) en un seul fichier:
 RegExpr.pas.
 
 Aussi, vous n'aurez pas besoin de fichier DLL!

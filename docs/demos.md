@@ -106,7 +106,7 @@ Explication plus détaillée
 
  
 
-Svp, voir la [description](tregexpr_interface.html) d'interface de
+Svp, voir la [description](tregexpr.html) d'interface de
 TregExpr.
 
  
