@@ -30,7 +30,7 @@ TRegExpr е написан на чист Object Pascal, като всички с
 достъпни безплатно.
 
 Освен това към оригиналния С-код са добавени някои разширения и всичко е
-капсулирано в обектния клас `TRegExpr <tregexpr_interface.html>`__,
+капсулирано в обектния клас `TRegExpr <tregexpr.html>`__,
 който е реализиран в един-единствен файл - RegExpr.pas.
 
 За неговото използване не са необходими никакви DLL !
@@ -42,7 +42,7 @@ Expressions, да разучите техният `синтаксис <regular_e
 програма <tregexpr_testrexp.html>`__).
 
 TregExpr може да работи и с Unicode-стрингове - вижте `как се работи с
-Unicode <tregexpr_interface.html#unicode>`__.
+Unicode <tregexpr.html#unicode>`__.
 
 Историята на разработката и измененията на библиотеката, както и новите
 неща, са описани в `История <../posts/bg/tregexpr_history/>`__.
@@ -80,7 +80,7 @@ Documentation
    :maxdepth: 2
 
    regular_expressions
-   tregexpr_interface
+   tregexpr
    faq
    demos
    tregexpr_testrexp 

@@ -106,4 +106,4 @@ TestRExp.dpr и [HyperLinkDecorator.pas](#hyperlinksdecorator.html).
  
 
 ### Детайлно описание
-Вижте [пълното описание](tregexpr_interface.html) на интерфейса на TRegExpr.
+Вижте [пълното описание](tregexpr.html) на интерфейса на TRegExpr.
