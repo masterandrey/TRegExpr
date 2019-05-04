@@ -58,7 +58,7 @@ msgstr ""
 
 #: ../../index.rst:28
 # 4b444357588046d080d9dc32d9c68b8e
-msgid "Installation is very simple, the implementation encapsulated completely into class `TRegExpr </tregexpr_interface/>`__."
+msgid "Installation is very simple, the implementation encapsulated completely into class `TRegExpr </tregexpr/>`__."
 msgstr ""
 
 #: ../../index.rst:31
@@ -68,7 +68,7 @@ msgstr ""
 
 #: ../../index.rst:37
 # e7b685d3c5ed4990b3ad17e4ce087843
-msgid "If You need Unicode (so called ‘WideString’ in Delphi) - see `How to use unicode <tregexpr_interface#unicode>`__."
+msgid "If You need Unicode (so called ‘WideString’ in Delphi) - see `How to use unicode <tregexpr#unicode>`__."
 msgstr ""
 
 #: ../../index.rst:41

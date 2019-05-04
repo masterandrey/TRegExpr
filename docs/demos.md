@@ -103,5 +103,5 @@ Kingdom](%60http://delphi.vitpc.com/mastering/strings_birds_eye_view.htm',%60',1
 
 ### Explicación detallada
 
-Por favor, ver la [descripcion](tregexpr_interface.html) de la
+Por favor, ver la [descripcion](tregexpr.html) de la
 interface de TRegExpr.

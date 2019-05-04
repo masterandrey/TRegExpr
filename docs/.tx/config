@@ -25,9 +25,9 @@ source_file = _build/gettext/about.pot
 source_lang = en
 type = PO
 
-[tregexpr._build_gettext_tregexpr_interface]
-file_filter = locale/<lang>/LC_MESSAGES/tregexpr_interface.po
-source_file = _build/gettext/tregexpr_interface.pot
+[tregexpr._build_gettext_tregexpr]
+file_filter = locale/<lang>/LC_MESSAGES/tregexpr.po
+source_file = _build/gettext/tregexpr.pot
 source_lang = en
 type = PO
 

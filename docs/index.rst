@@ -25,7 +25,7 @@ TRegExpr está programado en Pascal puro, con el código fuente completo
 gratis.
 
 El original en C ha sido mejorado y encapsulado completamente en la
-clase `TRegExpr <tregexpr_interface.html>`__ implementada en un sólo
+clase `TRegExpr <tregexpr.html>`__ implementada en un sólo
 archivo: RegExpr.pas.
 
 Por lo tanto, no se necesita ninguna DLL!
@@ -36,7 +36,7 @@ usar el `proyecto demo <tregexpr_testrexp.html>`__ para probar y depurar
 las expresiones regulares propias).
 
 Se puede usar Unicode (WideString de Delphi) - ver "`Cómo usar
-Unicode <tregexpr_interface.html#unicode>`__".
+Unicode <tregexpr.html#unicode>`__".
 
 Documentation
 -------------
@@ -46,7 +46,7 @@ Documentation
    :maxdepth: 2
 
    regular_expressions
-   tregexpr_interface
+   tregexpr
    faq
    demos
    tregexpr_testrexp

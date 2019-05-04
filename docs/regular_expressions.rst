@@ -1,3 +1,12 @@
+      **This is very old and outdated translation.**
+      *If you can read English or Russian please use up-to-date* `English version <http://regexpr.masterandrey.com>`_ *or* `Russian version <http://regexpr.masterandrey.com/ru/latest/>`_.
+
+      *If you want to help to update the translation please* `contact me <https://github.com/masterandrey>`_.
+      New translation is based on `GetText <https://en.wikipedia.org/wiki/Gettext>`_ and can be edited with `transifex.com <https://www.transifex.com/masterAndrey/tregexpr/dashboard/>`_.
+      It is already machine-translated and need only proof-reading and may be some copy-pasting from here.
+
+------------
+
 Introducción
 ------------
 
@@ -56,7 +65,7 @@ donde nn es un número hexadecimal, encuentra el caracter cuyo valor
 ::
 
      \xnn     caracter con código hexadecimal nn
-     \x{nn} caracter con código hexadecimal nnnn (un byte para texto común y dos para [Unicode](tregexpr_interface.html))
+     \x{nn} caracter con código hexadecimal nnnn (un byte para texto común y dos para [Unicode](tregexpr.html))
      \t       tab (HT/TAB), lo mismo que \x09
      \n       línea nueva (NL), lo mismo que \x0a
      \r       retorno de carro (CR), lo mismo que \x0d
@@ -163,7 +172,7 @@ de []www.unicode.org](http://www.unicode.org/unicode/reports/tr18/):
 ``^`` al inicio de la cadena ingresada, y si el modificador ``/m`` está
 activado, también inmediatamente después de toda ocurrencia de
 ``\x0D\x0A``, ``\x0A`` o ``\x0D`` (si se usa la versión
-`Unicode <tregexpr_interface.html>`__ de TRegExpr, también ``\x2028``,
+`Unicode <tregexpr.html>`__ de TRegExpr, también ``\x2028``,
  ``\x2029``, ``\x0B``, ``\x0C`` o ``\x85``). Notar que no hay una línea
 vacía dentro de la secuencia ``\x0D\x0A``.
 

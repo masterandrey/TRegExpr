@@ -49,7 +49,7 @@ nn. Para usar códigos dobles de Unicode, se puede especificar
 `\x{nnnn}`, donde `nnnn` - es uno o más valores hexadecimales.
 
      \xnn     caracter con código hexadecimal nn
-     \x{nn} caracter con código hexadecimal nnnn (un byte para texto común y dos para [Unicode](tregexpr_interface.html))
+     \x{nn} caracter con código hexadecimal nnnn (un byte para texto común y dos para [Unicode](tregexpr.html))
      \t       tab (HT/TAB), lo mismo que \x09
      \n       línea nueva (NL), lo mismo que \x0a
      \r       retorno de carro (CR), lo mismo que \x0d
@@ -139,7 +139,7 @@ de []www.unicode.org](http://www.unicode.org/unicode/reports/tr18/):
 `^` al inicio de la cadena ingresada, y si el modificador `/m` está
 activado, también inmediatamente después de toda ocurrencia de
 `\x0D\x0A`, `\x0A` o `\x0D` (si se usa la versión
-[Unicode](tregexpr_interface.html) de TRegExpr, también `\x2028`,
+[Unicode](tregexpr.html) de TRegExpr, también `\x2028`,
  `\x2029`, `\x0B`, `\x0C` o `\x85`). Notar que no hay una línea vacía dentro
 de la secuencia `\x0D\x0A`.
 
