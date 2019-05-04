@@ -34,7 +34,7 @@ geschrieben und wird mit dem ganzen Quelltext kostenlos zur Verfügung
 gestellt.
 
 Der originale C-Quelltext wurde verbessert, in eine Klasse
-`TRegExpr <tregexpr_interface.html>`__ gekapselt und in einer einzigen
+`TRegExpr <tregexpr.html>`__ gekapselt und in einer einzigen
 Datei gespeichert: RegExpr.pas.
 
 Du brauchst also keine DLL mehr für Reguläre Ausdrücke!
@@ -55,7 +55,7 @@ Studienzwecke heranziehen und damit auch Deine eigenen Regulären
 Ausdrücken ausarbeiten oder debuggen).
 
 Du kannst sogar Unicode (d.h. Delphis WideString) benutzen – weiteres
-unter "`Wie wird Unicode benutzt? <tregexpr_interface.html#unicode>`__".
+unter "`Wie wird Unicode benutzt? <tregexpr.html#unicode>`__".
 
 Wirf auch einen Blick auf die `Was gibt's
 Neues <http://regexpstudio.com>`__ web-Sektion für die neuesten
@@ -96,7 +96,7 @@ Documentation
    :maxdepth: 2
 
    regular_expressions
-   tregexpr_interface
+   tregexpr
    faq
    demos
    tregexpr_testrexp

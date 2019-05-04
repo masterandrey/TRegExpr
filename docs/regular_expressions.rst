@@ -1,3 +1,12 @@
+      **This is very old and outdated translation.**
+      *If you can read English or Russian please use up-to-date* `English version <http://regexpr.masterandrey.com>`_ *or* `Russian version <http://regexpr.masterandrey.com/ru/latest/>`_.
+
+      *If you want to help to update the translation please* `contact me <https://github.com/masterandrey>`_.
+      New translation is based on `GetText <https://en.wikipedia.org/wiki/Gettext>`_ and can be edited with `transifex.com <https://www.transifex.com/masterAndrey/tregexpr/dashboard/>`_.
+      It is already machine-translated and need only proof-reading and may be some copy-pasting from here.
+
+------------
+
 Einführung
 ----------
 
@@ -60,7 +69,7 @@ wobei ``nnnn`` – eine oder mehrere hexadezimale Ziffern sind.
 
      \xnn     Zeichen mit dem Hex-Code nn (ASCII-Text)
      \x{nnnn} Zeichen mit dem Hex-Code nnnn (ein Byte für ASCII-Text und zwei Bytes für
-    [Unicode](tregexpr_interface.html#unicode)-Zeichen
+    [Unicode](tregexpr.html#unicode)-Zeichen
      \t       ein Tabulator (HT/TAB), gleichbedeutend wie \x09
      \n       Zeilenvorschub (NL), gleichbedeutend wie \x0a
      \r       Wagenrücklauf (CR), gleichbedeutend wie \x0d
@@ -177,7 +186,7 @@ empfohlen ist:
 ``^`` ist am Anfang des Eingabestrings, und, falls der `Modifikator
 /m <regular_expressions.html#modifier_m>`__ gesetzt ist, auch unmitelbar
 folgend einem Vorkommen von ``\x0D\x0A`` oder ``\x0A`` or ``\x0D``
-(falls Du die `Unicode-Version <tregexpr_interface.html#unicode>`__ von
+(falls Du die `Unicode-Version <tregexpr.html#unicode>`__ von
 TregExpr benutzst, dann auch nach ``\x2028`` oder  ``\x2029`` oder
 ``\x0B`` oder ``\x0C`` oder ``\x85``). Beachte, dass es keine leere
 Zeile gibt in den Sequence ``\x0D\x0A``. Diese beiden Zeichen werden
@@ -186,7 +195,7 @@ atomar behandelt.
 ``$`` ist am Anfang des Eingabestrings, und, falls der `Modifikator
 /m <regular_expressions.html#modifier_m>`__ gesetzt ist, auch unmitelbar vor
 einem Vorkommen von ``\x0D\x0A`` oder ``\x0A`` or ``\x0D`` (falls Du die
-`Unicode-Version <tregexpr_interface.html#unicode>`__ von TregExpr
+`Unicode-Version <tregexpr.html#unicode>`__ von TregExpr
 benutzst, dann auch vor ``\x2028`` oder  ``\x2029`` oder ``\x0B`` oder
 ``\x0C`` oder ``\x85``). Beachte, dass es keine leere Zeile gibt in den
 Sequence ``\x0D\x0A``. Diese beiden Zeichen werden atomar behandelt.
@@ -194,7 +203,7 @@ Sequence ``\x0D\x0A``. Diese beiden Zeichen werden atomar behandelt.
 ``.`` findet ein beliebiges Zeichen. Wenn Du aber den `Modifikator
 /s <regular_expressions.html#modifier_s>`__ ausstellst, dann findet ``.``
 keine Zeilensearaptoren ``\x0D\x0A`` und ``\x0A`` und ``\x0D`` mehr
-(falls Du die `Unicode-Version <tregexpr_interface.html#unicode>`__ von
+(falls Du die `Unicode-Version <tregexpr.html#unicode>`__ von
 TregExpr benutzst, dann auch ``\x2028`` und  ``\x2029`` und ``\x0B`` und
 ``\x0C`` and ``\x85``).
 
@@ -205,8 +214,8 @@ findet, aber es findet den Leerstring innerhalb der Sequenz
 
 Die Behandlung des Zielstrings als mehrzeiliger String kann leicht
 Deinen Bedürfnissen angepasst werden dank der TregExpr-Eigenschaften
-`LineSeparators <tregexpr_interface.html#lineseparators>`__ und
-`LinePairedSeparator <tregexpr_interface.html#linepairedseparator>`__.
+`LineSeparators <tregexpr.html#lineseparators>`__ und
+`LinePairedSeparator <tregexpr.html#linepairedseparator>`__.
 Du kannst nur den UNIX-Stil Zeilenseparator ``\n`` benutzen oder nur
 DOS-Stil Separatoren ``\r\n`` oder beide gelichzeitig (wie schon oben
 beschrieben und wie es als Standard gesetzt ist). Du kannst auch Deine
@@ -236,8 +245,8 @@ Beispiele:
      foob\[\w\s]r findet Strings wie 'foobar', 'foob r', 'foobbr' etc., aber nicht 'foob1r', 'foob=r' etc.
 
 TRegExpr benutzt die Eigenschaften
-`SpaceChars <tregexpr_interface.html#tregexpr.spacechars>`__ und
-`WordChars <tregexpr_interface.html#tregexpr.wordchars>`__, um die
+`SpaceChars <tregexpr.html#tregexpr.spacechars>`__ und
+`WordChars <tregexpr.html#tregexpr.wordchars>`__, um die
 Zeichenklassen ``\w``, ``\W``, ``\s``, ``\S`` zu definieren. Somit
 kannst Du sie auch leicht umdefinieren.
 
@@ -356,15 +365,15 @@ Das KLammernkonstrukt ``(...)`` wird auch dazu benutzt, reguläre
 Teilausdrücke zu definieren (nach dem Parsen findest Du Positionen,
 Längen und effektive Inhalte der regulären Teilausdrücke in den
 TRegExpr-Eigenschaften MatchPos, MatchLen und
-`Match <tregexpr_interface.html#tregexpr.match>`__ und kannst sie
+`Match <tregexpr.html#tregexpr.match>`__ und kannst sie
 ersetzen mit den Template-Strings in
-`TRegExpr.Substitute <tregexpr_interface.html#tregexpr.substitute>`__).
+`TRegExpr.Substitute <tregexpr.html#tregexpr.substitute>`__).
 
 Teilausdrücke werden nummeriert von links nach recht, jeweils in der
 Reihenfolge ihrer öffnenden Klammer. Der erste Teilausdruck hat die
 Nummer ``1``, der gesamte reguläre Ausdruck hat die Nummer ``0`` (der
 gesamte Ausdruck kann ersetzt werden in
-`TRegExpr.Substitute <tregexpr_interface.html#tregexpr.substitute>`__
+`TRegExpr.Substitute <tregexpr.html#tregexpr.substitute>`__
 als ``$0`` oder ``$&``).
 
 Beispiele:
@@ -404,7 +413,7 @@ des regulären Ausdruckes mittels des Konstruktes
 Du kannst allerdings auch die meisten Modifikatoren beeinflussen, indem
 Du den entsprechenden TRegExpr-Eigenschaften die passenden Werte zuweist
 (Beispiel: Zuweisung an
-`ModifierX <tregexpr_interface.html#tregexpr.modifier_x>`__ oder
+`ModifierX <tregexpr.html#tregexpr.modifier_x>`__ oder
 ModifierStr für alle Modifikatoren zugleich).
 
 Die Standardwerte für neue Instanzen von TRegExpr-Objekte sind definiert
@@ -418,7 +427,7 @@ i
 
 Führe die Suche Schreibweisen-unabhägig durch (allerdings abhängig von
 den Einstellungen in Deinem System, Lokale Einstellungen), (beachte auch
-die `InvertCase <tregexpr_interface.html#invertcase>`__)
+die `InvertCase <tregexpr.html#invertcase>`__)
 
 m
 ~
@@ -427,14 +436,14 @@ Behandle den Zielstring als mehrzeiligen String. Das bedeutet, ändere
 die Bedeutungen von "^" und "$": Statt nur den Anfang oder das Ende des
 Zielstrings zu finden, wird jeder Zeilenseparator innerhalb eines
 Strings erkannt (beachte auch die
-`Zeilenseparatoren <tregexpr_interface.html#lineseparators>`__)
+`Zeilenseparatoren <tregexpr.html#lineseparators>`__)
 
 s
 ~
 
 Behandle den Zielstring als einzelne Zeile. Das bedeutet, dass ``.``
 jedes beliebige Zeichen findet, sogar Zeilenseparatoren (beachte auch
-`Zeilenseparatoren <tregexpr_interface.html#lineseparators>`__), die es
+`Zeilenseparatoren <tregexpr.html#lineseparators>`__), die es
 normalerweise nicht findet.
 
 g

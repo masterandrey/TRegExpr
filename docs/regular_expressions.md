@@ -52,7 +52,7 @@ kodierte Zeichen) angeben möchtest, dann benutze `\x{nnnn}`, wobei
 
      \xnn     Zeichen mit dem Hex-Code nn (ASCII-Text)
      \x{nnnn} Zeichen mit dem Hex-Code nnnn (ein Byte für ASCII-Text und zwei Bytes für
-    [Unicode](tregexpr_interface.html#unicode)-Zeichen
+    [Unicode](tregexpr.html#unicode)-Zeichen
      \t       ein Tabulator (HT/TAB), gleichbedeutend wie \x09
      \n       Zeilenvorschub (NL), gleichbedeutend wie \x0a
      \r       Wagenrücklauf (CR), gleichbedeutend wie \x0d
@@ -149,7 +149,7 @@ TRegExpr geht mit Zeilenseparatoren so um, wie es auf
 `^` ist am Anfang des Eingabestrings, und, falls der [Modifikator
 /m](regular_expressions.html#modifier_m) gesetzt ist, auch unmitelbar folgend
 einem Vorkommen von `\x0D\x0A` oder `\x0A` or `\x0D` (falls Du die
-[Unicode-Version](tregexpr_interface.html#unicode) von TregExpr
+[Unicode-Version](tregexpr.html#unicode) von TregExpr
 benutzst, dann auch nach `\x2028` oder  `\x2029` oder `\x0B` oder `\x0C`
 oder `\x85`). Beachte, dass es keine leere Zeile gibt in den Sequence
 `\x0D\x0A`. Diese beiden Zeichen werden atomar behandelt.
@@ -157,7 +157,7 @@ oder `\x85`). Beachte, dass es keine leere Zeile gibt in den Sequence
 `$` ist am Anfang des Eingabestrings, und, falls der [Modifikator
 /m](regular_expressions.html#modifier_m) gesetzt ist, auch unmitelbar vor
 einem Vorkommen von `\x0D\x0A` oder `\x0A` or `\x0D` (falls Du die
-[Unicode-Version](tregexpr_interface.html#unicode) von TregExpr
+[Unicode-Version](tregexpr.html#unicode) von TregExpr
 benutzst, dann auch vor `\x2028` oder  `\x2029` oder `\x0B` oder `\x0C` oder
 `\x85`). Beachte, dass es keine leere Zeile gibt in den Sequence
 `\x0D\x0A`. Diese beiden Zeichen werden atomar behandelt.
@@ -165,7 +165,7 @@ benutzst, dann auch vor `\x2028` oder  `\x2029` oder `\x0B` oder `\x0C` oder
 `.` findet ein beliebiges Zeichen. Wenn Du aber den [Modifikator
 /s](regular_expressions.html#modifier_s) ausstellst, dann findet `.` keine
 Zeilensearaptoren `\x0D\x0A` und `\x0A` und `\x0D` mehr (falls Du die
-[Unicode-Version](tregexpr_interface.html#unicode) von TregExpr
+[Unicode-Version](tregexpr.html#unicode) von TregExpr
 benutzst, dann auch `\x2028` und  `\x2029` und `\x0B` und `\x0C` and `\x85`).
 
 Beachte, dass `^.\*$` (was auch eine leere Zeile findet können sollte)
@@ -174,8 +174,8 @@ findet, aber es findet den Leerstring innerhalb der Sequenz `\x0A\x0D`.
 
 Die Behandlung des Zielstrings als mehrzeiliger String kann leicht
 Deinen Bedürfnissen angepasst werden dank der TregExpr-Eigenschaften
-[LineSeparators](tregexpr_interface.html#lineseparators) und
-[LinePairedSeparator](tregexpr_interface.html#linepairedseparator). Du
+[LineSeparators](tregexpr.html#lineseparators) und
+[LinePairedSeparator](tregexpr.html#linepairedseparator). Du
 kannst nur den UNIX-Stil Zeilenseparator `\n` benutzen oder nur DOS-Stil
 Separatoren `\r\n` oder beide gelichzeitig (wie schon oben beschrieben
 und wie es als Standard gesetzt ist). Du kannst auch Deine eigenen
@@ -200,8 +200,8 @@ Zeichenklassen benutzen.
      foob\[\w\s]r findet Strings wie 'foobar', 'foob r', 'foobbr' etc., aber nicht 'foob1r', 'foob=r' etc.
 
 TRegExpr benutzt die Eigenschaften
-[SpaceChars](tregexpr_interface.html#tregexpr.spacechars) und
-[WordChars](tregexpr_interface.html#tregexpr.wordchars), um die
+[SpaceChars](tregexpr.html#tregexpr.spacechars) und
+[WordChars](tregexpr.html#tregexpr.wordchars), um die
 Zeichenklassen `\w`, `\W`, `\s`, `\S` zu definieren. Somit kannst Du sie
 auch leicht umdefinieren.
 
@@ -305,15 +305,15 @@ Das KLammernkonstrukt `(...)` wird auch dazu benutzt, reguläre
 Teilausdrücke zu definieren (nach dem Parsen findest Du Positionen,
 Längen und effektive Inhalte der regulären Teilausdrücke in den
 TRegExpr-Eigenschaften MatchPos, MatchLen und
-[Match](tregexpr_interface.html#tregexpr.match) und kannst sie ersetzen
+[Match](tregexpr.html#tregexpr.match) und kannst sie ersetzen
 mit den Template-Strings in
-[TRegExpr.Substitute](tregexpr_interface.html#tregexpr.substitute)).
+[TRegExpr.Substitute](tregexpr.html#tregexpr.substitute)).
 
 Teilausdrücke werden nummeriert von links nach recht, jeweils in der
 Reihenfolge ihrer öffnenden Klammer. Der erste Teilausdruck hat die
 Nummer `1`, der gesamte reguläre Ausdruck hat die Nummer `0` (der gesamte
 Ausdruck kann ersetzt werden in
-[TRegExpr.Substitute](tregexpr_interface.html#tregexpr.substitute) als
+[TRegExpr.Substitute](tregexpr.html#tregexpr.substitute) als
 `$0` oder `$&`).
 
 #### Beispiele:
@@ -345,7 +345,7 @@ des regulären Ausdruckes mittels des Konstruktes
 Du kannst allerdings auch die meisten Modifikatoren beeinflussen, indem
 Du den entsprechenden TRegExpr-Eigenschaften die passenden Werte zuweist
 (Beispiel: Zuweisung an
-[ModifierX](tregexpr_interface.html#tregexpr.modifier_x) oder
+[ModifierX](tregexpr.html#tregexpr.modifier_x) oder
 ModifierStr für alle Modifikatoren zugleich).
 
 Die Standardwerte für neue Instanzen von TRegExpr-Objekte sind definiert
@@ -359,7 +359,7 @@ TRegExpr-Eigenschaft ModifierX bei neu instantiierten TRegExpr-Objekten.
 
 Führe die Suche Schreibweisen-unabhägig durch (allerdings abhängig von
 den Einstellungen in Deinem System, Lokale Einstellungen), (beachte auch
-die [InvertCase](tregexpr_interface.html#invertcase))
+die [InvertCase](tregexpr.html#invertcase))
 
 <a name="modifier_m"></a>
 ### m
@@ -368,14 +368,14 @@ Behandle den Zielstring als mehrzeiligen String. Das bedeutet, ändere
 die Bedeutungen von "^" und "$": Statt nur den Anfang oder das Ende des
 Zielstrings zu finden, wird jeder Zeilenseparator innerhalb eines
 Strings erkannt (beachte auch die
-[Zeilenseparatoren](tregexpr_interface.html#lineseparators))
+[Zeilenseparatoren](tregexpr.html#lineseparators))
 
 <a name="modifier_s"></a>
 ### s
 
 Behandle den Zielstring als einzelne Zeile. Das bedeutet, dass `.` jedes
 beliebige Zeichen findet, sogar Zeilenseparatoren (beachte auch
-[Zeilenseparatoren](tregexpr_interface.html#lineseparators)), die es
+[Zeilenseparatoren](tregexpr.html#lineseparators)), die es
 normalerweise nicht findet.
 
 <a name="modifier_g"></a>

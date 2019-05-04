@@ -97,4 +97,4 @@ Beachte bitte auch meine kleinen [Artikel](http://masterandrey.com/posts/en/text
 
 Ausführliche Erklärung
 
-Bitte beachte dazu die TRegExpr-Interface-[Beschreibung](tregexpr_interface.html).
+Bitte beachte dazu die TRegExpr-Interface-[Beschreibung](tregexpr.html).
