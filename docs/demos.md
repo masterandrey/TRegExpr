@@ -1,7 +1,7 @@
 ### Simple illustrations
 
 Si vous n'êtes pas familier avec les expressions régulières, svp, aller
-au sujet [syntaxe](regexp_syntax.html).
+au sujet [syntaxe](regular_expressions.html).
 
 Utiliser les routines globales
 

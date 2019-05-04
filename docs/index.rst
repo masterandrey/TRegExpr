@@ -20,7 +20,7 @@ programme !
 
 Cette librairie gratuite est une version étendue des routines de Henry
 Spencer V8-routins pour travailler avec un sous-ensemble de Perl ;
-`Expressions Réguličres <regexp_syntax.html>`__.
+`Expressions Réguličres <regular_expressions.html>`__.
 
 TRegExpr est écris en objet pascal avec les fichiers source disponible
 gratuitement.
@@ -32,7 +32,7 @@ fichier: RegExpr.pas.
 Aussi, vous n'aurez pas besoin de fichier DLL!
 
 Prenez un simple regard а une `illustration <demos.html>`__ et étudier
-la `syntaxe <regexp_syntax.html>`__ des expressions régulières. (Vous
+la `syntaxe <regular_expressions.html>`__ des expressions régulières. (Vous
 pouvez utiliser le `projet demo <#tregexpr_testrexp.html>`__ pour
 explorer et apprendre vos propres expressions régulières).
 
@@ -48,7 +48,7 @@ Documentation
    :glob:
    :maxdepth: 2
 
-   regexp_syntax
+   regular_expressions
    tregexpr_interface
    faq
    demos

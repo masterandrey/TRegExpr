@@ -2,7 +2,7 @@ Simple illustrations
 ~~~~~~~~~~~~~~~~~~~~
 
 Si vous n'êtes pas familier avec les expressions régulières, svp, aller
-au sujet `syntaxe <regexp_syntax.html>`__.
+au sujet `syntaxe <regular_expressions.html>`__.
 
 Utiliser les routines globales
 

@@ -107,5 +107,5 @@ Perl ou les e.r. de Unix ne tente pas de bouger en avant et vérifier
 qu'est-ce qu'il serait la meilleure correspondance. De plus, il ne peut
 comparer en terme `plus ou moins bon`.
 
-SVP, lire le section [Syntaxe](regexp_syntax.html) du fichier d'aide pour plus
+SVP, lire le section [Syntaxe](regular_expressions.html) du fichier d'aide pour plus
 d'explication.
