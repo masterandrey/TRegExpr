@@ -1,9 +1,4 @@
-      **This is very old and outdated translation.**
-      *If you can read English or Russian please use up-to-date* `English version <http://regexpr.masterandrey.com>`_ *or* `Russian version <http://regexpr.masterandrey.com/ru/latest/>`_.
-
-      *If you want to help to update the translation please* `contact me <https://github.com/masterandrey>`_.
-      New translation is based on `GetText <https://en.wikipedia.org/wiki/Gettext>`_ and can be edited with `transifex.com <https://www.transifex.com/masterAndrey/tregexpr/dashboard/>`_.
-      It is already machine-translated and need only proof-reading and may be some copy-pasting from here.
+.. include:: translation_help.rst
 
 ------------
 
@@ -64,57 +59,80 @@ Modiifikator /r – benutze die für Russen erweiterte Syntax.
 Standardmässig True. (war die Eigenschaft ExtSyntaxEnabled in früheren
 Versionen)
 
-property ModifierS : boolean
+::
 
-`Modifikator /s <regular_expressions.html#modifier_s>`__ - '.' findet jedes
-beliebige Zeichen (sonst wie [^\n]). Standardmässig True.
+    property ModifierS : boolean
 
-property ModifierG : boolean
+`Modifikator /s <regular_expressions.html#modifier_s>`__ - ``.`` findet jedes
+beliebige Zeichen (sonst wie ``[^\n]``). Standardmässig ``True``.
 
-`Modifikator /g <regular_expressions.html#modifier_g>`__ – schaltet alle
-Operatoren in den genügsamen Modus. Falls ModifierG False ist, dann
-arbeitet '*' als '*?', und '+' als '+?' und so weiter. Standardmässig
-True.
+::
 
-property ModifierM : boolean
+    property ModifierG : boolean
+
+
+`Modifikator /g <regular_expressions.html#modifier_g>`__ - schaltet alle
+Operatoren in den genügsamen Modus.
+
+Falls ModifierG False ist, dann
+arbeitet ``*`` als ``*?``, und ``+`` als ``+?` und so weiter. Standardmässig
+``True``.
+
+::
+
+    property ModifierM : boolean
 
 `Modifikator /m <regular_expressions.html#modifier_m>`__ – Behandelt den
 Zielstring als mehrzeiligen String. So finden "^" und "$" nicht mehr nur
 den Anfang und das Ende des Zielstringes, sondern auch Zeilenseparatoren
 innerhalb des Zielstrings. Standardmässig False.
 
-property ModifierX : boolean
+::
+
+    property ModifierX : boolean
 
 `Modifikator /x <regular_expressions.html#modifier_x>`__ – Erweiterte Syntax,
 erlaubt das Formatieren des regulärenm Ausdruckes zur besseren
 Lesbarkeit. Standardmässig False.
 
-function Exec (const AInputString : string) : boolean;
+::
+
+    function Exec (const AInputString : string) : boolean;
 
 Lässt einen Regulären Ausdruck auf einem Zielstring ablaufen. Exec
 speichert AInputString in der Eigenschaft InputString
 
 For Delphi 5 and higher available overloaded versions:
 
-function Exec : boolean;
+::
+
+    function Exec : boolean;
 
 without parameter (uses already assigned to InputString property value)
 
-function Exec (AOffset: integer) : boolean;
+::
+
+    function Exec (AOffset: integer) : boolean;
 
 is same as ExecPos
 
-function ExecNext : boolean;
+::
+
+    function ExecNext : boolean;
 
 Findet nächsten Treffer:
 
-   ExecNext;
+::
+
+    ExecNext;
 
 Arbeitet gleich wie
 
-  if MatchLen [0] = 0 then ExecPos (MatchPos [0] + 1)
+::
 
-    else ExecPos (MatchPos [0] + MatchLen [0]);
+    if MatchLen [0] = 0
+        then ExecPos (MatchPos [0] + 1)
+        else ExecPos (MatchPos [0] + MatchLen [0]);
 
 ist aber viel einfacher!
 
@@ -122,20 +140,28 @@ Raises exception if used without preceeding successful call to
 
 Exec\* (Exec, ExecPos, ExecNext). So You always must use something like
 
-if Exec (InputString) then repeat { proceed results} until not ExecNext;
+::
 
-function ExecPos (AOffset: integer = 1) : boolean;
+    if Exec (InputString) then repeat { proceed results} until not ExecNext;
+
+::
+
+    function ExecPos (AOffset: integer = 1) : boolean;
 
 Findet einen Treffer im Zielstring, jedoch beginnend ab Position
 Aoffset. (Hinweis: AOffset=1 – das erste Zeichen im Zielstring)
 
-property InputString : string;
+::
+
+    property InputString : string;
 
 Gibt den aktuellen Zielstring zurück (vom letzten Exec-Aufruf oder der
 letzten Zuweisung an diese Eigenschaft. Eine Zuweisung an diese
 Eigenschaft löscht die Match*-Eigenschaften!
 
-function Substitute (const ATemplate : string) : string;
+::
+
+    function Substitute (const ATemplate : string) : string;
 
 Gibt ATemplate mit durch $& oder $0 ersetztem Regulären Ausdruck und
 durch die Vorkommen von Regulären Unterausdrücken ersetzten $n zurück.
@@ -145,33 +171,38 @@ Perl) und es akzeptiert mehr als eine Ziffer. Falls Du die Zeichen $
 oder \\ als Literale in einem Template verwenden möchtest, nutze das
 vorangestellte Escape-Zeichen: Beispiel:
 
-   '1\$ is $2\\rub\\' -> '1$ is <Match[2]>\rub\'
+::
+
+    '1\$ is $2\\rub\\' -> '1$ is <Match[2]>\rub\'
 
 Falls Du eine Ziffer als Literal hinter einem $n plazieren möchtest,
 dann musst Du das n mit geschweiften Klammern {} begrenzen: Beispiel:
 
-   'a$12bc' -> 'a<Match[12]>bc'
+::
 
-   'a${1}2bc' -> 'a<Match[1]>2bc'.
+    'a$12bc' -> 'a<Match[12]>bc'
+    'a${1}2bc' -> 'a<Match[1]>2bc'.
 
 procedure Split (AInputStr : string; APieces : TStrings);
 
 Zerlege AInputStr in die Einzelteile APieces mit den Treffern des
 Regulären Ausdruckes als Trenner
 
-function Replace (AInputStr : RegExprString;
+::
 
- const AReplaceStr : RegExprString;
+    function Replace (AInputStr : RegExprString;
 
- AUseSubstitution : boolean = False) : RegExprString;
+     const AReplaceStr : RegExprString;
 
-function Replace (AInputStr : RegExprString;
+     AUseSubstitution : boolean = False) : RegExprString;
 
- AReplaceFunc : TRegExprReplaceFunction) : RegExprString;
+    function Replace (AInputStr : RegExprString;
 
-function ReplaceEx (AInputStr : RegExprString;
+     AReplaceFunc : TRegExprReplaceFunction) : RegExprString;
 
- AReplaceFunc : TRegExprReplaceFunction)  : RegExprString;
+    function ReplaceEx (AInputStr : RegExprString;
+
+     AReplaceFunc : TRegExprReplaceFunction)  : RegExprString;
 
 Gibt AInputStr mit den Treffern des regulären Ausdruckes ersetzt durch
 AReplaceStr. Wenn AUseSubstitution true ist, wird AReplaceStr genutzt
@@ -341,22 +372,22 @@ avoide ugly constructions
     RegExprModifierM : boolean = False;                //TRegExpr.ModifierM
     RegExprModifierX : boolean = False;                //TRegExpr.ModifierX
 
-RegExprSpaceChars : RegExprString = ' '#$9#$A#$D#$C; // Standardbelegung
-für die Eigenschaft SpaceChars
+    RegExprSpaceChars : RegExprString = ' '#$9#$A#$D#$C; // Standardbelegung
+    für die Eigenschaft SpaceChars
 
-RegExprWordChars : RegExprString =     '0123456789'  +
-'abcdefghijklmnopqrstuvwxyz'  + 'ABCDEFGHIJKLMNOPQRSTUVWXYZ_';  //
-Standardbelegung für die Eigenschaft WordChars
+    RegExprWordChars : RegExprString =     '0123456789'  +
+    'abcdefghijklmnopqrstuvwxyz'  + 'ABCDEFGHIJKLMNOPQRSTUVWXYZ_';  //
+    Standardbelegung für die Eigenschaft WordChars
 
-RegExprLineSeparators : RegExprString =  #$D#$A{$IFDEF
-UniCode}#$B#$C#$2028#$2029#$85{$ENDIF};  // Standardbelegung für die
-Eigenschaft LineSeparators
+    RegExprLineSeparators : RegExprString =  #$D#$A{$IFDEF
+    UniCode}#$B#$C#$2028#$2029#$85{$ENDIF};  // Standardbelegung für die
+    Eigenschaft LineSeparators
 
-RegExprLinePairedSeparators : RegExprString = ' '#$D#$A;  //
-Standardbelegung für die Eigenschaft LinePairedSeparators
+    RegExprLinePairedSeparators : RegExprString = ' '#$D#$A;  //
+    Standardbelegung für die Eigenschaft LinePairedSeparators
 
-RegExprInvertCaseFunction : TRegExprInvertCaseFunction =
-TRegExpr.InvertCaseFunction;
+    RegExprInvertCaseFunction : TRegExprInvertCaseFunction =
+    TRegExpr.InvertCaseFunction;
 
  // Standardbelegung für die Eigenschaft InvertCase
 

@@ -1,3 +1,7 @@
+.. include:: translation_help.rst
+
+------------
+
 Die Demo ist ein einfaches Programm, um mit den Regulären Ausdrücken zu
 spielen, sie kennenzulernen und eigene Ausdrücke zu testen Es ist im
 Quelltext vorhanden im Projekt TestRExp.dpr) und als TestRExp.exe.
