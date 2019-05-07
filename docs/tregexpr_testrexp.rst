@@ -1,3 +1,7 @@
+.. include:: translation_help.rst
+
+------------
+
 Simple programme pour explorer et tester les e.r., distribué en fichiers
 sources (projet TestRExp.dpr) et avec l'exécutable TestRExp.exe.
 
