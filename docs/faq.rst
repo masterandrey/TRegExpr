@@ -1,3 +1,7 @@
+.. include:: translation_help.rst
+
+------------
+
 P. Cómo puedo usar TRegExpr con Borland C++ Builder?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
