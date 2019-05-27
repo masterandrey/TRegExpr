@@ -63,7 +63,7 @@ msgstr ""
 
 #: ../../index.rst:31
 # 604a644712bf457d89f53469bf0dea7e
-msgid "`Demos projects <https://github.com/masterandrey/TRegExpr/tree/master/examples>`__ and `usage articles <http://masterandrey.com/posts/en/text_processing_from_birds_eye_view.html>`__ illustrate simplicity and power of text processing with the library."
+msgid "`Demos projects <https://github.com/andgineer/TRegExpr/tree/master/examples>`__ and `usage articles <http://masterandrey.com/posts/en/text_processing_from_birds_eye_view.html>`__ illustrate simplicity and power of text processing with the library."
 msgstr ""
 
 #: ../../index.rst:37
