@@ -11,7 +11,7 @@ en realidad son muy simples (bueno, usualmente simples ;) ), y son una
 herramienta práctica y poderosa.
 
 Les recomiendo especialmente hacer pruebas con e.r. usando Windows 
-[REStudio](https://github.com/masterandrey/TRegExpr/releases/download/0.952b/REStudio.exe) - 
+[REStudio](https://github.com/andgineer/TRegExpr/releases/download/0.952b/REStudio.exe) - 
 ayuda a comprender muchos
 conceptos. Además hay muchos ejemplos predefinidos con comentarios,
 incluidos en este proyecto.
