@@ -1,3 +1,7 @@
+.. include:: translation_help.rst
+
+------------
+
 Q : въпрос
 
 A : отговор

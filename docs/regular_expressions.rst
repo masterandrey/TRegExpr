@@ -1,9 +1,4 @@
-      **This is very old and outdated translation.**
-      *If you can read English or Russian please use up-to-date* `English version <http://regexpr.masterandrey.com>`_ *or* `Russian version <http://regexpr.masterandrey.com/ru/latest/>`_.
-
-      *If you want to help to update the translation please* `contact me <https://github.com/masterandrey>`_.
-      New translation is based on `GetText <https://en.wikipedia.org/wiki/Gettext>`_ and can be edited with `transifex.com <https://www.transifex.com/masterAndrey/tregexpr/dashboard/>`_.
-      It is already machine-translated and need only proof-reading and may be some copy-pasting from here.
+.. include:: translation_help.rst
 
 ------------
 
@@ -20,7 +15,7 @@ Regular expressions изглеждат доста страшно на пръв �
 средства.
 
 Препоръчвам ви да си поиграете с regular expressions използвайки Windows
-`REStudio <https://github.com/masterandrey/TRegExpr/releases/download/0.952b/REStudio.exe>`__
+`REStudio <https://github.com/andgineer/TRegExpr/releases/download/0.952b/REStudio.exe>`__
 – той ще ви помогне да разберете главните концепции. Освен това в него
 са включени много предварително дефинирани и коментирани изрази
 
