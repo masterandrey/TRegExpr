@@ -2,7 +2,8 @@
       *If you can read English or Russian please use up-to-date* `English version <http://regexpr.masterandrey.com/en/latest/>`_ *or* `Russian version <http://regexpr.masterandrey.com/ru/latest/>`_.
 
       *If you want to help to update the translation please* `contact me <https://github.com/masterandrey>`_.
-      New translation is based on `GetText <https://en.wikipedia.org/wiki/Gettext>`_ and can be edited with `transifex.com <https://www.transifex.com/masterAndrey/tregexpr/dashboard/>`_.
+      New translation is based on `GetText <https://en.wikipedia.org/wiki/Gettext>`_
+      and can be edited with `weblate.org <https://hosted.weblate.org/projects/tregexpr/#languages>`_.
       It is already machine-translated and need only proof-reading and may be some copy-pasting from here.
 
 ------------
